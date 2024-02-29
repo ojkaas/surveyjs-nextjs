@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ICreatorOptions, editorLocalization } from "survey-creator-core";
 import { SurveyCreatorComponent, SurveyCreator } from "survey-creator-react";
 import "survey-core/defaultV2.css";
@@ -14,25 +14,31 @@ const defaultCreatorOptions: ICreatorOptions = {
   showTranslationTab: false
 };
 
+
 export default function SurveyCreatorWidget(props: { json?: Object, options?: ICreatorOptions }) {
   let [creator, setCreator] = useState<SurveyCreator>();
 
-  if (!creator) {
-    creator = new SurveyCreator(props.options || defaultCreatorOptions);
-    creator.saveSurveyFunc = (no: number, callback: (num: number, status: boolean) => void) => {
+  const SSR = typeof window === 'undefined'
+  
+  useEffect(() => {
+    const newCreator = new SurveyCreator(props.options || defaultCreatorOptions);
+    newCreator.saveSurveyFunc = (no: number, callback: (num: number, status: boolean) => void) => {
+      console.log("Saving survey")
       console.log(JSON.stringify(creator?.JSON));
       callback(no, true);
     };
     editorLocalization.currentLocale = 'nl'
+    newCreator.JSON = props.json || defaultJson;
     //creator.locale = 'nl'
-    setCreator(creator);
-  }
-
-  creator.JSON = props.json || defaultJson;
-
+    setCreator(newCreator);   
+  }, [props.json])
+  
   return (
-    <div style={{ height: "90vh", width: "100%" }}>
+    <>
+    {!SSR && creator && (<div style={{ height: "90vh", width: "100%" }}>
       <SurveyCreatorComponent creator={creator} />
-    </div>
+    </div>)
+    }
+    </>
   );
 }
