@@ -1,95 +1,340 @@
 export const json = {
-  title: "Product Feedback Survey",
-  showProgressBar: "top",
-  pages: [{
-    elements: [{
-      type: "matrix",
-      name: "Quality",
-      title: "Please indicate if you agree or disagree with the following statements",
-      columns: [{
-        value: 1,
-        text: "Strongly disagree"
-      }, {
-        value: 2,
-        text: "Disagree"
-      }, {
-        value: 3,
-        text: "Neutral"
-      }, {
-        value: 4,
-        text: "Agree"
-      }, {
-        value: 5,
-        text: "Strongly agree"
-      }],
-      rows: [{
-        value: "affordable",
-        text: "Product is affordable"
-      }, {
-        value: "does what it claims",
-        text: "Product does what it claims"
-      }, {
-        value: "better then others",
-        text: "Product is better than other products on the market"
-      }, {
-        value: "easy to use",
-        text: "Product is easy to use"
-      }]
-    }, {
-      type: "rating",
-      name: "satisfaction",
-      title: "How satisfied are you with the product?",
-      mininumRateDescription: "Not satisfied",
-      maximumRateDescription: "Completely satisfied"
-    }, {
-      type: "rating",
-      name: "recommend friends",
-      visibleIf: "{satisfaction} > 3",
-      title: "How likely are you to recommend the product to a friend or colleague?",
-      mininumRateDescription: "Won't recommend",
-      maximumRateDescription: "Will recommend"
-    }, {
-      type: "comment",
-      name: "suggestions",
-      title: "What would make you more satisfied with the product?"
-    }]
-  }, {
-    elements: [{
-      type: "radiogroup",
-      name: "price to competitors",
-      title: "Compared to our competitors, do you feel the product is",
-      choices: [
-        "Less expensive",
-        "Priced about the same",
-        "More expensive",
-        "Not sure"
+  "title": "OogNed",
+  "completedHtml": "<h3>Bedankt voor het afronden voor de vragenlijst</h3>",
+  "completedBeforeHtml": "<h3>We zien dat u deze vragenlijst al hebt ingevuld.</h3>",
+  "loadingHtml": "<h3>Vragenlijst wordt geladen...</h3>",
+  "pages": [
+   {
+    "name": "Watzijnuwklacthen",
+    "elements": [
+     {
+      "type": "html",
+      "name": "Welkom",
+      "html": "<p>Geachte heer/mevrouw, u bent via de huisarts hier terechtgekomen omdat u problemen heeft aan uw ogen.</p>"
+     },
+     {
+      "type": "radiogroup",
+      "name": "KlachtenGeldenVoor",
+      "title": "Gelden deze klachten voor : ",
+      "isRequired": true,
+      "choices": [
+       {
+        "value": "Item 1",
+        "text": "Rechts"
+       },
+       {
+        "value": "Item 2",
+        "text": "Links"
+       },
+       {
+        "value": "Item 3",
+        "text": "Beide"
+       },
+       {
+        "value": "Item 4",
+        "text": "Beide ogen maar andere klachten"
+       }
       ]
-    }, {
-      type: "radiogroup",
-      name: "price",
-      title: "Do you feel our current price is merited by our product?",
-      choices: [
-        "correct|Yes, the price is about right",
-        "low|No, the price is too low",
-        "high|No, the price is too high"
+     },
+     {
+      "type": "checkbox",
+      "name": "Klachten",
+      "visibleIf": "{KlachtenGeldenVoor} anyof ['Item 1', 'Item 2', 'Item 3']",
+      "title": "Wat is de reden om contact op te nemen?",
+      "isRequired": true,
+      "choices": [
+       {
+        "value": "Item 1",
+        "text": "Verminderd Zicht"
+       },
+       {
+        "value": "Item 2",
+        "text": "Roodheid van de ogen"
+       },
+       {
+        "value": "Item 3",
+        "text": "Flitsen en Vlekken"
+       },
+       {
+        "value": "Item 4",
+        "text": "Ooglidproblemen"
+       },
+       {
+        "value": "Item 5",
+        "text": "Pijnlijke/Branderige ogen"
+       },
+       {
+        "value": "Item 6",
+        "text": "Tranen"
+       },
+       {
+        "value": "Item 7",
+        "text": "Screening/Controle op oogziektes"
+       }
+      ],
+      "showSelectAllItem": true,
+      "selectAllText": "Allemaal"
+     },
+     {
+      "type": "checkbox",
+      "name": "KlachtenLinks",
+      "visibleIf": "{KlachtenGeldenVoor} anyof ['Item 4']",
+      "title": "Wat is de reden om contact op te nemen voor het Linker oog?",
+      "isRequired": true,
+      "choices": [
+       {
+        "value": "Item 1",
+        "text": "Verminderd Zicht"
+       },
+       {
+        "value": "Item 2",
+        "text": "Roodheid van de ogen"
+       },
+       {
+        "value": "Item 3",
+        "text": "Flitsen en Vlekken"
+       },
+       {
+        "value": "Item 4",
+        "text": "Ooglidproblemen"
+       },
+       {
+        "value": "Item 5",
+        "text": "Pijnlijke/Branderige ogen"
+       },
+       {
+        "value": "Item 6",
+        "text": "Tranen"
+       },
+       {
+        "value": "Item 7",
+        "text": "Screening/Controle op oogziektes"
+       }
+      ],
+      "showSelectAllItem": true,
+      "selectAllText": "Allemaal"
+     },
+     {
+      "type": "checkbox",
+      "name": "KlachtenRechts",
+      "visibleIf": "{KlachtenGeldenVoor} anyof ['Item 4']",
+      "title": "Wat is de reden om contact op te nemen voor het Rechter oog?",
+      "isRequired": true,
+      "choices": [
+       {
+        "value": "Item 1",
+        "text": "Verminderd Zicht"
+       },
+       {
+        "value": "Item 2",
+        "text": "Roodheid van de ogen"
+       },
+       {
+        "value": "Item 3",
+        "text": "Flitsen en Vlekken"
+       },
+       {
+        "value": "Item 4",
+        "text": "Ooglidproblemen"
+       },
+       {
+        "value": "Item 5",
+        "text": "Pijnlijke/Branderige ogen"
+       },
+       {
+        "value": "Item 6",
+        "text": "Tranen"
+       },
+       {
+        "value": "Item 7",
+        "text": "Screening/Controle op oogziektes"
+       }
+      ],
+      "showSelectAllItem": true,
+      "selectAllText": "Allemaal"
+     }
+    ],
+    "title": "Wat zijn uw klachten?"
+   },
+   {
+    "name": "Algemeen",
+    "elements": [
+     {
+      "type": "radiogroup",
+      "name": "Vraag1",
+      "title": "Leeftijd",
+      "isRequired": true,
+      "choices": [
+       {
+        "value": "Item 1",
+        "text": "0 - 12 Jaar"
+       },
+       {
+        "value": "Item 2",
+        "text": "12- 20 Jaar"
+       },
+       {
+        "value": "Item 3",
+        "text": "20 - 35 jaar"
+       },
+       {
+        "value": "Item 4",
+        "text": "50 Jaar en ouder"
+       }
       ]
-    }, {
-      type: "multipletext",
-      name: "pricelimit",
-      title: "What is the... ",
-      items: [{
-        name: "mostamount",
-        title: "Most amount you would pay for a product like ours"
-      }, {
-        name: "leastamount",
-        title: "The least amount you would feel comfortable paying"
-      }]
-    }]
-  }, {
-    elements: [{
-      type: "text",
-      name: "email",
-      title: 'Thank you for taking our survey. Please enter your email address and press the "Submit" button.'
-    }]
-  }]
-};
+     },
+     {
+      "type": "radiogroup",
+      "name": "Vraag3",
+      "title": "Geslacht",
+      "isRequired": true,
+      "choices": [
+       {
+        "value": "Item 1",
+        "text": "Man"
+       },
+       {
+        "value": "Item 2",
+        "text": "Vrouw"
+       },
+       {
+        "value": "Item 3",
+        "text": "Anders"
+       }
+      ]
+     },
+     {
+      "type": "boolean",
+      "name": "Vraag4",
+      "title": "Bent u eerder bij een oogarts geweest",
+      "isRequired": true,
+      "labelTrue": "Ja",
+      "labelFalse": "Nee",
+      "swapOrder": true
+     },
+     {
+      "type": "boolean",
+      "name": "Vraag7",
+      "title": "Heeft u suikerziekte",
+      "labelTrue": "Ja",
+      "labelFalse": "Nee",
+      "swapOrder": true
+     },
+     {
+      "type": "boolean",
+      "name": "Vraag8",
+      "title": "Heeft u een hoge bloeddruk",
+      "isRequired": true,
+      "labelTrue": "Ja",
+      "labelFalse": "Nee",
+      "swapOrder": true
+     },
+     {
+      "type": "boolean",
+      "name": "Vraag9",
+      "title": "Rookt u",
+      "isRequired": true,
+      "labelTrue": "Ja",
+      "labelFalse": "Nee",
+      "swapOrder": true
+     },
+     {
+      "type": "boolean",
+      "name": "Vraag10",
+      "title": "Bent u bekend met een lui oog",
+      "isRequired": true,
+      "labelTrue": "Ja",
+      "labelFalse": "Nee",
+      "swapOrder": true
+     },
+     {
+      "type": "checkbox",
+      "name": "Vraag11",
+      "title": "Komen er in de familie de volgende oogziektes voor",
+      "isRequired": true,
+      "choices": [
+       {
+        "value": "Item 1",
+        "text": "Glaucoom"
+       },
+       {
+        "value": "Item 2",
+        "text": "Hoge Min sterkte"
+       },
+       {
+        "value": "Item 3",
+        "text": "Maculadegeneratie op jonge leeftijd"
+       }
+      ]
+     }
+    ],
+    "title": "Algemene vragen"
+   },
+   {
+    "name": "verminderdevisus",
+    "elements": [
+     {
+      "type": "radiogroup",
+      "name": "Vraag12",
+      "title": "Heeft u de hele dag last van het verminderde visus of wisselt het op de dag?",
+      "isRequired": true,
+      "choices": [
+       {
+        "value": "Item 1",
+        "text": "Hele dag"
+       },
+       {
+        "value": "Item 2",
+        "text": "Wisselt op de dag"
+       },
+       {
+        "value": "Item 3",
+        "text": "Wisselt op de dag, knipperen en oogdruppels helpen goed"
+       }
+      ]
+     }
+    ],
+    "visibleIf": "{Klachten} contains 'Item 1' or {KlachtenLinks} contains 'Item 1' or {KlachtenRechts} contains 'Item 1'",
+    "title": "Verminderde Visus"
+   },
+   {
+    "name": "Pagina1",
+    "elements": [
+     {
+      "type": "radiogroup",
+      "name": "Vraag13",
+      "title": "Heeft u problemen van roodheid aan een oog of beide ogen",
+      "isRequired": true,
+      "choices": [
+       {
+        "value": "Item 1",
+        "text": "Eén oog"
+       },
+       {
+        "value": "Item 2",
+        "text": "Beide ogen"
+       }
+      ]
+     },
+     {
+      "type": "boolean",
+      "name": "Vraag14",
+      "title": "Is er iets in het oog gekomen",
+      "isRequired": true,
+      "labelTrue": "Ja",
+      "labelFalse": "Nee",
+      "swapOrder": true
+     }
+    ],
+    "visibleIf": "{Klachten} contains 'Item 2' or {KlachtenLinks} contains 'Item 2' or {KlachtenRechts} contains 'Item 2'",
+    "title": "Roodheid"
+   }
+  ],
+  "showProgressBar": "bottom",
+  "progressBarShowPageTitles": true,
+  "startSurveyText": "Starten",
+  "pagePrevText": "Vorige",
+  "pageNextText": "Volgende",
+  "completeText": "Afronden",
+  "firstPageIsStarted": true
+ }

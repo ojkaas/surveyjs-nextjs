@@ -1,16 +1,17 @@
 'use client'
 
 import { useState } from "react";
-import { ICreatorOptions } from "survey-creator-core";
+import { ICreatorOptions, editorLocalization } from "survey-creator-core";
 import { SurveyCreatorComponent, SurveyCreator } from "survey-creator-react";
 import "survey-core/defaultV2.css";
-import "survey-creator-core/survey-creator-core.css";
-
+import "survey-creator-core/survey-creator-core.min.css";
+import "survey-creator-core/i18n/dutch";
 import { json as defaultJson } from "../../data/survey_json";
 
 const defaultCreatorOptions: ICreatorOptions = {
   showLogicTab: true,
-  showTranslationTab: true
+  isAutoSave: true,
+  showTranslationTab: false
 };
 
 export default function SurveyCreatorWidget(props: { json?: Object, options?: ICreatorOptions }) {
@@ -22,13 +23,15 @@ export default function SurveyCreatorWidget(props: { json?: Object, options?: IC
       console.log(JSON.stringify(creator?.JSON));
       callback(no, true);
     };
+    editorLocalization.currentLocale = 'nl'
+    //creator.locale = 'nl'
     setCreator(creator);
   }
 
   creator.JSON = props.json || defaultJson;
 
   return (
-    <div style={{ height: "80vh", width: "100%" }}>
+    <div className="" style={{ height: "80vh", width: "100%" }}>
       <SurveyCreatorComponent creator={creator} />
     </div>
   );
