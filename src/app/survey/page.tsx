@@ -1,3 +1,4 @@
+'use client'
 import SurveyComponent from "@/components/Survey";
 
 // import dynamic from 'next/dynamic';
