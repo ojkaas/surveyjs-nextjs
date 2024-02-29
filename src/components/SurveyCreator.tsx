@@ -14,31 +14,35 @@ const defaultCreatorOptions: ICreatorOptions = {
   showTranslationTab: false
 };
 
-
 export default function SurveyCreatorWidget(props: { json?: Object, options?: ICreatorOptions }) {
-  let [creator, setCreator] = useState<SurveyCreator>();
+  const SSR = typeof window === 'undefined';
 
-  const SSR = typeof window === 'undefined'
-  
-  useEffect(() => {
+  const [creator, setCreator] = useState<SurveyCreator>(() => {
     const newCreator = new SurveyCreator(props.options || defaultCreatorOptions);
     newCreator.saveSurveyFunc = (no: number, callback: (num: number, status: boolean) => void) => {
-      console.log("Saving survey")
-      console.log(JSON.stringify(creator?.JSON));
+      console.log("Saving survey");
+      console.log(JSON.stringify(newCreator?.JSON)); // Use the latest reference
       callback(no, true);
     };
-    editorLocalization.currentLocale = 'nl'
+    editorLocalization.currentLocale = 'nl';
     newCreator.JSON = props.json || defaultJson;
-    //creator.locale = 'nl'
-    setCreator(newCreator);   
-  }, [props.json])
-  
+    return newCreator;
+  });
+
+  useEffect(() => {
+    // Update creator if necessary
+    if (creator) {
+      creator.JSON = props.json || defaultJson;
+    }
+  }, [props.json, creator]);
+
   return (
     <>
-    {!SSR && creator && (<div style={{ height: "90vh", width: "100%" }}>
-      <SurveyCreatorComponent creator={creator} />
-    </div>)
-    }
+      {!SSR && creator && (
+        <div style={{ height: "90vh", width: "100%" }}>
+          <SurveyCreatorComponent creator={creator} />
+        </div>
+      )}
     </>
   );
 }

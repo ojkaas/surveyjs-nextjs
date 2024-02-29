@@ -324,6 +324,30 @@ export const json = {
       "labelTrue": "Ja",
       "labelFalse": "Nee",
       "swapOrder": true
+     },
+     {
+      "type": "imagepicker",
+      "name": "Vraag2",
+      "title": "Welk oog is vergelijkbaar met uw symptonen?",
+      "choices": [
+       {
+        "value": "Image 1",
+        "imageLink": "https://www.pharmamarket.be/media/wysiwyg/blog/BLOG-rodeogen.jpg"
+       },
+       {
+        "value": "Image 2",
+        "imageLink": "https://www.pharmamarket.be/media/wysiwyg/blog/BLOG-rodeogen.jpg"
+       },
+       {
+        "value": "Image 3",
+        "imageLink": "https://www.pharmamarket.be/media/wysiwyg/blog/BLOG-rodeogen.jpg"
+       },
+       {
+        "value": "Image 4",
+        "imageLink": "https://www.pharmamarket.be/media/wysiwyg/blog/BLOG-rodeogen.jpg"
+       }
+      ],
+      "imageFit": "cover"
      }
     ],
     "visibleIf": "{Klachten} contains 'Item 2' or {KlachtenLinks} contains 'Item 2' or {KlachtenRechts} contains 'Item 2'",
