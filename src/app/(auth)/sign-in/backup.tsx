@@ -23,7 +23,7 @@ export default function Signin() {
                 <input onChange={(e) => setEmail(e.target.value)} type='email' id='email' name='email' placeholder='email' className='input input-bordered' required />
               </div>
               <div className='form-control mt-6'>
-                <button type='button' onClick={() => signIn('email', { email, callbackUrl: '/logged-in' })} className='btn btn-primary'>
+                <button onClick={() => signIn('email', { email, callbackUrl: '/logged-in' })} className='btn btn-primary'>
                   Email link aanvragen
                 </button>
               </div>

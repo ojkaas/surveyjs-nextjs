@@ -18,7 +18,7 @@ export default function SurveyComponent() {
     surveyModel.onValueChanged.add(saveSurveyData)
     surveyModel.onCurrentPageChanged.add(saveSurveyData)
     surveyModel.onScrollingElementToTop.add(function (sender, options) {
-      options.cancel = true
+      //options.cancel = true
     })
     setModel(surveyModel)
   }, [])

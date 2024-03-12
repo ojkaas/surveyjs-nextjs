@@ -1,37 +1,47 @@
-import PostgresAdapter from '@auth/pg-adapter'
+import { PrismaClient } from '@prisma/client'
 import { AuthOptions } from 'next-auth'
 import { Adapter, AdapterUser } from 'next-auth/adapters'
+import { PrismaAdapter } from '@auth/prisma-adapter'
 import NextAuth from 'next-auth/next'
 import EmailProvider from 'next-auth/providers/email'
-import { Pool } from 'pg'
-
-const pool = new Pool({
-  connectionString: process.env.POSTGRES_URL,
-})
+import { CustomsendVerificationRequest } from '@/app/api/auth/[...nextauth]/signinemail'
+import prisma from '@/db/db'
 
 const authOptions: AuthOptions = {
-  adapter: PostgresAdapter(pool) as Adapter,
+  adapter: PrismaAdapter(prisma) as Adapter,
   providers: [
     EmailProvider({
       server: {
         host: process.env.EMAIL_SERVER_HOST,
-        port: process.env.EMAIL_SERVER_PORT,
+        port: parseInt(process.env.EMAIL_SERVER_PORT ?? ''),
         auth: {
           user: process.env.EMAIL_SERVER_USER,
           pass: process.env.EMAIL_SERVER_PASSWORD,
         },
       },
       from: process.env.EMAIL_FROM,
+      sendVerificationRequest({ identifier, url, provider, expires, token, theme }) {
+        CustomsendVerificationRequest({ identifier, url, provider, expires, token, theme })
+      },
     }),
   ],
   callbacks: {
     signIn({ user }) {
-      console.log('signIn: ', JSON.stringify(user))
+      if (user.role === 'admin') return true
       return Boolean((user as AdapterUser).emailVerified)
+    },
+    jwt({ token, user }) {
+      if (user) token.role = user.role
+      return token
+    },
+    session({ session, token }) {
+      if (session && session.user) session.user.role = token.role //  Add role value to user object so it is passed along with session
+      return session
     },
   },
   pages: {
     signIn: '/sign-in',
+    verifyRequest: '/verify-request',
   },
   session: {
     strategy: 'jwt',

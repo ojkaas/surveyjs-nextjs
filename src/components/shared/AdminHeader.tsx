@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import SignOutButton from '@/components/auth/sign-out.button'
 
 type Props = {}
 
@@ -16,32 +17,36 @@ const AdminHeader = async (props: Props) => {
           </label>
           <ul tabIndex={0} className='menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 hidden md:block'>
             <li>
-              <Link href='/'>Vragenlijst</Link>
+              <Link href='/admin/users'>Gebruikers</Link>
             </li>
             <li>
-              <Link href='/overons'>Afbeeldingen</Link>
+              <Link href='/admin/survey'>Vragenlijst</Link>
             </li>
             <li>
-              <Link href='/meedoen'>Gebruikers</Link>
+              <Link href='/admin/pictures'>Afbeeldingen</Link>
             </li>
           </ul>
         </div>
-        <Image src={'/oogned.png'} alt='Sunbelt logo' width={50} height={50} />
+        <Image src={'/oogned.png'} priority={true} className='h-auto' alt='Oogned logo' width={200} height={50} />
       </div>
       <div className='navbar-center hidden lg:flex'>
         <ul className='menu menu-horizontal menu-md px-1 text-primary-content font-semibold text-lg'>
           <li>
-            <Link href='/'>Vragenlijst</Link>
+            <Link href='/admin/users'>Gebruikers</Link>
           </li>
           <li>
-            <Link href='/overons'>Afbeeldingen</Link>
+            <Link href='/admin/survey'>Vragenlijst</Link>
           </li>
           <li>
-            <Link href='/meedoen'>Gebruikers</Link>
+            <Link href='/admin/pictures'>Afbeeldingen</Link>
           </li>
         </ul>
       </div>
-      <div className='navbar-end'></div>
+      <div className='navbar-end'>
+        <li>
+          <SignOutButton />
+        </li>
+      </div>
     </div>
   )
 }
