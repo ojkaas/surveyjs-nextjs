@@ -1,6 +1,8 @@
 import type { NextFetchEvent, NextRequest } from 'next/server'
 import { getSession } from 'next-auth/react'
 import { NextResponse } from 'next/server'
+import { getServerSession } from 'next-auth'
+import { IncomingMessage } from 'http'
 
 export async function middleware(req: NextRequest, ev: NextFetchEvent) {
   const requestForNextAuth = {
@@ -9,8 +11,17 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
     },
   }
 
-  const session = await getSession({ req: { ...requestForNextAuth, headers: { cookie: req.headers.get('cookie') || undefined } } })
+  //const session = await getServerSession({ req: { ...requestForNextAuth, headers: { cookie: req.headers.get('cookie') || undefined } } }
+  const resSession = await fetch(process.env.NEXTAUTH_URL + '/api/auth/session', {
+    headers: {
+      'Content-Type': 'application/json',
+      Cookie: req.headers.get('cookie') || '',
+    },
+    method: 'GET',
+  })
+  const session = await resSession.json()
 
+  console.log('session', session)
   if (session) {
     if (req.url.includes('/logged-in')) {
       // validate your session here
