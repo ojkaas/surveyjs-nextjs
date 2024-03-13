@@ -2,11 +2,15 @@ import AdminHeader from '@/components/shared/AdminHeader'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import type { Metadata } from 'next'
-import { Roboto_Flex } from 'next/font/google'
+import { Inter as FontSans } from 'next/font/google'
 import '../globals.css'
 import Provider from '@/components/providers/Provider'
+import { cn } from '@/lib/utils'
 
-const inter = Roboto_Flex({ subsets: ['latin'] })
+const fontSans = FontSans({
+  subsets: ['latin'],
+  variable: '--font-sans',
+})
 
 export const metadata: Metadata = {
   title: 'OogNed',
@@ -24,7 +28,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='en'>
-      <body className={`${inter.className} antialiased`}>
+      <body className={cn('min-h-screen bg-background font-sans antialiased', fontSans.variable)}>
         <div className='h-screen'>
           <Provider>
             <AdminHeader />
