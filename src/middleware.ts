@@ -1,8 +1,6 @@
+import { Role } from '@prisma/client'
 import type { NextFetchEvent, NextRequest } from 'next/server'
-import { getSession } from 'next-auth/react'
 import { NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
-import { IncomingMessage } from 'http'
 
 export async function middleware(req: NextRequest, ev: NextFetchEvent) {
   const requestForNextAuth = {
@@ -12,6 +10,7 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
   }
 
   //const session = await getServerSession({ req: { ...requestForNextAuth, headers: { cookie: req.headers.get('cookie') || undefined } } }
+  //console.log(process.env.NEXTAUTH_URL)
   const resSession = await fetch(process.env.NEXTAUTH_URL + '/api/auth/session', {
     headers: {
       'Content-Type': 'application/json',
@@ -25,10 +24,10 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
   if (session) {
     if (req.url.includes('/logged-in')) {
       // validate your session here
-      if (session.user.role === 'admin') {
+      if (session.user.role === Role.ADMIN) {
         return NextResponse.redirect(new URL('/admin', req.url))
       }
-      if (session.user.role === 'portal') {
+      if (session.user.role === Role.PORTAL) {
         return NextResponse.redirect(new URL('/portal', req.url))
       }
     }
