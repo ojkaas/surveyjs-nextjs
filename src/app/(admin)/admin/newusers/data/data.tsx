@@ -1,5 +1,5 @@
+import { ScissorsIcon, UserIcon, WrenchIcon } from '@heroicons/react/24/outline'
 import { ArrowDownIcon, ArrowRightIcon, ArrowUpIcon, CheckCircledIcon, CircleIcon, CrossCircledIcon, QuestionMarkCircledIcon, StopwatchIcon } from '@radix-ui/react-icons'
-
 export const labels = [
   {
     value: 'bug',
@@ -12,6 +12,24 @@ export const labels = [
   {
     value: 'documentation',
     label: 'Documentation',
+  },
+]
+
+export const roles = [
+  {
+    value: 'ADMIN',
+    label: 'Admin',
+    icon: WrenchIcon,
+  },
+  {
+    value: 'PORTAL',
+    label: 'Specialist',
+    icon: ScissorsIcon,
+  },
+  {
+    value: 'USER',
+    label: 'Gebruiker',
+    icon: UserIcon,
   },
 ]
 

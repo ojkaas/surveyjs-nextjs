@@ -8,7 +8,6 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 
 import { MultiDialog } from '@/components/ui/custom/multi-dialog'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
-import { taskSchema } from '../data/schema'
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>
@@ -17,8 +16,6 @@ interface DataTableRowActionsProps<TData> {
 type Modals = 'edit' | 'delete' | 'deactivate' // or enum
 
 export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TData>) {
-  const task = taskSchema.parse(row.original)
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
