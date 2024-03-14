@@ -20,7 +20,7 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
   })
   const session = await resSession.json()
 
-  console.log('session', session)
+  //console.log('session', session)
   if (session) {
     if (req.url.includes('/logged-in')) {
       // validate your session here
