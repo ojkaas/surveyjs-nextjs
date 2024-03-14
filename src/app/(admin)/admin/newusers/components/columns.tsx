@@ -2,14 +2,13 @@
 
 import { ColumnDef } from '@tanstack/react-table'
 
-import { labels, priorities, statuses } from '../data/data'
-import { Task } from '../data/schema'
+import { Checkbox } from '@/components/ui/checkbox'
+import { priorities, roles } from '../data/data'
+import { User } from '../data/schema'
 import { DataTableColumnHeader } from './data-table-column-header'
 import { DataTableRowActions } from './data-table-row-actions'
-import { Checkbox } from '@/components/ui/checkbox'
-import { Badge } from '@/components/ui/badge'
 
-export const columns: ColumnDef<Task>[] = [
+export const columns: ColumnDef<User>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -32,33 +31,30 @@ export const columns: ColumnDef<Task>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'title',
-    header: ({ column }) => <DataTableColumnHeader column={column} title='Title' />,
+    accessorKey: 'name',
+    header: ({ column }) => <DataTableColumnHeader column={column} title='Name' />,
     cell: ({ row }) => {
-      const label = labels.find((label) => label.value === row.original.label)
-
       return (
         <div className='flex space-x-2'>
-          {label && <Badge variant='outline'>{label.label}</Badge>}
-          <span className='max-w-[500px] truncate font-medium'>{row.getValue('title')}</span>
+          <span className='max-w-[500px] truncate font-medium'>{row.getValue('name')}</span>
         </div>
       )
     },
   },
   {
-    accessorKey: 'status',
-    header: ({ column }) => <DataTableColumnHeader column={column} title='Status' />,
+    accessorKey: 'role',
+    header: ({ column }) => <DataTableColumnHeader column={column} title='Rol' />,
     cell: ({ row }) => {
-      const status = statuses.find((status) => status.value === row.getValue('status'))
+      const role = roles.find((role) => role.value === row.getValue('role'))
 
-      if (!status) {
+      if (!role) {
         return null
       }
 
       return (
         <div className='flex w-[100px] items-center'>
-          {status.icon && <status.icon className='mr-2 h-4 w-4 text-muted-foreground' />}
-          <span>{status.label}</span>
+          {role.icon && <role.icon className='mr-2 h-4 w-4 text-muted-foreground' />}
+          <span>{role.label}</span>
         </div>
       )
     },
