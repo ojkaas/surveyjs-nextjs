@@ -1,5 +1,5 @@
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { ServerActionError } from '@/lib/action-error'
+import { authOptions } from '@/lib/config/auth/auth-options'
 import { Role } from '@prisma/client'
 import { getServerSession } from 'next-auth'
 import { DEFAULT_SERVER_ERROR, createSafeActionClient } from 'next-safe-action'
