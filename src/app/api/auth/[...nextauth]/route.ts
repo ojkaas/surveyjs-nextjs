@@ -54,6 +54,5 @@ export const authOptions: AuthOptions = {
 
 const handler = NextAuth(authOptions)
 
-// eslint-disable-next-line prettier/prettier
 export { handler as GET, handler as POST }
-
+// eslint-disable-next-line prettier/prettier
