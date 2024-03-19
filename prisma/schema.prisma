@@ -58,6 +58,27 @@ model Survey {
   finished  Boolean  @default(false)
 }
 
+model SurveyDefinition {
+  id              String   @id @default(cuid())
+  data            Json?
+  name            String
+  version         String
+  internalVersion String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  active          Boolean  @default(false)
+  notes           String?
+}
+
+model Diagnoses {
+  id              String   @id @default(cuid())
+  name            String   @unique
+  description     String? 
+  personToContact PersonToContact
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
 model VerificationToken {
   identifier String
   token      String   @unique
@@ -70,4 +91,10 @@ enum Role {
   USER
   ADMIN
   PORTAL
+}
+
+enum PersonToContact {
+  OOGARTS
+  OPTOMETRIST
+  HUISARTS
 }

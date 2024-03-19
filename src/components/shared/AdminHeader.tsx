@@ -1,7 +1,6 @@
-import React from 'react'
-import Link from 'next/link'
-import Image from 'next/image'
 import SignOutButton from '@/components/auth/sign-out.button'
+import Image from 'next/image'
+import Link from 'next/link'
 
 type Props = {}
 
@@ -15,12 +14,15 @@ const AdminHeader = async (props: Props) => {
               <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M4 6h16M4 12h8m-8 6h16' />
             </svg>
           </label>
-          <ul tabIndex={0} className='menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 hidden md:block'>
+          <ul tabIndex={0} className='menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52'>
             <li>
               <Link href='/admin/users'>Gebruikers</Link>
             </li>
             <li>
               <Link href='/admin/survey'>Vragenlijst</Link>
+            </li>
+            <li>
+              <Link href='/admin/diagnoses'>Diagnoses</Link>
             </li>
             <li>
               <Link href='/admin/pictures'>Afbeeldingen</Link>
@@ -35,7 +37,10 @@ const AdminHeader = async (props: Props) => {
             <Link href='/admin/users'>Gebruikers</Link>
           </li>
           <li>
-            <Link href='/admin/survey'>Vragenlijst</Link>
+            <Link href='/admin/survey-definitions'>Vragenlijst</Link>
+          </li>
+          <li>
+            <Link href='/admin/diagnoses'>Diagnoses</Link>
           </li>
           <li>
             <Link href='/admin/pictures'>Afbeeldingen</Link>

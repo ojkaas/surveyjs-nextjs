@@ -1,13 +1,13 @@
-import { PrismaClient } from '@prisma/client'
-import { AuthOptions } from 'next-auth'
-import { Adapter, AdapterUser } from 'next-auth/adapters'
-import { PrismaAdapter } from '@auth/prisma-adapter'
-import NextAuth from 'next-auth/next'
-import EmailProvider from 'next-auth/providers/email'
 import { CustomsendVerificationRequest } from '@/app/api/auth/[...nextauth]/signinemail'
 import prisma from '@/db/db'
+import { PrismaAdapter } from '@auth/prisma-adapter'
+import { Role } from '@prisma/client'
+import { AuthOptions } from 'next-auth'
+import { Adapter, AdapterUser } from 'next-auth/adapters'
+import NextAuth from 'next-auth/next'
+import EmailProvider from 'next-auth/providers/email'
 
-const authOptions: AuthOptions = {
+export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma) as Adapter,
   providers: [
     EmailProvider({
@@ -27,7 +27,7 @@ const authOptions: AuthOptions = {
   ],
   callbacks: {
     signIn({ user }) {
-      if (user.role === 'admin') return true
+      if (user.role === Role.ADMIN || user.role === Role.PORTAL) return true
       return Boolean((user as AdapterUser).emailVerified)
     },
     jwt({ token, user }) {
@@ -54,4 +54,6 @@ const authOptions: AuthOptions = {
 
 const handler = NextAuth(authOptions)
 
+// eslint-disable-next-line prettier/prettier
 export { handler as GET, handler as POST }
+

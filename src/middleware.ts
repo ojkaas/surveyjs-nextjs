@@ -9,8 +9,6 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
     },
   }
 
-  //const session = await getServerSession({ req: { ...requestForNextAuth, headers: { cookie: req.headers.get('cookie') || undefined } } }
-  //console.log(process.env.NEXTAUTH_URL)
   const resSession = await fetch(process.env.NEXTAUTH_URL + '/api/auth/session', {
     headers: {
       'Content-Type': 'application/json',
@@ -20,8 +18,7 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
   })
   const session = await resSession.json()
 
-  //console.log('session', session)
-  if (session) {
+  if (session && Object.keys(session).length > 0) {
     if (req.url.includes('/logged-in')) {
       // validate your session here
       if (session.user.role === Role.ADMIN) {

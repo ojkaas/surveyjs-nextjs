@@ -1,11 +1,11 @@
 'use client'
 
-import { Model } from 'survey-core'
-import { Survey } from 'survey-react-ui'
-import 'survey-core/defaultV2.css'
-import { json } from '../../data/survey_json.js'
-import { useEffect, useState } from 'react'
 import { restoreSurveyData, saveSurveyData } from '@/components/shared/SurveyHelper'
+import { useEffect, useState } from 'react'
+import { Model } from 'survey-core'
+import 'survey-core/defaultV2.css'
+import { Survey } from 'survey-react-ui'
+import { json } from '../../data/survey_json.js'
 
 export default function SurveyComponent() {
   let [model, setModel] = useState<Model | undefined>()
@@ -21,12 +21,14 @@ export default function SurveyComponent() {
       //options.cancel = true
     })
     setModel(surveyModel)
+    console.log('SurveyComponent mounted')
+    console.log('CSS: ', surveyModel.css)
   }, [])
 
   return (
     <>
       {!SSR && model && (
-        <div style={{ height: '90vh', width: '100%' }}>
+        <div style={{ width: '100%' }}>
           <Survey model={model} />
         </div>
       )}

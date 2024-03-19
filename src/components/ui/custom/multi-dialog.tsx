@@ -16,11 +16,11 @@ export function useMultiDialog<T = unknown>(v?: T) {
 
   const [dialog, setDialog] = s
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+  // eslint-disable-next-line react-hooks/rules-of-hooks, react-hooks/exhaustive-deps
   const onOpenChange = useCallback((o: boolean) => (o ? setDialog(v) : setDialog(null)), [v])
 
   const open = dialog === v
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+  // eslint-disable-next-line react-hooks/rules-of-hooks, react-hooks/exhaustive-deps
   const result = useMemo(() => [open, onOpenChange] as const, [open])
 
   return result
@@ -73,6 +73,7 @@ export function MultiDialogContainer<T = unknown>({
 type Builder<T = unknown> = {
   readonly Trigger: (...args: Parameters<typeof MultiDialogTrigger<T>>) => React.ReactNode
   readonly Container: (...args: Parameters<typeof MultiDialogContainer<T>>) => React.ReactNode
+  closeDialog: (id: string) => void
 }
 
 const builder = {
@@ -84,7 +85,15 @@ export type MultiDialogBuilder<T = unknown> = (builder: Builder<T>) => React.Rea
 export function MultiDialog<T = unknown>({ defaultOpen = null, children }: { defaultOpen?: T | null; children?: React.ReactNode | MultiDialogBuilder<T> }) {
   const [state, setState] = useState<T | null>(defaultOpen)
 
-  const c = useMemo(() => (typeof children === 'function' ? children(builder) : children), [children])
+  const c = useMemo(() => {
+    if (typeof children === 'function') {
+      return children({
+        ...builder,
+        closeDialog: (id: string) => setState((currState) => (currState === id ? null : currState)),
+      })
+    }
+    return children
+  }, [children])
 
   return <MultiDialogContainerContext.Provider value={[state, setState]}>{c}</MultiDialogContainerContext.Provider>
 }
