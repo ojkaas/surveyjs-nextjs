@@ -1,6 +1,6 @@
 import SignOutButton from '@/components/auth/sign-out.button'
+import AdminLinks from '@/components/shared/AdminLinks'
 import Image from 'next/image'
-import Link from 'next/link'
 
 type Props = {}
 
@@ -15,36 +15,14 @@ const AdminHeader = async (props: Props) => {
             </svg>
           </label>
           <ul tabIndex={0} className='menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52'>
-            <li>
-              <Link href='/admin/users'>Gebruikers</Link>
-            </li>
-            <li>
-              <Link href='/admin/survey'>Vragenlijst</Link>
-            </li>
-            <li>
-              <Link href='/admin/diagnoses'>Diagnoses</Link>
-            </li>
-            <li>
-              <Link href='/admin/pictures'>Afbeeldingen</Link>
-            </li>
+            <AdminLinks />
           </ul>
         </div>
         <Image src={'/oogned.png'} priority={true} className='h-auto' alt='Oogned logo' width={200} height={50} />
       </div>
       <div className='navbar-center hidden lg:flex'>
         <ul className='menu menu-horizontal menu-md px-1 text-primary-content font-semibold text-lg'>
-          <li>
-            <Link href='/admin/users'>Gebruikers</Link>
-          </li>
-          <li>
-            <Link href='/admin/survey-definitions'>Vragenlijst</Link>
-          </li>
-          <li>
-            <Link href='/admin/diagnoses'>Diagnoses</Link>
-          </li>
-          <li>
-            <Link href='/admin/pictures'>Afbeeldingen</Link>
-          </li>
+          <AdminLinks />
         </ul>
       </div>
       <div className='navbar-end'>

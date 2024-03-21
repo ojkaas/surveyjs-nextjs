@@ -66,6 +66,7 @@ model SurveyDefinition {
   internalVersion String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+  createdBy       String  
   active          Boolean  @default(false)
   notes           String?
 }
@@ -85,6 +86,15 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model File {
+    id           String   @id @default(uuid())
+    bucket       String
+    fileName     String   @unique
+    originalName String
+    createdAt    DateTime @default(now())
+    size         Int
 }
 
 enum Role {

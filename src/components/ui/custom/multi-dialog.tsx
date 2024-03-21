@@ -29,22 +29,35 @@ export function useMultiDialog<T = unknown>(v?: T) {
 export function MultiDialogTrigger<T = unknown>({
   value,
   onClick,
+  condition,
+  action,
   ...props
 }: SlotProps &
   React.RefAttributes<HTMLElement> & {
     value: T
+    condition?: () => boolean
+    action?: () => void
   }) {
   const [, open] = useMultiDialog(value)
-  const oc = useCallback<React.MouseEventHandler<HTMLElement>>(
+
+  const handleClick = useCallback<React.MouseEventHandler<HTMLElement>>(
     (e) => {
       e.preventDefault()
-      open(true)
+      if (condition && action) {
+        if (condition()) {
+          action()
+        } else {
+          open(true)
+        }
+      } else {
+        open(true)
+      }
       onClick && onClick(e)
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [value, onClick]
+    [condition, action, open, onClick]
   )
-  return <Slot onClick={oc} {...props} />
+
+  return <Slot onClick={handleClick} {...props} />
 }
 
 export function MultiDialogContainer<T = unknown>({

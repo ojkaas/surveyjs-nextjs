@@ -17,10 +17,11 @@ import { z } from 'zod'
 type Props = {
   closeDialog: () => void
   editMode?: boolean
+  copyMode?: boolean
   surveyDefinition?: SurveyDefinition
 }
 
-export const SurveyDefinitionForm = ({ closeDialog, editMode = false, surveyDefinition }: Props) => {
+export const SurveyDefinitionForm = ({ closeDialog, editMode = false, copyMode = false, surveyDefinition }: Props) => {
   const router = useRouter()
   const form = useForm<z.infer<typeof createSurveyDefinitionSchema>>({
     resolver: zodResolver(createSurveyDefinitionSchema),
@@ -32,10 +33,17 @@ export const SurveyDefinitionForm = ({ closeDialog, editMode = false, surveyDefi
   })
 
   useEffect(() => {
-    if (editMode && surveyDefinition) {
+    if ((editMode || copyMode) && surveyDefinition) {
+      let version = surveyDefinition.version
+      let name = surveyDefinition.name
+      if (copyMode) {
+        version = tryUpdateVersionNumber(version)
+        name = surveyDefinition.name + ' (kopie)'
+      }
+
       const fetchUserData = async () => {
         try {
-          form.reset({ name: surveyDefinition.name || '', notes: surveyDefinition.notes || '', version: surveyDefinition.version || '' })
+          form.reset({ name: name || '', notes: surveyDefinition.notes || '', version: version || '' })
         } catch (error) {
           console.error('Failed to fetch survey definition data:', error)
         }
@@ -43,7 +51,7 @@ export const SurveyDefinitionForm = ({ closeDialog, editMode = false, surveyDefi
 
       fetchUserData()
     }
-  }, [editMode, surveyDefinition, form])
+  }, [editMode, copyMode, surveyDefinition, form])
 
   const onSubmit = async (data: z.infer<typeof createSurveyDefinitionSchema>) => {
     let actionPromise
@@ -58,6 +66,11 @@ export const SurveyDefinitionForm = ({ closeDialog, editMode = false, surveyDefi
       successMessageCallback = (data: { name: string | null }) => `Vragenlijst '${data.name}' bijgewerkt!`
     } else {
       // Create new user
+      if (copyMode && surveyDefinition) {
+        const surveyDefinitionWithData = { ...data, data: surveyDefinition.data, internalVersion: surveyDefinition.internalVersion }
+        actionPromise = createSurveyDefinition(surveyDefinitionWithData)
+      }
+
       actionPromise = createSurveyDefinition(data)
       loadingMessage = 'Vragenlijst aanmaken...'
       successMessageCallback = (data: { name: string | null }) => (
@@ -136,4 +149,16 @@ export const SurveyDefinitionForm = ({ closeDialog, editMode = false, surveyDefi
       </form>
     </Form>
   )
+}
+function tryUpdateVersionNumber(version: string) {
+  const versionParts = version.split('.')
+  const lastPart = versionParts[versionParts.length - 1]
+  const incrementedLastPart = parseInt(lastPart) + 1
+
+  if (isNaN(incrementedLastPart)) {
+    return 'latest'
+  }
+
+  versionParts[versionParts.length - 1] = incrementedLastPart.toString()
+  return versionParts.join('.')
 }

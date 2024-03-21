@@ -1,40 +1,28 @@
-'use client'
-import { SurveyDefinitionForm } from '@/app/(shadcn)/(admin)/admin/survey-definitions/components/survey-definition-form'
-import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
-import { PlusIcon } from '@radix-ui/react-icons'
-import { useState } from 'react'
+import { ActiveSurveyDefinition } from '@/app/(shadcn)/(admin)/admin/survey-definitions/components/active-survey'
+import NoActiveSurveyDefinition from '@/app/(shadcn)/(admin)/admin/survey-definitions/components/no-active-survey'
+import NoDefinitionComponent from '@/app/(shadcn)/(admin)/admin/survey-definitions/components/no-definition'
+import { surveyDefinitionColumns } from '@/app/(shadcn)/(admin)/admin/survey-definitions/components/survey-defintion-columns'
+import { DataTable } from '@/components/data-table/data-table'
+import prisma from '@/db/db'
+import { unstable_cache } from 'next/cache'
 
 type Props = {}
 
-const SurveyDefinitionsPage = (props: Props) => {
-  const [dialogOpen, setDialogOpen] = useState(false)
+const getSurveyDefinitions = unstable_cache(async () => prisma.surveyDefinition.findMany(), ['survey-definitions'], { tags: ['survey-definitions'] })
 
-  const closeDialog = () => {
-    setDialogOpen(false)
+const SurveyDefinitionsPage = async (props: Props) => {
+  const surveyDefinitions = await getSurveyDefinitions()
+  const activeSurveyDefinition = surveyDefinitions.find((surveyDefinition) => surveyDefinition.active)
+
+  if (surveyDefinitions.length === 0) {
+    return <NoDefinitionComponent />
   }
 
   return (
-    <div className='flex items-center justify-center p-8'>
-      <div className='w-full max-w-3xl space-y-8'>
-        <div>
-          <div className='flex flex-col items-center space-y-4'>
-            <div className='text-center space-y-2'>
-              <h2 className='text-lg font-medium leading-6'>Geen vragenlijst beschikbaar</h2>
-              <p className='text-sm text-gray-500 dark:text-gray-400'>Je hebt nog geen vragenlijst aangemaakt. Begin met het maken van je eerste vragenlijst.</p>
-            </div>
-            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-              <DialogTrigger asChild>
-                <Button size='lg'>
-                  <PlusIcon className='lg:mr-2 h-4 w-4' /> <span>Maak vragenlijst aan.</span>
-                </Button>
-              </DialogTrigger>
-              <DialogContent className='sm:max-w-[425px]'>
-                <SurveyDefinitionForm closeDialog={closeDialog} />
-              </DialogContent>
-            </Dialog>
-          </div>
-        </div>
+    <div className='w-full py-6 space-y-4'>
+      <div className='container space-y-4'>{activeSurveyDefinition ? <ActiveSurveyDefinition activeSurveyDefinition={activeSurveyDefinition} /> : <NoActiveSurveyDefinition />}</div>
+      <div className='container'>
+        <DataTable columns={surveyDefinitionColumns} data={surveyDefinitions as any[]} />
       </div>
     </div>
   )

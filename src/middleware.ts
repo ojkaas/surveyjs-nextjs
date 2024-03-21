@@ -16,24 +16,29 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
     },
     method: 'GET',
   })
-  const session = await resSession.json()
 
-  if (session && Object.keys(session).length > 0) {
-    if (req.url.includes('/logged-in')) {
-      // validate your session here
-      if (session.user.role === Role.ADMIN) {
-        return NextResponse.redirect(new URL('/admin', req.url))
+  // the user is not logged in, redirect to the sign-in page
+  const signInPage = '/sign-in'
+  const signInUrl = new URL(signInPage, req.nextUrl.origin)
+
+  try {
+    const session = await resSession.json()
+    if (session && Object.keys(session).length > 0) {
+      if (req.url.includes('/logged-in')) {
+        // validate your session here
+        if (session.user.role === Role.ADMIN) {
+          return NextResponse.redirect(new URL('/admin', req.url))
+        }
+        if (session.user.role === Role.PORTAL) {
+          return NextResponse.redirect(new URL('/portal', req.url))
+        }
       }
-      if (session.user.role === Role.PORTAL) {
-        return NextResponse.redirect(new URL('/portal', req.url))
-      }
+      return NextResponse.next()
+    } else {
+      signInUrl.searchParams.append('callbackUrl', req.url)
+      return NextResponse.redirect(signInUrl)
     }
-    return NextResponse.next()
-  } else {
-    // the user is not logged in, redirect to the sign-in page
-    const signInPage = '/sign-in'
-    const signInUrl = new URL(signInPage, req.nextUrl.origin)
-    signInUrl.searchParams.append('callbackUrl', req.url)
+  } catch (error) {
     return NextResponse.redirect(signInUrl)
   }
 }

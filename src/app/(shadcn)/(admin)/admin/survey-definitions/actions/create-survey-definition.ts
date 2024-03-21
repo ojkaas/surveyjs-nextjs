@@ -7,7 +7,7 @@ import { revalidateTag } from 'next/cache'
 
 export const createSurveyDefinition = authAction(createSurveyDefinitionSchema, async (surveyDefinitionData) => {
   try {
-    const user = await prisma.surveyDefinition.create({ data: { ...surveyDefinitionData } })
+    const user = await prisma.surveyDefinition.create({ data: { ...surveyDefinitionData, data: surveyDefinitionData.data || undefined } })
     revalidateTag('survey-definitions')
     return user
   } catch (e) {

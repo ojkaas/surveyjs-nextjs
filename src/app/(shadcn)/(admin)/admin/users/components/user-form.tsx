@@ -1,5 +1,6 @@
 import { User, createUserSchema } from '@/app/(shadcn)/(admin)/admin/users/data/schema'
 import { Button } from '@/components/ui/button'
+import { DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
@@ -30,17 +31,15 @@ export const UserForm = ({ closeDialog, editMode = false, user }: Props) => {
 
   useEffect(() => {
     if (editMode && user) {
-      // Fetch user data based on userId and populate the form fields
-      // You can use an API call or any other method to fetch the user data
-      const fetchUserData = async () => {
+      const loadUserData = async () => {
         try {
           form.reset({ name: user.name || '', email: user.email || '', role: user.role || Role.ADMIN })
         } catch (error) {
-          console.error('Failed to fetch user data:', error)
+          console.error('Failed to load user data:', error)
         }
       }
 
-      fetchUserData()
+      loadUserData()
     }
   }, [editMode, user, form])
 
@@ -71,75 +70,80 @@ export const UserForm = ({ closeDialog, editMode = false, user }: Props) => {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit((data) => onSubmit(data))} className='space-y-8'>
-        <fieldset className='space-y-8' disabled={form.formState.isSubmitting}>
-          <FormField
-            control={form.control}
-            name='name'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Naam</FormLabel>
-                <FormControl>
-                  <Input placeholder='Anne Appelboom' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='email'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input placeholder='anne@appelboom.nl' {...field} disabled={editMode} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='role'
-            render={({ field }) => (
-              <FormItem className='space-y-3'>
-                <FormLabel>Gebruikers rol</FormLabel>
-                <FormControl>
-                  <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className='flex flex-col space-y-1'>
-                    <FormItem className='flex items-center space-x-3 space-y-0'>
-                      <FormControl>
-                        <RadioGroupItem value='ADMIN' />
-                      </FormControl>
-                      <FormLabel className='font-normal'>Administrator</FormLabel>
-                    </FormItem>
-                    <FormItem className='flex items-center space-x-3 space-y-0'>
-                      <FormControl>
-                        <RadioGroupItem value='PORTAL' />
-                      </FormControl>
-                      <FormLabel className='font-normal'>Specialist</FormLabel>
-                    </FormItem>
-                    <FormItem className='flex items-center space-x-3 space-y-0'>
-                      <FormControl>
-                        <RadioGroupItem value='USER' />
-                      </FormControl>
-                      <FormLabel className='font-normal'>Gebruiker</FormLabel>
-                    </FormItem>
-                  </RadioGroup>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type='submit' disabled={!form.formState.isDirty && !form.formState.isValid}>
-            {editMode ? 'Gebruiker aanpassen' : 'Gebruiker aanmaken'}
-          </Button>
-          <Button variant={'link'} type='button' onClick={closeDialog}>
-            Annuleren
-          </Button>
-        </fieldset>
-      </form>
-    </Form>
+    <>
+      <DialogHeader>
+        <DialogTitle>{editMode ? 'Gebruiker aanpassen' : 'Gebruiker aanmaken'}</DialogTitle>
+      </DialogHeader>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit((data) => onSubmit(data))} className='space-y-8'>
+          <fieldset className='space-y-8' disabled={form.formState.isSubmitting}>
+            <FormField
+              control={form.control}
+              name='name'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Naam</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Anne Appelboom' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='email'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input placeholder='anne@appelboom.nl' {...field} disabled={editMode} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='role'
+              render={({ field }) => (
+                <FormItem className='space-y-3'>
+                  <FormLabel>Gebruikers rol</FormLabel>
+                  <FormControl>
+                    <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className='flex flex-col space-y-1'>
+                      <FormItem className='flex items-center space-x-3 space-y-0'>
+                        <FormControl>
+                          <RadioGroupItem value='ADMIN' />
+                        </FormControl>
+                        <FormLabel className='font-normal'>Administrator</FormLabel>
+                      </FormItem>
+                      <FormItem className='flex items-center space-x-3 space-y-0'>
+                        <FormControl>
+                          <RadioGroupItem value='PORTAL' />
+                        </FormControl>
+                        <FormLabel className='font-normal'>Specialist</FormLabel>
+                      </FormItem>
+                      <FormItem className='flex items-center space-x-3 space-y-0'>
+                        <FormControl>
+                          <RadioGroupItem value='USER' />
+                        </FormControl>
+                        <FormLabel className='font-normal'>Gebruiker</FormLabel>
+                      </FormItem>
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type='submit' disabled={!form.formState.isDirty && !form.formState.isValid}>
+              {editMode ? 'Gebruiker aanpassen' : 'Gebruiker aanmaken'}
+            </Button>
+            <Button variant={'link'} type='button' onClick={closeDialog}>
+              Annuleren
+            </Button>
+          </fieldset>
+        </form>
+      </Form>
+    </>
   )
 }
