@@ -43,8 +43,8 @@ export const ActiveSurveyDefinition = ({ activeSurveyDefinition }: Props) => {
           </div>
           <div className='grid gap-1 sm:grid-flow-col sm:grid-cols-2'>
             <div className='flex items-center space-x-1 text-sm text-gray-500'>
-              <span className='font-medium'>Created by:</span>
-              <span>{activeSurveyDefinition.version}</span>
+              <span className='font-medium'>Aangemaakt door:</span>
+              <span>{activeSurveyDefinition.createdBy}</span>
             </div>
           </div>
           <div className='grid gap-1 sm:grid-flow-col sm:grid-cols-2'>
