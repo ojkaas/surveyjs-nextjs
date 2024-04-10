@@ -16,7 +16,6 @@ type SuccessMessage<T> = (data: T) => string | React.ReactNode
 
 export function toastifyActionResponse<Data>(promise: Promise<PromiseResult<Data>>, options?: ToastifyOptions<Data>) {
   const { loadingMessage = 'Bezig...', successMessage = defaultSuccessMessage } = options ?? {}
-
   toast.promise(promise, {
     loading: loadingMessage,
     success: (result: PromiseResult<Data>) => {

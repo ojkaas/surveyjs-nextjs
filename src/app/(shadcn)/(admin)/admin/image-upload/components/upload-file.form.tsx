@@ -22,10 +22,9 @@ export const UploadFileForm = (props: Props) => {
   })
 
   const onSubmit = async (data: z.infer<typeof uploadFileForm>) => {
-    console.log('Uploading image...')
     const result = await requestPresignedUrl({ filename: data.image[0].name })
-    console.log('Presigned URL:', result)
     if (result.data) {
+      console.log('Prefetch URL:', result.data)
       fetch(result.data, {
         method: 'PUT',
         body: data.image[0],

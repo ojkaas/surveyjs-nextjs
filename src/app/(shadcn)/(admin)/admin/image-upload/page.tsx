@@ -4,10 +4,12 @@
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
  */
 
+import CopyUrlButton from '@/app/(shadcn)/(admin)/admin/image-upload/components/copy-url.button'
+import DeleteImageButton from '@/app/(shadcn)/(admin)/admin/image-upload/components/delete-image.button'
 import { UploadFileForm } from '@/app/(shadcn)/(admin)/admin/image-upload/components/upload-file.form'
 import NextCloudImage from '@/components/image/next-cloudimage'
-import { Button } from '@/components/ui/button'
 import { s3Client } from '@/lib/utils/s3-file-management'
+import { DateTime } from 'luxon'
 import { BucketItem } from 'minio'
 import { unstable_cache } from 'next/cache'
 
@@ -50,11 +52,17 @@ export default async function ImageUploadPage() {
             <div className='flex items-center gap-4' key={file.name}>
               <NextCloudImage src={`https://clzjyyuyna.cloudimg.io/${process.env.S3_BUCKET_NAME}/${file.name}`} alt='Test' className='h-52 w-52 aspect-video rounded-md object-cover overflow-hidden' />
               <div className='flex-1 grid gap-1 text-sm'>
-                <p className='line-clamp-2'>{file.name}</p>
-                <Button className='p-1 bg-gray-200 rounded-md text-xs hover:bg-gray-300'>
-                  Kopieer URL
-                  <span className='sr-only'>URL gekopieerd</span>
-                </Button>
+                <p className='line-clamp-2'>
+                  <b>Naam: </b>
+                  {file.name}
+                </p>
+                <p className='line-clamp-2'>
+                  <b>Toegevoegd: </b> {file.lastModified ? DateTime.fromJSDate(new Date(file.lastModified)).toRelative({ locale: 'nl' }) : '-'}
+                </p>
+                <div className='flex gap-1 text-sm'>
+                  <DeleteImageButton filename={file.name} />
+                  <CopyUrlButton url={`https://clzjyyuyna.cloudimg.io/${process.env.S3_BUCKET_NAME}/${file.name}?func=cropfit&gravity=smart&aspect_ratio=1`} />
+                </div>
               </div>
             </div>
           ))}
