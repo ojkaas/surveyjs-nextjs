@@ -1,3 +1,4 @@
+import CopySurveyButton from '@/app/(shadcn)/(admin)/admin/survey-definitions/components/copy-survery-button'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { PencilSquareIcon } from '@heroicons/react/24/outline'
@@ -60,9 +61,7 @@ export const ActiveSurveyDefinition = ({ activeSurveyDefinition }: Props) => {
               <PencilSquareIcon className='mr-2 h-4 w-4' /> <span>Wijzig in Creator</span>
             </Link>
           </Button>
-          <Button>
-            <PencilSquareIcon className='mr-2 h-4 w-4' /> <span>Kopieer naar nieuwe versie</span>
-          </Button>
+          <CopySurveyButton surveyDefinition={activeSurveyDefinition} />
         </div>
       </CardContent>
     </Card>

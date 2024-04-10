@@ -19,6 +19,8 @@ export type SurveyDefinition = z.infer<typeof surveyDefinitionSchema>
 
 export const updateSurveyDefinitionSchema = surveyDefinitionSchema.omit({ internalVersion: true, active: true, data: true }).extend({ notes: z.string().optional() })
 export const addCreatorDataToSurveyDefinitionSchema = surveyDefinitionSchema.omit({ name: true, active: true, notes: true, version: true }).extend({ notes: z.string().optional() })
-export const createSurveyDefinitionSchema = surveyDefinitionSchema.omit({ id: true }).extend({ notes: z.string().optional() })
+export const createSurveyDefinitionSchema = surveyDefinitionSchema
+  .omit({ id: true })
+  .extend({ notes: z.string().optional(), internalVersion: z.string().nullable().optional(), active: z.boolean().optional() })
 export const deleteSurveyDefinitionSchema = surveyDefinitionSchema.pick({ id: true })
 export const activateSurveyDefinitionSchema = surveyDefinitionSchema.pick({ id: true })
