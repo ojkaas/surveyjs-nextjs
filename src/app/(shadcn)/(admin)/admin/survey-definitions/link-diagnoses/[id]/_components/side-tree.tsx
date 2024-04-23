@@ -1,4 +1,5 @@
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
+import { cn } from '@/lib/utils'
 import { Prisma, SurveyDefinition } from '@prisma/client'
 import Link from 'next/link'
 
@@ -14,7 +15,7 @@ type Props = {
   activeQuestion?: string
 }
 
-export default function WeightedDiagnosesSideMenu({ pages, survey, activePage }: Props) {
+export default function WeightedDiagnosesSideMenu({ pages, survey, activePage, activeQuestion }: Props) {
   return (
     <div className='flex h-screen w-64 flex-col bg-white shadow-lg dark:bg-gray-950'>
       <div className='flex h-16 items-center justify-between px-4'>
@@ -50,7 +51,12 @@ export default function WeightedDiagnosesSideMenu({ pages, survey, activePage }:
                     return (
                       <Link
                         key={question.id}
-                        className='flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800'
+                        className={cn(
+                          `flex items-center gap-3 mr-1 rounded-md px-3 py-2 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800`,
+                          {
+                            'bg-gray-200 dark:bg-gray-900': question.id === activeQuestion,
+                          }
+                        )}
                         href={`/admin/survey-definitions/link-diagnoses/${survey.id}/questions/${question.id}`}
                       >
                         {question.question}

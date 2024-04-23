@@ -3,8 +3,8 @@ import { Column } from '@tanstack/react-table'
 
 import { cn } from '@/lib/utils'
 
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 
 interface DataTableColumnHeaderProps<TData, TValue> extends React.HTMLAttributes<HTMLDivElement> {
   column: Column<TData, TValue>
@@ -17,7 +17,7 @@ export function DataTableColumnHeader<TData, TValue>({ column, title, className 
   }
 
   return (
-    <div className={cn('flex items-center space-x-2', className)}>
+    <div className={cn('flex items-center w-24 space-x-2 -translate-x-[15px] -translate-y-[25px] rotate-[315deg]', className)}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant='ghost' size='sm' className='-ml-3 h-8 data-[state=open]:bg-accent'>

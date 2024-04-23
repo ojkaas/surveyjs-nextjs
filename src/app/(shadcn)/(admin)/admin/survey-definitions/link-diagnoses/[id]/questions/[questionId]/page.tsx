@@ -16,7 +16,7 @@ const QuestionPage = async ({ params: { id } }: Props) => {
 
   return (
     <div className='flex'>
-      <WeightedDiagnosesSideMenu pages={surveyDefinition.pages} survey={surveyDefinition} activePage={2} activeQuestion={'clvccqh3b0037xeiyzju1ud9y'} />
+      <WeightedDiagnosesSideMenu pages={surveyDefinition.pages} survey={surveyDefinition} activePage={2} activeQuestion={'clvcbfl2v001exeiy78ladqxp'} />
       <WeigthedDiagnoseMatrix />
     </div>
   )

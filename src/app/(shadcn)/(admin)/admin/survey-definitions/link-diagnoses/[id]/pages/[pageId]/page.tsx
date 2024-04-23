@@ -1,5 +1,5 @@
 type Props = {}
 
-const PagePage = (props: Props) => {
+export const PagePage = (props: Props) => {
   return <div>PagePage</div>
 }
