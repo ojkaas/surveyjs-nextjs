@@ -5,10 +5,12 @@ import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 
+import { deleteDiagnosisAction } from '@/app/(shadcn)/(admin)/admin/diagnoses/actions/delete-diagnosis'
 import { Diagnosis } from '@/app/(shadcn)/(admin)/admin/diagnoses/data/schema'
 import { DataTableRowActionsProps } from '@/components/data-table/data-table'
 import { MultiDialog } from '@/components/ui/custom/multi-dialog'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { toastifyActionResponse } from '@/lib/toastify-action-response'
 import { useState } from 'react'
 
 type Modals = 'edit' | 'delete' | 'deactivate' // or enum
@@ -19,6 +21,19 @@ export function DiagnosisTableRowActions({ row }: DataTableRowActionsProps<Diagn
   const closeRowActions = () => {
     setRowActionOpens(false)
   }
+
+  const deleteDiagnosis = async (id: string, afterDelete: () => void) => {
+    const actionPromise = deleteDiagnosisAction({ id })
+    toastifyActionResponse(actionPromise, {
+      loadingMessage: 'Diagnose verwijderen...',
+      successMessage(data) {
+        return `Diagnose "${data.name}" verwijderd!`
+      },
+    })
+    closeRowActions()
+    afterDelete()
+  }
+
   return (
     <DropdownMenu open={rowActionOpens} onOpenChange={setRowActionOpens}>
       <DropdownMenuTrigger asChild>
@@ -45,7 +60,24 @@ export function DiagnosisTableRowActions({ row }: DataTableRowActionsProps<Diagn
               </mdb.Container>
               <mdb.Container value='delete'>
                 <Dialog>
-                  <DialogContent>DELETE CONTENT</DialogContent>
+                  <DialogContent>
+                    <div>
+                      <h3 className='text-md font-bold'>Weet je zeker dat je deze diagnose wilt verwijderen?</h3>
+                      <div className='gap-4 mt-4'>
+                        <Button
+                          variant='destructive'
+                          onClick={() => {
+                            deleteDiagnosis(row.original.id, () => mdb.closeDialog('delete'))
+                          }}
+                        >
+                          Verwijderen
+                        </Button>
+                        <Button variant='link' onClick={() => mdb.closeDialog('delete')}>
+                          Annuleren
+                        </Button>
+                      </div>
+                    </div>
+                  </DialogContent>
                 </Dialog>
               </mdb.Container>
             </>

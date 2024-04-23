@@ -24,7 +24,6 @@ export const UploadFileForm = (props: Props) => {
   const onSubmit = async (data: z.infer<typeof uploadFileForm>) => {
     const result = await requestPresignedUrl({ filename: data.image[0].name })
     if (result.data) {
-      console.log('Prefetch URL:', result.data)
       fetch(result.data, {
         method: 'PUT',
         body: data.image[0],
@@ -35,6 +34,7 @@ export const UploadFileForm = (props: Props) => {
         },
       }).then(() => {
         uploadSuccessAction({})
+        form.reset()
         toast.success('Afbeelding succesvol geüpload.')
       })
     }
@@ -46,7 +46,9 @@ export const UploadFileForm = (props: Props) => {
         <div className='border rounded-lg p-4 md:w-1/2 md:p-6 m-6'>
           <div className='flex flex-col gap-2'>
             <h1 className='text-2xl font-semibold'>Upload</h1>
-            <p className='max-w-prose'>Upload uw afbeelding en ontvang een URL om ze te delen of in te bedden. Maximale bestandsgrootte 10MB. Ondersteunde bestandstypen: jpg, png, gif, webp.</p>
+            <p className='max-w-prose'>
+              Upload uw afbeelding en ontvang een URL die is te gebruiken in een vragenlijst. Maximale bestandsgrootte 10MB. Ondersteunde bestandstypen: jpg, png, gif, webp.
+            </p>
           </div>
           <div className='flex flex-col gap-4 mt-4'>
             <div className='flex flex-col gap-2'>
@@ -66,7 +68,6 @@ export const UploadFileForm = (props: Props) => {
                         name={field.name}
                         onChange={(e) => {
                           field.onChange(e.target.files)
-                          //setSelectedImage(e.target.files?.[0] || null)
                         }}
                         ref={field.ref}
                       />

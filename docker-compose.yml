@@ -1,0 +1,43 @@
+
+services:
+  db:
+    image: postgres
+    ports:
+      - ${POSTGRES_PORT}:5432
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - 8082:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=postgres@example.com
+      - PGADMIN_DEFAULT_PASSWORD=postgres
+      - PGADMIN_CONFIG_SERVER_MODE=False
+      - PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED=False
+    entrypoint: /bin/sh -c "chmod 600 /pgpass; /entrypoint.sh;"
+    user: root
+    configs:
+      - source: servers.json
+        target: /pgadmin4/servers.json
+      - source: pgpass
+        target: /pgpass
+configs:
+  pgpass:
+    content: db:${POSTGRES_PORT}:*:${POSTGRES_USER}:${POSTGRES_PASSWORD}
+  servers.json:
+    content: |
+      {"Servers": {"1": {
+        "Group": "Servers",
+        "Name": "My Local Postgres 16.1",
+        "Host": "db",
+        "Port": ${POSTGRES_PORT},
+        "MaintenanceDB": "postgres",
+        "Username": "${POSTGRES_USER}",
+        "PassFile": "/pgpass",
+        "SSLMode": "prefer"
+      }}}
+volumes:
+  maildir: {}

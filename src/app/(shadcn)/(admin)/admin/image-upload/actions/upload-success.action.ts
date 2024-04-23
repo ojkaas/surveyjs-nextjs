@@ -1,8 +1,8 @@
 'use server'
 
-import { authAction } from '@/lib/safe-actions'
+import { authAdminAction } from '@/lib/safe-actions'
 import { revalidateTag } from 'next/cache'
 
-export const uploadSuccessAction = authAction({}, async () => {
+export const uploadSuccessAction = authAdminAction({}, async () => {
   revalidateTag('images')
 })

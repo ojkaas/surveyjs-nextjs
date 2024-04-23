@@ -1,6 +1,7 @@
 datasource db {
   provider = "postgresql"
   url      = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 generator client {
@@ -48,8 +49,8 @@ model User {
 
 model Survey {
   id        String   @id @default(cuid())
-  title     String
-  result    Json
+  key       String   @unique
+  result    Json?
   user      User     @relation(fields: [userId], references: [id])
   userId    String
   createdAt DateTime @default(now())
@@ -69,6 +70,59 @@ model SurveyDefinition {
   createdBy       String
   active          Boolean  @default(false)
   notes           String?
+  questions       SurveyQuestion[]
+  pages           SurveyPage[] 
+}
+
+model SurveyPage {
+  id              String   @id @default(cuid())
+  surveyDefId     String
+  surveyDefinition SurveyDefinition @relation(fields: [surveyDefId], references: [id], onDelete: Cascade)
+  title           String?
+  number          Int
+  description     String?
+  questions       SurveyQuestion[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+}
+
+model SurveyQuestion {
+  id                String   @id @default(cuid())
+  surveyDefId       String
+  surveyDefinition  SurveyDefinition @relation(fields: [surveyDefId], references: [id], onDelete: Cascade)
+  pageId            String
+  surveyPage        SurveyPage @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  title             String?
+  question          String
+  type              String
+  answers           SurveyQuestionOption[]
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+}
+
+model SurveyQuestionOption {
+  id                String   @id @default(cuid())
+  surveyQuestionId  String
+  surveyQuestion    SurveyQuestion @relation(fields: [surveyQuestionId], references: [id], onDelete: Cascade)
+  answer            String
+  text              String?
+  weightedDiagnoses WeightedDiagnose[]
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+}
+
+model WeightedDiagnose {
+  id              String   @id @default(cuid())
+  surveyAnswerId  String
+  surveyAnswer    SurveyQuestionOption @relation(fields: [surveyAnswerId], references: [id], onDelete: Cascade)
+  diagnoseId      String
+  diagnose        Diagnoses @relation(fields: [diagnoseId], references: [id])
+  weight          Int
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
 
 model Diagnoses {
@@ -78,6 +132,7 @@ model Diagnoses {
   personToContact PersonToContact
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+  weigths         WeightedDiagnose[]
 }
 
 model VerificationToken {

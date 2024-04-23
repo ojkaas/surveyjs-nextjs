@@ -30,11 +30,17 @@ export const authOptions: AuthOptions = {
       return Boolean((user as AdapterUser).emailVerified)
     },
     jwt({ token, user }) {
-      if (user) token.role = user.role
+      if (user) {
+        token.role = user.role
+        token.uid = user.id
+      }
       return token
     },
     session({ session, token }) {
-      if (session && session.user) session.user.role = token.role //  Add role value to user object so it is passed along with session
+      if (session && session.user) {
+        session.user.role = token.role //  Add role value to user object so it is passed along with session
+        session.user.id = token.sub
+      }
       return session
     },
   },
@@ -46,7 +52,7 @@ export const authOptions: AuthOptions = {
     strategy: 'jwt',
   },
   jwt: {
-    secret: process.env.NEXTAUTH_JWT_SECRET,
+    //secret: process.env.NEXTAUTH_JWT_SECRET,
   },
   secret: process.env.NEXTAUTH_SECRET,
 }

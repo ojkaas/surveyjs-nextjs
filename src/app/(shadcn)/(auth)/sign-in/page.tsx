@@ -6,6 +6,13 @@ import { useState } from 'react'
 export default function Signin() {
   const [email, setEmail] = useState('')
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      signIn('email', { email, callbackUrl: '/logged-in' })
+    }
+  }
+
   return (
     <main>
       <div className='hero min-h-screen bg-base-200'>
@@ -20,7 +27,16 @@ export default function Signin() {
                 <label className='label'>
                   <span className='label-text'>Email</span>
                 </label>
-                <input onChange={(e) => setEmail(e.target.value)} type='email' id='email' name='email' placeholder='email' className='input input-bordered' required />
+                <input
+                  onChange={(e) => setEmail(e.target.value)}
+                  onKeyDown={handleKeyDown} // Add the onKeyDown event handler
+                  type='email'
+                  id='email'
+                  name='email'
+                  placeholder='email'
+                  className='input input-bordered'
+                  required
+                />
               </div>
               <div className='form-control mt-6'>
                 <button type='button' onClick={() => signIn('email', { email, callbackUrl: '/logged-in' })} className='btn btn-primary'>

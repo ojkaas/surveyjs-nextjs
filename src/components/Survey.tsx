@@ -1,29 +1,35 @@
 'use client'
 
-import { restoreSurveyData, saveSurveyData } from '@/components/shared/SurveyHelper'
+import { restoreSurveyData, saveSurveyDataLocally, saveSurveyToDatabase } from '@/components/shared/SurveyHelper'
+import { JsonValue } from '@prisma/client/runtime/library'
 import { useEffect, useState } from 'react'
-import { Model } from 'survey-core'
+import { CompleteEvent, Model } from 'survey-core'
 import 'survey-core/defaultV2.css'
 import { Survey } from 'survey-react-ui'
-import { json } from '../../data/survey_json.js'
+//import { json } from '../../data/survey_json.js'
 
-export default function SurveyComponent() {
+type Props = {
+  json: JsonValue
+  definitionId: string
+  id: string
+}
+
+export default function SurveyComponent(props: Props) {
   let [model, setModel] = useState<Model | undefined>()
 
   const SSR = typeof window === 'undefined'
 
   useEffect(() => {
-    const surveyModel = new Model(json)
+    const surveyModel = new Model(props.json)
     restoreSurveyData(surveyModel)
-    surveyModel.onValueChanged.add(saveSurveyData)
-    surveyModel.onCurrentPageChanged.add(saveSurveyData)
-    surveyModel.onScrollingElementToTop.add(function (sender, options) {
-      //options.cancel = true
+    surveyModel.onValueChanged.add(saveSurveyDataLocally)
+    surveyModel.onCurrentPageChanged.add(saveSurveyDataLocally)
+
+    surveyModel.onComplete.add((sender: Model, options: CompleteEvent) => {
+      saveSurveyToDatabase(sender, options, props.id, props.definitionId)
     })
     setModel(surveyModel)
-    console.log('SurveyComponent mounted')
-    console.log('CSS: ', surveyModel.css)
-  }, [])
+  }, [props.id, props.json, props.definitionId])
 
   return (
     <>

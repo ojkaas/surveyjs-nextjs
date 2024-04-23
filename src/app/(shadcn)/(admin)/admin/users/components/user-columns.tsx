@@ -74,7 +74,7 @@ export const userColumns: ColumnDefWithVisibility<User>[] = [
     cell: ({ row }) => {
       return (
         <div className='flex space-x-2'>
-          <span className='max-w-[500px] truncate font-medium'>{row.getValue('emailVerified') ? DateTime.fromJSDate(row.getValue('emailVerified')).toRelative({ locale: 'nl' }) : '-'}</span>
+          <span className='max-w-[500px] truncate font-medium'>{row.getValue('emailVerified') ? DateTime.fromJSDate(new Date(row.getValue('emailVerified'))).toRelative({ locale: 'nl' }) : '-'}</span>
         </div>
       )
     },
