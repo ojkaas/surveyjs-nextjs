@@ -1,9 +1,3 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/bhC02Yk0ma5
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
-
 import CopyUrlButton from '@/app/(shadcn)/(admin)/admin/image-upload/components/copy-url.button'
 import DeleteImageButton from '@/app/(shadcn)/(admin)/admin/image-upload/components/delete-image.button'
 import { UploadFileForm } from '@/app/(shadcn)/(admin)/admin/image-upload/components/upload-file.form'

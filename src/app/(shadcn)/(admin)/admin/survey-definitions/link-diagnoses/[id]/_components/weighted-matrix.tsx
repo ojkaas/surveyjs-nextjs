@@ -18,11 +18,11 @@ export default function WeigthedDiagnoseMatrix() {
       <CardContent>
         <div className='grid grid-cols-6 gap-4'>
           <div className='col-span-1' />
-          <div className='col-span-1 font-medium'>Question 1</div>
-          <div className='col-span-1 font-medium'>Question 2</div>
-          <div className='col-span-1 font-medium'>Question 3</div>
-          <div className='col-span-1 font-medium'>Question 4</div>
-          <div className='col-span-1 font-medium'>Question 5</div>
+          <div className='col-span-1 font-medium'>Answer 1</div>
+          <div className='col-span-1 font-medium'>Answer 2</div>
+          <div className='col-span-1 font-medium'>Answer 3</div>
+          <div className='col-span-1 font-medium'>Answer 4</div>
+          <div className='col-span-1 font-medium'>Answer 5</div>
           <div className='col-span-1 font-medium'>Diagnosis 1</div>
           <Input className='col-span-1' type='number' />
           <Input className='col-span-1' type='number' />
