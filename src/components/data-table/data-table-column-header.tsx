@@ -9,15 +9,18 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 interface DataTableColumnHeaderProps<TData, TValue> extends React.HTMLAttributes<HTMLDivElement> {
   column: Column<TData, TValue>
   title: string
+  angled?: boolean
 }
 
-export function DataTableColumnHeader<TData, TValue>({ column, title, className }: DataTableColumnHeaderProps<TData, TValue>) {
+export function DataTableColumnHeader<TData, TValue>({ column, title, className, angled }: DataTableColumnHeaderProps<TData, TValue>) {
+  const angledClasses = angled ? '-translate-x-[7px] -translate-y-[20px] -rotate-[55deg]' : ''
+
   if (!column.getCanSort()) {
-    return <div className={cn(className)}>{title}</div>
+    return <div className={cn(className, angledClasses)}>{title}</div>
   }
 
   return (
-    <div className={cn('flex items-center w-24 space-x-2 -translate-x-[15px] -translate-y-[25px] rotate-[315deg]', className)}>
+    <div className={cn('flex items-center w-24 space-x-2', className, angledClasses)}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant='ghost' size='sm' className='-ml-3 h-8 data-[state=open]:bg-accent'>

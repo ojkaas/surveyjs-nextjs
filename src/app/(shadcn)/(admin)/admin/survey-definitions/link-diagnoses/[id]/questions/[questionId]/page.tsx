@@ -10,14 +10,21 @@ const getSurveyDefinition = unstable_cache(
   ['survey-definition'],
   { tags: ['survey-definitions'] }
 )
+const getSurveyQuestion = unstable_cache(async (id: string) => prisma.surveyQuestion.findUniqueOrThrow({ where: { id }, include: { surveyPage: true, answers: true } }), ['survey-question'], {
+  tags: ['survey-question'],
+})
 
-const QuestionPage = async ({ params: { id } }: Props) => {
+const getDiagnosis = unstable_cache(async () => prisma.diagnoses.findMany(), ['diagnoses'], { tags: ['diagnoses'] })
+
+const QuestionPage = async ({ params: { id, questionId } }: Props) => {
   const surveyDefinition = await getSurveyDefinition(id)
+  const surveyQuestion = await getSurveyQuestion(questionId)
+  const diagnosis = await getDiagnosis()
 
   return (
     <div className='flex'>
-      <WeightedDiagnosesSideMenu pages={surveyDefinition.pages} survey={surveyDefinition} activePage={2} activeQuestion={'clvcbfl2v001exeiy78ladqxp'} />
-      <WeigthedDiagnoseMatrix />
+      <WeightedDiagnosesSideMenu pages={surveyDefinition.pages} survey={surveyDefinition} activePage={surveyQuestion.surveyPage.number} activeQuestion={questionId} />
+      <WeigthedDiagnoseMatrix diagnosis={diagnosis} question={surveyQuestion} />
     </div>
   )
 }
