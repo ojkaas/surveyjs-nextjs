@@ -43,6 +43,21 @@ const WeightToggleInput = (props: Props) => {
   // Update background color animation
   //controls.start({ backgroundColor: calculateBackgroundColor() })
 
+  /*
+  import {motion, useMotionValue, useTransform, animate}  from 'framer-motionn';   
+
+const Counter = ({ from, to, duration }) => {
+ const count = useMotionValue(from);
+ const rounded = useTransform(count, (latest) => Math.round(latest));
+
+  useEffect(() => {
+    const controls = animate(count, to, { duration: duration });
+    return controls.stop;
+  }, []);
+
+ return <motion.p>{rounded}</motion.p>;
+};
+*/
   return (
     <div className='relative flex items-center max-w-4[rem]'>
       <motion.button
@@ -51,11 +66,11 @@ const WeightToggleInput = (props: Props) => {
         data-input-counter-decrement='quantity-input'
         onClick={decrement}
         className='bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-2 h-8 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none'
-        animate={controls}
         whileTap={{
-          scale: 1.2,
-          borderTopLeftRadius: '100%',
-          borderBottomLeftRadius: '100%',
+          scale: 0.8,
+          borderTopLeftRadius: '90%',
+          borderBottomLeftRadius: '90%',
+          autoReverse: true,
         }}
       >
         <svg className='w-2 h-2 text-gray-900 dark:text-white' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 18 2'>
@@ -79,7 +94,12 @@ const WeightToggleInput = (props: Props) => {
         data-input-counter-increment='quantity-input'
         onClick={increment}
         className='bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-2 h-8 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none'
-        animate={controls}
+        whileTap={{
+          scale: 0.8,
+          borderTopRightRadius: '90%',
+          borderBottomRightRadius: '90%',
+          autoReverse: true,
+        }}
       >
         <svg className='w-2 h-2 text-gray-900 dark:text-white' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 18 18'>
           <path stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 1v16M1 9h16' />
