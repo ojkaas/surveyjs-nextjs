@@ -14,7 +14,7 @@ type Props = {
   initialWeight: number
 }
 
-const WeightToggleInput = ({ diagnosis, answer, key, initialWeight }: Props) => {
+const WeightToggleInput = ({ diagnosis, answer, initialWeight }: Props) => {
   const [inputValue, setInputValue] = useState(initialWeight)
   const controls = useAnimation()
 
@@ -57,7 +57,7 @@ const WeightToggleInput = ({ diagnosis, answer, key, initialWeight }: Props) => 
   }, [inputValue])
 
   return (
-    <div key={key} className='relative flex items-center max-w-4[rem]'>
+    <div className='relative flex items-center max-w-4[rem]'>
       <motion.button
         type='button'
         data-input-counter-decrement='quantity-input'
