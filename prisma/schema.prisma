@@ -123,6 +123,7 @@ model WeightedDiagnose {
   weight          Int
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+  @@unique([surveyAnswerId, diagnoseId], name: "unique_survey_answer_diagnose")
 }
 
 model Diagnoses {

@@ -16,15 +16,33 @@ const getSurveyQuestion = unstable_cache(async (id: string) => prisma.surveyQues
 
 const getDiagnosis = unstable_cache(async () => prisma.diagnoses.findMany(), ['diagnoses'], { tags: ['diagnoses'] })
 
+const getWeightedDiagnoses = unstable_cache(
+  async (diagnoseIds: string[], answerIds: string[]) =>
+    prisma.weightedDiagnose.findMany({
+      where: {
+        AND: [{ diagnoseId: { in: diagnoseIds } }, { surveyAnswerId: { in: answerIds } }],
+      },
+    }),
+  ['weighted-diagnoses'],
+  {
+    tags: ['weighted-diagnoses'],
+  }
+)
+
 const QuestionPage = async ({ params: { id, questionId } }: Props) => {
   const surveyDefinition = await getSurveyDefinition(id)
   const surveyQuestion = await getSurveyQuestion(questionId)
   const diagnosis = await getDiagnosis()
 
+  const weightedDiagnoses = await getWeightedDiagnoses(
+    diagnosis.map((d) => d.id),
+    surveyQuestion.answers.map((a) => a.id)
+  )
+
   return (
     <div className='flex'>
       <WeightedDiagnosesSideMenu pages={surveyDefinition.pages} survey={surveyDefinition} activePage={surveyQuestion.surveyPage.number} activeQuestion={questionId} />
-      <WeigthedDiagnoseMatrix diagnosis={diagnosis} question={surveyQuestion} />
+      <WeigthedDiagnoseMatrix diagnosis={diagnosis} question={surveyQuestion} weightedDiagnoses={weightedDiagnoses} />
     </div>
   )
 }

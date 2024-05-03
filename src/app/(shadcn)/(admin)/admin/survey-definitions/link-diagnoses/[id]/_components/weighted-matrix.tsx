@@ -1,10 +1,12 @@
 'use client'
 import WeightToggleInput from '@/app/(shadcn)/(admin)/admin/survey-definitions/link-diagnoses/[id]/_components/weight-toggle-input'
-import { ColumnDefWithVisibility, DataTable } from '@/components/data-table/data-table'
+import { ColumnDefWithVisibility } from '@/components/data-table/data-table'
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'
+import { DataTableWithSkewedHeaders } from '@/components/data-table/data-table-with-skewed-headers'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Diagnoses, Prisma } from '@prisma/client'
+import { Diagnoses, Prisma, WeightedDiagnose } from '@prisma/client'
 import { CellContext, HeaderContext } from '@tanstack/react-table'
+import { useMemo } from 'react'
 
 const questionWithDetails = Prisma.validator<Prisma.SurveyQuestionDefaultArgs>()({
   include: { surveyPage: true, answers: true },
@@ -15,51 +17,109 @@ type SurveyQuestionWithDetails = Prisma.SurveyQuestionGetPayload<typeof question
 type Props = {
   diagnosis: Diagnoses[]
   question: SurveyQuestionWithDetails
+  weightedDiagnoses: WeightedDiagnose[]
 }
 
-export default function WeigthedDiagnoseMatrix({ diagnosis, question }: Props) {
-  const answerColumns: ColumnDefWithVisibility<any>[] = [
-    {
-      accessorKey: 'diagnose',
-      header: ({ column }) => <DataTableColumnHeader column={column} title='       ' />,
-      cell: ({ row }) => {
-        return (
-          <div className='flex space-x-2'>
-            <span className='max-w-[500px] truncate font-medium'>{row.original.name}</span>
-          </div>
-        )
-      },
-      enableSorting: false,
-      enableHiding: false,
+type WeigthedDiagnoseData = {
+  diagnosisId: string
+  answerId: string
+  weight: number
+}
+
+export default function WeigthedDiagnoseMatrix({ diagnosis, question, weightedDiagnoses }: Props) {
+  /*
+  const [weightedDiagnoses, setWeightedDiagnoses] = useState<WeigthedDiagnoseData[]>([])
+  const [actionsProcessed, setActionsProcessed] = useState(true)
+
+  let timeoutId: NodeJS.Timeout
+
+  const processWeightChange = useCallback(
+    (diagnosisId: string, answerId: string, weight: number) => {
+      console.log('diagnosisId:', diagnosisId, 'answerId:', answerId, 'weight:', weight)
+      //Update the weightedDiagnoses if a record with diagnosisId and answerId already exists update it, otherwise append a new record.
+      const existingRecordIndex = weightedDiagnoses.findIndex((record) => record.diagnosisId === diagnosisId && record.answerId === answerId)
+      if (existingRecordIndex > -1) {
+        const updatedWeightedDiagnoses = [...weightedDiagnoses]
+        updatedWeightedDiagnoses[existingRecordIndex].weight = weight
+        setWeightedDiagnoses(updatedWeightedDiagnoses)
+      } else {
+        setWeightedDiagnoses((prevWeightedDiagnoses) => [...prevWeightedDiagnoses, { diagnosisId, answerId, weight }])
+      }
+
+      
+    if (!actionsProcessed) {
+      clearTimeout(timeoutId)
+      setActionsProcessed(false)
+      timeoutId = setTimeout(saveWeightedDiagnoses, 1500)
+    }
+      console.log('Weighted Diagnoses:', weightedDiagnoses)
     },
-    ...question.answers.map((answer) => ({
-      size: 60,
-      maxSize: 60,
-      minSize: 60,
-      id: answer.id,
-      accessorKey: answer.id,
-      header: ({ column }: HeaderContext<any, unknown>) => <DataTableColumnHeader className='w-20 h-8' angled={true} column={column} title={answer.text ? answer.text : 'GeenText'} />,
-      enableSorting: false,
-      enableHiding: false,
-      cell: ({ row }: CellContext<any, unknown>) => {
-        return (
-          <div className='p-1'>
-            <WeightToggleInput />
-          </div>
-        )
+    [weightedDiagnoses]
+  )
+
+  const saveWeightedDiagnoses = () => {
+    // Perform your action here
+    setActionsProcessed(true)
+    console.log('Delayed action performed')
+  }*/
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const memoizedDiagnostic = useMemo(() => diagnosis, [])
+
+  const answerColumns: ColumnDefWithVisibility<Diagnoses>[] = useMemo(() => {
+    return [
+      {
+        accessorKey: 'diagnose',
+        header: ({ column }) => <DataTableColumnHeader column={column} title='       ' />,
+        cell: ({ row }) => {
+          return (
+            <div className='flex space-x-2'>
+              <span className='max-w-[500px] truncate font-medium'>{row.original.name}</span>
+            </div>
+          )
+        },
+        enableSorting: false,
+        enableHiding: false,
       },
-    })),
-  ]
+      ...question.answers.map((answer) => ({
+        size: 60,
+        maxSize: 60,
+        minSize: 60,
+        id: answer.id,
+        accessorKey: answer.id,
+        header: ({ column }: HeaderContext<Diagnoses, unknown>) => <DataTableColumnHeader className='w-7' angled={true} column={column} title={answer.text ? answer.text : 'Geen Tekst gevonden'} />,
+        enableSorting: false,
+        enableHiding: false,
+        cell: ({ row }: CellContext<Diagnoses, unknown>) => {
+          const key = `${answer.id}-${row.original.id}`
+          const weightedDiagnose = weightedDiagnoses.find((wd) => wd.diagnoseId === row.original.id && wd.surveyAnswerId === answer.id)
+          const initialWeight = weightedDiagnose ? weightedDiagnose.weight : 0
+          return (
+            <div className='p-1'>
+              <WeightToggleInput answer={answer} diagnosis={row.original} initialWeight={initialWeight} />
+            </div>
+          )
+        },
+      })),
+    ]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <>
       <Card className='m-4'>
         <CardHeader>
-          <CardTitle>Diagnosis Matrix</CardTitle>
-          <CardDescription>Enter values for each diagnosis and question to complete the matrix.</CardDescription>
+          <CardTitle>Diagnose Matrix</CardTitle>
+          <CardDescription>
+            Geef een positief gewicht aan een diagnose als een antwoord van een vraag indicatie geeft van deze diagnose. Als een antwoord juist de diagnose uitsluit geef dan negatief gewicht.
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <DataTable data={diagnosis} columns={answerColumns} />
+          <div className='flex flex-col space-y-1.5'>
+            <h3 className='font-semibold leading-none tracking-tight'>Vraag: </h3>
+            <p className='text-sm text-muted-foreground'>{question.title}</p>
+          </div>
+          <DataTableWithSkewedHeaders data={memoizedDiagnostic} columns={answerColumns} />
         </CardContent>
       </Card>
     </>

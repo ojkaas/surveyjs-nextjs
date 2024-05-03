@@ -13,7 +13,7 @@ interface DataTableColumnHeaderProps<TData, TValue> extends React.HTMLAttributes
 }
 
 export function DataTableColumnHeader<TData, TValue>({ column, title, className, angled }: DataTableColumnHeaderProps<TData, TValue>) {
-  const angledClasses = angled ? '-translate-x-[7px] -translate-y-[20px] -rotate-[55deg]' : ''
+  const angledClasses = angled ? 'translate-x-[25px] translate-y-[51px] rotate-[300deg]' : ''
 
   if (!column.getCanSort()) {
     return <div className={cn(className, angledClasses)}>{title}</div>
