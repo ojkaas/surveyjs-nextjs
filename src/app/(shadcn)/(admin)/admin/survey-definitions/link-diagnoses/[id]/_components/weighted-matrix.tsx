@@ -3,9 +3,11 @@ import WeightToggleInput from '@/app/(shadcn)/(admin)/admin/survey-definitions/l
 import { ColumnDefWithVisibility } from '@/components/data-table/data-table'
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'
 import { DataTableWithSkewedHeaders } from '@/components/data-table/data-table-with-skewed-headers'
+import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Diagnoses, Prisma, WeightedDiagnose } from '@prisma/client'
+import { Diagnoses, Prisma, SurveyDefinition, WeightedDiagnose } from '@prisma/client'
 import { CellContext, HeaderContext } from '@tanstack/react-table'
+import Link from 'next/link'
 import { useMemo } from 'react'
 
 const questionWithDetails = Prisma.validator<Prisma.SurveyQuestionDefaultArgs>()({
@@ -18,6 +20,8 @@ type Props = {
   diagnosis: Diagnoses[]
   question: SurveyQuestionWithDetails
   weightedDiagnoses: WeightedDiagnose[]
+  survey: SurveyDefinition
+  nextId: string | null
 }
 
 type WeigthedDiagnoseData = {
@@ -26,7 +30,7 @@ type WeigthedDiagnoseData = {
   weight: number
 }
 
-export default function WeigthedDiagnoseMatrix({ diagnosis, question, weightedDiagnoses }: Props) {
+export default function WeigthedDiagnoseMatrix({ diagnosis, question, weightedDiagnoses, nextId, survey }: Props) {
   /*
   const [weightedDiagnoses, setWeightedDiagnoses] = useState<WeigthedDiagnoseData[]>([])
   const [actionsProcessed, setActionsProcessed] = useState(true)
@@ -87,11 +91,12 @@ export default function WeigthedDiagnoseMatrix({ diagnosis, question, weightedDi
         minSize: 60,
         id: answer.id,
         accessorKey: answer.id,
-        header: ({ column }: HeaderContext<Diagnoses, unknown>) => <DataTableColumnHeader className='w-7' angled={true} column={column} title={answer.text ? answer.text : 'Geen Tekst gevonden'} />,
+        header: ({ column }: HeaderContext<Diagnoses, unknown>) => (
+          <DataTableColumnHeader className='w-7 writing-mode-rl' angled={true} column={column} title={answer.text ? answer.text : 'Geen Tekst gevonden'} />
+        ),
         enableSorting: false,
         enableHiding: false,
         cell: ({ row }: CellContext<Diagnoses, unknown>) => {
-          const key = `${answer.id}-${row.original.id}`
           const weightedDiagnose = weightedDiagnoses.find((wd) => wd.diagnoseId === row.original.id && wd.surveyAnswerId === answer.id)
           const initialWeight = weightedDiagnose ? weightedDiagnose.weight : 0
           return (
@@ -110,7 +115,7 @@ export default function WeigthedDiagnoseMatrix({ diagnosis, question, weightedDi
       <Card className='m-4'>
         <CardHeader>
           <CardTitle>Diagnose Matrix</CardTitle>
-          <CardDescription>
+          <CardDescription className='max-w-[600px]'>
             Geef een positief gewicht aan een diagnose als een antwoord van een vraag indicatie geeft van deze diagnose. Als een antwoord juist de diagnose uitsluit geef dan negatief gewicht.
           </CardDescription>
         </CardHeader>
@@ -120,6 +125,13 @@ export default function WeigthedDiagnoseMatrix({ diagnosis, question, weightedDi
             <p className='text-sm text-muted-foreground'>{question.title}</p>
           </div>
           <DataTableWithSkewedHeaders data={memoizedDiagnostic} columns={answerColumns} />
+          {nextId && (
+            <div className='flex justify-end mt-4'>
+              <Button variant={'default'} asChild>
+                <Link href={`/admin/survey-definitions/link-diagnoses/${survey.id}/questions/${nextId}`}>Volgende vraag</Link>
+              </Button>
+            </div>
+          )}
         </CardContent>
       </Card>
     </>

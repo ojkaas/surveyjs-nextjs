@@ -11,16 +11,19 @@ function ifActiveHighlight(href: string, pathname: string) {
   return pathname.includes(href) ? 'text-white' : ''
 }
 
-const PortalLinks = ({ className }: Props) => {
+const PublicLinks = ({ className }: Props) => {
   const pathname = usePathname()
 
   return (
     <>
-      <Link className={cn(className, ifActiveHighlight('/portal/vragenlijsten', pathname))} href='/portal/vragenlijsten'>
-        Vragenlijsten
+      <Link className={cn(className, ifActiveHighlight('/overons', pathname))} href='/overons'>
+        Over ons
+      </Link>
+      <Link className={cn(className, ifActiveHighlight('/meedoen', pathname))} href='/meedoen'>
+        Meedoen
       </Link>
     </>
   )
 }
 
-export default PortalLinks
+export default PublicLinks

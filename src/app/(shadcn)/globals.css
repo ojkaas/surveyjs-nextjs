@@ -157,4 +157,8 @@
   body {
     @apply bg-background text-foreground;
   }
+  .writing-mode-rl {
+    writing-mode: vertical-rl;
+    display: inline-block;
+  }
 }

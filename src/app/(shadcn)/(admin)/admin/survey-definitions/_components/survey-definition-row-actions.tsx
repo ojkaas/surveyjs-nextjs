@@ -4,6 +4,7 @@ import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 
 import { deleteSurveyDefinitionAction } from '@/app/(shadcn)/(admin)/admin/survey-definitions/_actions/delete-survey-definition'
 import ActivateSurvey from '@/app/(shadcn)/(admin)/admin/survey-definitions/_components/activate-survey'
+import { SurveyDefinitionForm } from '@/app/(shadcn)/(admin)/admin/survey-definitions/_components/survey-definition-form'
 import { SurveyDefinition } from '@/app/(shadcn)/(admin)/admin/survey-definitions/_data/schema'
 import { DataTableRowActionsProps } from '@/components/data-table/data-table'
 import { Button } from '@/components/ui/button'
@@ -65,7 +66,16 @@ export function SurveyDefinitionTableRowActions({ row }: DataTableRowActionsProp
               </mdb.Trigger>
               <mdb.Container value='edit'>
                 <Dialog>
-                  <DialogContent>EDIT FORM CONTENT</DialogContent>
+                  <DialogContent>
+                    <SurveyDefinitionForm
+                      closeDialog={() => {
+                        mdb.closeDialog('edit')
+                        closeRowActions()
+                      }}
+                      editMode
+                      surveyDefinition={row.original}
+                    />
+                  </DialogContent>
                 </Dialog>
               </mdb.Container>
               <mdb.Container value='activate'>

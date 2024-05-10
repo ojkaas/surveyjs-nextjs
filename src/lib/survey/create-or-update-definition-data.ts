@@ -33,7 +33,7 @@ interface Page {
   visibleIf?: string
 }
 
-type SurveyJson = JsonValue & {
+export type SurveyJson = JsonValue & {
   title: string
   completedHtml: string
   completedBeforeHtml: string

@@ -9,6 +9,7 @@ import { Survey } from '@/app/(shadcn)/(portal)/portal/vragenlijsten/data/schema
 import { DataTableRowActionsProps } from '@/components/data-table/data-table'
 import { MultiDialog } from '@/components/ui/custom/multi-dialog'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
+import Link from 'next/link'
 import { useState } from 'react'
 
 type Modals = 'view' | 'delete' // or enum
@@ -38,18 +39,15 @@ export function SurveyTableRowActions({ row }: DataTableRowActionsProps<Survey>)
         <MultiDialog<Modals>>
           {(mdb) => (
             <>
-              <mdb.Trigger value='view'>
-                <DropdownMenuItem disabled={!row.getValue('finished')}>Bekijk resultaten</DropdownMenuItem>
-              </mdb.Trigger>
+              <DropdownMenuItem disabled={!row.getValue('finished')}>
+                <Link href={`/portal/vragenlijsten/${row.original.id}/resultaten`} rel='noopener noreferrer' target='_blank'>
+                  Bekijk resultaten
+                </Link>
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <mdb.Trigger value='delete'>
                 <DropdownMenuItem>Verwijderen</DropdownMenuItem>
               </mdb.Trigger>
-              <mdb.Container value='view'>
-                <Dialog open>
-                  <DialogContent>{row.original.id}</DialogContent>
-                </Dialog>
-              </mdb.Container>
               <mdb.Container value='delete'>
                 <Dialog>
                   <DialogContent>DELETE CONTENT</DialogContent>

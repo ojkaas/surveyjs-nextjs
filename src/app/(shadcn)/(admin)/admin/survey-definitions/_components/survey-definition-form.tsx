@@ -84,10 +84,10 @@ export const SurveyDefinitionForm = ({ closeDialog, editMode = false, copyMode =
 
     const result = await actionPromise
     if (result.data) {
-      if (editMode) closeDialog()
-      else {
+      closeDialog()
+      if (!editMode) {
         //wait a bit so user can see the success message
-        await new Promise((resolve) => setTimeout(resolve, 500))
+        await new Promise((resolve) => setTimeout(resolve, 300))
         router.push('/admin/survey-definitions/creator/' + result.data.id)
       }
     }

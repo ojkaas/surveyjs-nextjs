@@ -7,9 +7,9 @@ import { revalidateTag } from 'next/cache'
 
 export const updateDiagnosis = authAdminAction(updateDiagnosisSchema, async (data) => {
   try {
-    const user = await prisma.user.update({ where: { id: data.id }, data })
+    const diagnose = await prisma.diagnoses.update({ where: { id: data.id }, data })
     revalidateTag('diagnoses')
-    return user
+    return diagnose
   } catch (e) {
     throw e
   }

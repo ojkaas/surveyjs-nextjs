@@ -9,7 +9,7 @@ import { unstable_cache } from 'next/cache'
 
 type Props = {}
 
-interface SurveyDefinitionWithCount extends SurveyDefinition {
+export interface SurveyDefinitionWithCount extends SurveyDefinition {
   questionCount: number
 }
 
@@ -40,7 +40,7 @@ const SurveyDefinitionsPage = async (props: Props) => {
     }
   })
 
-  const activeSurveyDefinition = surveyDefinitions.find((surveyDefinition) => surveyDefinition.active)
+  const activeSurveyDefinition = surveyDefinitionsWithCount.find((surveyDefinition) => surveyDefinition.active)
 
   if (surveyDefinitions.length === 0) {
     return <NoDefinitionComponent />

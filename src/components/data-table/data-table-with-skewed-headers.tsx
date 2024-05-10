@@ -94,10 +94,10 @@ export function DataTableWithSkewedHeaders<TData, TValue>({ columns, data, toolb
         <Table className='table-header-group'>
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
-              <tr className='h-[200px] whitespace-nowrap' key={headerGroup.id}>
+              <tr className='whitespace-nowrap' key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <th className='w-7' key={header.id} colSpan={header.colSpan}>
+                    <th className='w-7 pt-3 mt-3 align-text-bottom' key={header.id} colSpan={header.colSpan}>
                       {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                     </th>
                   )

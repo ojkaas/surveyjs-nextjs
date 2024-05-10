@@ -52,10 +52,10 @@ export default withAuth(
       // validate your session here
       const user = req.nextauth.token as unknown as User
       if (user.role === Role.ADMIN) {
-        return NextResponse.redirect(new URL('/admin', req.url))
+        return NextResponse.redirect(new URL('/admin/survey-definitions', req.url))
       }
       if (user.role === Role.PORTAL) {
-        return NextResponse.redirect(new URL('/portal', req.url))
+        return NextResponse.redirect(new URL('/portal/vragenlijsten', req.url))
       }
     }
   },
@@ -63,6 +63,8 @@ export default withAuth(
     callbacks: {
       authorized: async ({ req, token }) => {
         const user = token as unknown as User
+        if (!user) return false
+
         if (req.url.includes('/admin')) {
           return user.role === Role.ADMIN
         }

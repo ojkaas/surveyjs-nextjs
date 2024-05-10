@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 
 import { deleteDiagnosisAction } from '@/app/(shadcn)/(admin)/admin/diagnoses/actions/delete-diagnosis'
+import { DiagnosisForm } from '@/app/(shadcn)/(admin)/admin/diagnoses/components/diagnosis-form'
 import { Diagnosis } from '@/app/(shadcn)/(admin)/admin/diagnoses/data/schema'
 import { DataTableRowActionsProps } from '@/components/data-table/data-table'
 import { MultiDialog } from '@/components/ui/custom/multi-dialog'
@@ -55,7 +56,16 @@ export function DiagnosisTableRowActions({ row }: DataTableRowActionsProps<Diagn
               </mdb.Trigger>
               <mdb.Container value='edit'>
                 <Dialog>
-                  <DialogContent>ADD SOMETHING HERE</DialogContent>
+                  <DialogContent>
+                    <DiagnosisForm
+                      closeDialog={() => {
+                        mdb.closeDialog('edit')
+                        closeRowActions()
+                      }}
+                      editMode
+                      diagnosis={row.original}
+                    />
+                  </DialogContent>
                 </Dialog>
               </mdb.Container>
               <mdb.Container value='delete'>

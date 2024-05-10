@@ -30,9 +30,9 @@ export const userColumns: ColumnDefWithVisibility<User>[] = [
     cell: ({ row }) => (
       <div className='flex items-center gap-3'>
         <div className='avatar'>
-          <div className='mask mask-squircle w-12 h-12'>
+          <div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={`https://ui-avatars.com/api/?background=random&name=${row.getValue('name')}`} alt='Avatar' />
+            <img className='rounded-full w-10' src={`https://ui-avatars.com/api/?background=random&name=${row.getValue('name')}`} alt='Avatar' />
           </div>
         </div>
         <div>

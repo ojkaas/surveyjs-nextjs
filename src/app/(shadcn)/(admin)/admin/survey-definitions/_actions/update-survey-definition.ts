@@ -11,6 +11,7 @@ export const updateSurveyDefinition = authAdminAction(updateSurveyDefinitionSche
     const surveyDefinition = await prisma.surveyDefinition.update({ where: { id: data.id }, data: data })
     createOrUpdateSurveyDefintionDataStructure(surveyDefinition)
     revalidateTag('survey-definitions')
+    revalidateTag('active-survey')
     return surveyDefinition
   } catch (e) {
     throw e
@@ -23,6 +24,7 @@ export const addCreatorDataToSurveyDefinition = authAdminAction(addCreatorDataTo
     createOrUpdateSurveyDefintionDataStructure(surveyDefinition)
     revalidateTag('survey-definitions')
     revalidateTag('active-survey')
+    revalidateTag('weighted-diagnoses')
     return surveyDefinition
   } catch (e) {
     console.log('Error in addCreatorDataToSurveyDefinition', e)

@@ -1,13 +1,14 @@
 'use client'
+import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import { signOut } from 'next-auth/react'
 
 type Props = {}
 
 const SignOutButton = (props: Props) => {
   return (
-    <button className='button text-primary-content' onClick={() => signOut({ redirect: true, callbackUrl: '/' })}>
-      Afmelden
-    </button>
+    <DropdownMenuItem className='text-gray-400 hover:text-white' onClick={() => signOut({ redirect: true, callbackUrl: '/' })}>
+      Uitloggen
+    </DropdownMenuItem>
   )
 }
 

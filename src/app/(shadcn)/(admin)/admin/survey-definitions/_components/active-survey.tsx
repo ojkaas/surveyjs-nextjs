@@ -1,14 +1,14 @@
 import CopySurveyButton from '@/app/(shadcn)/(admin)/admin/survey-definitions/_components/copy-survery-button'
+import { SurveyDefinitionWithCount } from '@/app/(shadcn)/(admin)/admin/survey-definitions/page'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { PencilSquareIcon } from '@heroicons/react/24/outline'
-import { SurveyDefinition } from '@prisma/client'
 import { FileIcon } from '@radix-ui/react-icons'
 import { DateTime } from 'luxon'
 import Link from 'next/link'
 
 type Props = {
-  activeSurveyDefinition: SurveyDefinition
+  activeSurveyDefinition: SurveyDefinitionWithCount
 }
 
 export const ActiveSurveyDefinition = ({ activeSurveyDefinition }: Props) => {
@@ -59,6 +59,11 @@ export const ActiveSurveyDefinition = ({ activeSurveyDefinition }: Props) => {
           <Button variant={'outline'} asChild>
             <Link href={`/admin/survey-definitions/creator/${activeSurveyDefinition.id}`}>
               <PencilSquareIcon className='mr-2 h-4 w-4' /> <span>Wijzig in Creator</span>
+            </Link>
+          </Button>
+          <Button variant={'outline'} disabled={!activeSurveyDefinition.questionCount || activeSurveyDefinition.questionCount <= 0} asChild>
+            <Link href={`/admin/survey-definitions/link-diagnoses/${activeSurveyDefinition.id}`}>
+              <PencilSquareIcon className='mr-2 h-4 w-4' /> <span>Diagnose koppelen</span>
             </Link>
           </Button>
           <CopySurveyButton surveyDefinition={activeSurveyDefinition} />

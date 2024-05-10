@@ -13,6 +13,8 @@ export const upsertWeightedDiagnose = authAdminAction(weightedDiagnoseSchema, as
       create: { diagnoseId: weightedDiagnose.diagnose_id, surveyAnswerId: weightedDiagnose.answer_id, weight: weightedDiagnose.weight },
     })
 
+    revalidateTag('survey-definitions')
+    revalidateTag('active-survey')
     revalidateTag('weighted-diagnoses')
     return weightedDiagnoseResult
   } catch (e) {

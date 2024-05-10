@@ -6,7 +6,7 @@ import { authOptions } from '@/lib/config/auth/auth-options'
 import { authAdminAction } from '@/lib/safe-actions'
 import { createOrUpdateSurveyDefintionDataStructure } from '@/lib/survey/create-or-update-definition-data'
 import { getServerSession } from 'next-auth'
-import { revalidateTag } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
 
 export const createSurveyDefinition = authAdminAction(createSurveyDefinitionSchema, async (surveyDefinitionData) => {
   try {
@@ -14,6 +14,9 @@ export const createSurveyDefinition = authAdminAction(createSurveyDefinitionSche
     const definition = await prisma.surveyDefinition.create({ data: { ...surveyDefinitionData, createdBy: session?.user.name, data: surveyDefinitionData.data || undefined } })
     createOrUpdateSurveyDefintionDataStructure(definition)
     revalidateTag('survey-definitions')
+    revalidateTag('active-survey')
+    revalidateTag('weighted-diagnoses')
+    revalidatePath('/admin/survey-definitions')
     return definition
   } catch (e) {
     // We can add postgres errors here by code and throw nice errors
