@@ -1,5 +1,4 @@
 import { inviteHbs } from '@/lib/mailer/stupid-solution'
-import { readFileSync } from 'fs'
 import Handlebars from 'handlebars'
 import { createTransport } from 'nodemailer'
 
@@ -22,10 +21,10 @@ type SendEmailOptions = {
   templateData: { [key: string]: any }
 }
 export const sendMail = (options: SendEmailOptions) => {
-  let templatePath = 'no template'
+  let emailTemplateSource = 'no template'
 
-  if (options.templateName === 'invite.hbs') templatePath = inviteHbs
-  const emailTemplateSource = readFileSync(templatePath, 'utf8')
+  if (options.templateName === 'invite.hbs') emailTemplateSource = inviteHbs
+  //const emailTemplateSource = readFileSync(templatePath, 'utf8')
   //const emailTemplateSource = readFileSync(templatePath, 'utf8')
   //const emailTemplateSource = readFileSync(path.join(__dirname, '../../../handlebar/' + options.templateName), 'utf8')
   //const emailTemplateSource = readFileSync(process.cwd() + '/public/handlebar/invite.hbs', 'utf8')
