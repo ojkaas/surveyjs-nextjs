@@ -14,7 +14,7 @@ const getSurvey = unstable_cache(async (key) => prisma.survey.findFirstOrThrow({
   tags: ['survey'],
 })
 
-export default async function Page({ id }: Props) {
+const ResultPage = async ({ id }: Props) => {
   const activeSurvey = await getActiveSurveyDefinitionJson()
   const survey = await getSurvey(id)
 
@@ -135,3 +135,5 @@ export default async function Page({ id }: Props) {
     </main>
   )
 }
+
+export default ResultPage
