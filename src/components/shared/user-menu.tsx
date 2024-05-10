@@ -38,7 +38,7 @@ const UserMenu = async (props: Props) => {
           )}
           {session.user?.role === Role.PORTAL && (
             <DropdownMenuItem className='text-gray-400 hover:text-white' asChild>
-              <Link href='/portal/vragnlijsten'>Vragenlijsten</Link>
+              <Link href='/portal/vragenlijsten'>Vragenlijsten</Link>
             </DropdownMenuItem>
           )}
           <DropdownMenuSeparator />

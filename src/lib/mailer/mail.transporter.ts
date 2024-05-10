@@ -1,6 +1,7 @@
 import { readFileSync } from 'fs'
 import Handlebars from 'handlebars'
 import { createTransport } from 'nodemailer'
+import path from 'path'
 
 export const mailer = createTransport({
   host: process.env.EMAIL_SERVER_HOST,
@@ -21,7 +22,8 @@ type SendEmailOptions = {
   templateData: { [key: string]: any }
 }
 export const sendMail = (options: SendEmailOptions) => {
-  const emailTemplateSource = readFileSync(process.cwd() + '/handlebar/' + options.templateName, 'utf8')
+  let templatePath = path.join(process.cwd(), '/app/handlebar/', options.templateName)
+  const emailTemplateSource = readFileSync(templatePath, 'utf8')
   //const emailTemplateSource = readFileSync(path.join(__dirname, '../../../handlebar/' + options.templateName), 'utf8')
   const template = Handlebars.compile(emailTemplateSource)
   const html = template(options.templateData)
