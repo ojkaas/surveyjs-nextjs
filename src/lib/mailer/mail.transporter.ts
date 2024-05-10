@@ -27,7 +27,7 @@ export const sendMail = (options: SendEmailOptions) => {
 
   //const emailTemplateSource = readFileSync(templatePath, 'utf8')
   //const emailTemplateSource = readFileSync(path.join(__dirname, '../../../handlebar/' + options.templateName), 'utf8')
-  const emailTemplateSource = readFileSync(process.cwd() + 'src/handlebar/invite.hbs', 'utf8')
+  const emailTemplateSource = readFileSync(process.cwd() + '/src/app/handlebar/invite.hbs', 'utf8')
   const template = Handlebars.compile(emailTemplateSource)
   const html = template(options.templateData)
 
