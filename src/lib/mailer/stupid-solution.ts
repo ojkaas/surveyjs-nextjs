@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+export const inviteHbs = `<!DOCTYPE html>
 <html lang="en" xmlns:v="urn:schemas-microsoft-com:vml">
 <head>
   <meta charset="utf-8">
@@ -96,4 +96,4 @@
     </div>
   </div>
 </body>
-</html>
+</html>`
