@@ -22,8 +22,8 @@ type SendEmailOptions = {
   templateData: { [key: string]: any }
 }
 export const sendMail = (options: SendEmailOptions) => {
-  let templatePath = path.join(process.cwd(), '/app/handlebar/invite.hbs')
-  if (options.templateName === 'invite.hbs') templatePath = path.join(process.cwd(), '/app/handlebar/invite.hbs')
+  let templatePath = path.resolve('handlebar/invite.hbs')
+  if (options.templateName === 'invite.hbs') templatePath = path.resolve('handlebar/invite.hbs')
 
   const emailTemplateSource = readFileSync(templatePath, 'utf8')
   //const emailTemplateSource = readFileSync(path.join(__dirname, '../../../handlebar/' + options.templateName), 'utf8')
