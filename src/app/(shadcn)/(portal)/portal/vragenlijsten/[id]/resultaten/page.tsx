@@ -2,9 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import prisma from '@/db/db'
 import { unstable_cache } from 'next/cache'
 
-type Props = {
-  id: string
-}
+type Props = { params: { id: string } }
 
 const getActiveSurveyDefinitionJson = unstable_cache(async () => prisma.surveyDefinition.findFirstOrThrow({ where: { active: true }, select: { data: true, id: true } }), ['active-survey'], {
   tags: ['active-survey'],
@@ -14,7 +12,7 @@ const getSurvey = unstable_cache(async (key) => prisma.survey.findFirstOrThrow({
   tags: ['survey'],
 })
 
-const ResultPage = async ({ id }: Props) => {
+const ResultPage = async ({ params: { id } }: Props) => {
   const activeSurvey = await getActiveSurveyDefinitionJson()
   const survey = await getSurvey(id)
 
