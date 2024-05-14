@@ -1,0 +1,1294 @@
+{
+    "title": "OogNed",
+    "description": "TestVragenlijst - V3",
+    "completedHtml": "<h3>Bedankt voor het afronden van de vragenlijst</h3>",
+    "completedBeforeHtml": "<h3>We zien dat u deze vragenlijst al hebt ingevuld.</h3>",
+    "loadingHtml": "<h3>Vragenlijst wordt geladen...</h3>",
+    "pages": [
+        {
+            "name": "Watzijnuwklacthen",
+            "elements": [
+                {
+                    "type": "html",
+                    "name": "Welkom",
+                    "html": "<p>Geachte heer/mevrouw, u bent via de huisarts hier terechtgekomen omdat u problemen heeft aan uw ogen.</p>"
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "KlachtenGeldenVoor",
+                    "title": "Gelden deze klachten voor : ",
+                    "isRequired": true,
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "Rechts"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "Links"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "Beide"
+                        },
+                        {
+                            "value": "Item 4",
+                            "text": "Beide ogen maar andere klachten"
+                        }
+                    ]
+                },
+                {
+                    "type": "checkbox",
+                    "name": "Klachten",
+                    "visibleIf": "{KlachtenGeldenVoor} anyof ['Item 1', 'Item 2', 'Item 3']",
+                    "title": "Wat is de reden om contact op te nemen?",
+                    "isRequired": true,
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "Verminderd Zicht"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "Roodheid van de ogen"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "Flitsen en Vlekken"
+                        },
+                        {
+                            "value": "Item 4",
+                            "text": "Ooglidproblemen"
+                        },
+                        {
+                            "value": "Item 5",
+                            "text": "Pijnlijke/Branderige ogen"
+                        },
+                        {
+                            "value": "Item 6",
+                            "text": "Tranen"
+                        },
+                        {
+                            "value": "Item 7",
+                            "text": "Screening/Controle op oogziektes"
+                        },
+                        {
+                            "value": "Item 8",
+                            "text": "Anders"
+                        }
+                    ],
+                    "showSelectAllItem": true,
+                    "selectAllText": "Allemaal"
+                },
+                {
+                    "type": "checkbox",
+                    "name": "KlachtenLinks",
+                    "visibleIf": "{KlachtenGeldenVoor} anyof ['Item 4']",
+                    "title": "Wat is de reden om contact op te nemen voor het Linker oog?",
+                    "isRequired": true,
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "Verminderd Zicht"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "Roodheid van de ogen"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "Flitsen en Vlekken"
+                        },
+                        {
+                            "value": "Item 4",
+                            "text": "Ooglidproblemen"
+                        },
+                        {
+                            "value": "Item 5",
+                            "text": "Pijnlijke/Branderige ogen"
+                        },
+                        {
+                            "value": "Item 6",
+                            "text": "Tranen"
+                        },
+                        {
+                            "value": "Item 7",
+                            "text": "Screening/Controle op oogziektes"
+                        },
+                        {
+                            "value": "Item 8",
+                            "text": "Anders"
+                        }
+                    ],
+                    "showSelectAllItem": true,
+                    "selectAllText": "Allemaal"
+                },
+                {
+                    "type": "checkbox",
+                    "name": "KlachtenRechts",
+                    "visibleIf": "{KlachtenGeldenVoor} anyof ['Item 4']",
+                    "title": "Wat is de reden om contact op te nemen voor het Rechter oog?",
+                    "isRequired": true,
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "Verminderd Zicht"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "Roodheid van de ogen"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "Flitsen en Vlekken"
+                        },
+                        {
+                            "value": "Item 4",
+                            "text": "Ooglidproblemen"
+                        },
+                        {
+                            "value": "Item 5",
+                            "text": "Pijnlijke/Branderige ogen"
+                        },
+                        {
+                            "value": "Item 6",
+                            "text": "Tranen"
+                        },
+                        {
+                            "value": "Item 7",
+                            "text": "Screening/Controle op oogziektes"
+                        },
+                        {
+                            "value": "Item 8",
+                            "text": "Anders"
+                        }
+                    ],
+                    "showSelectAllItem": true,
+                    "selectAllText": "Allemaal"
+                }
+            ],
+            "title": "Wat zijn uw klachten?"
+        },
+        {
+            "name": "Algemeen",
+            "elements": [
+                {
+                    "type": "radiogroup",
+                    "name": "Leeftijd",
+                    "title": "Leeftijd",
+                    "isRequired": true,
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "0 - 12 Jaar"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "12- 20 Jaar"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "20 - 35 jaar"
+                        },
+                        {
+                            "value": "Item 4",
+                            "text": "50 Jaar en ouder"
+                        }
+                    ]
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "Geslacht",
+                    "title": "Geslacht",
+                    "isRequired": true,
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "Man"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "Vrouw"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "Anders"
+                        }
+                    ]
+                },
+                {
+                    "type": "boolean",
+                    "name": "EerderBijOogarts",
+                    "title": "Bent u eerder bij een oogarts geweest",
+                    "isRequired": true,
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "boolean",
+                    "name": "Suikerziekte",
+                    "title": "Heeft u suikerziekte",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "boolean",
+                    "name": "Bloeddruk",
+                    "title": "Heeft u een hoge bloeddruk",
+                    "isRequired": true,
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "boolean",
+                    "name": "Roken",
+                    "title": "Rookt u",
+                    "isRequired": true,
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "boolean",
+                    "name": "LuiOog",
+                    "title": "Bent u bekend met een lui oog",
+                    "isRequired": true,
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "checkbox",
+                    "name": "Oogziektes",
+                    "title": "Komen er in de familie de volgende oogziektes voor",
+                    "isRequired": true,
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "Glaucoom"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "Hoge Min sterkte"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "Maculadegeneratie op jonge leeftijd"
+                        }
+                    ]
+                }
+            ],
+            "title": "Algemene vragen"
+        },
+        {
+            "name": "verminderdevisus",
+            "elements": [
+                {
+                    "type": "radiogroup",
+                    "name": "VerminderdZicht",
+                    "title": "Sinds wanneer is het verminderde zicht opgevallen?",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "Tijdelijke vermindering van het zien van maximaal een paar minuten"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "Tijdelijke vermindering van het zien van max 60 minuten"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "Plotseling <48 uur"
+                        },
+                        {
+                            "value": "Item 4",
+                            "text": "Geleidelijke vermindering binnen weken"
+                        },
+                        {
+                            "value": "Item 5",
+                            "text": "Geleidelijke vermindering van maanden"
+                        }
+                    ]
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "VerminderdeVisusDag",
+                    "title": "Heeft u de hele dag last van het verminderde visus of wisselt het op de dag?",
+                    "isRequired": true,
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "Hele dag"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "Wisselt op de dag"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "Wisselt op de dag, knipperen en oogdruppels helpen goed"
+                        }
+                    ]
+                },
+                {
+                    "type": "boolean",
+                    "name": "Vraag1",
+                    "title": "Zijn de lijnen recht",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "Vraag2",
+                    "title": "Waar zit de waas?",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "In het midden"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "Aan de zijkanten"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "Helemaal wazig"
+                        }
+                    ]
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "Vraag3",
+                    "title": "Heeft u moeite met kijken voor veraf en/of dichtbij?",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "Ja voor beide afstanden"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "Alleen voor dichtbij"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "Alleen voor veraf"
+                        }
+                    ]
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "Vraag4",
+                    "title": "Heeft u extra moeite met het donker",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "Ja"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "Ja, en ook van de koplampen van de tegenliggers"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "Nee"
+                        }
+                    ]
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "Vraag5",
+                    "title": "Bent u al behandeld aan uw oog?",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "Nee"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "Ja, Staar"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "Ja, Staar en Nastaar"
+                        },
+                        {
+                            "value": "Item 4",
+                            "text": "Ja, een andere operatie"
+                        },
+                        {
+                            "value": "Item 5",
+                            "text": "Ja, refractieve behandeling"
+                        }
+                    ]
+                },
+                {
+                    "type": "boolean",
+                    "name": "Vraag6",
+                    "title": "Ziet  u de kleuren anders?",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "boolean",
+                    "name": "Vraag7",
+                    "title": "Bent u langs de opticien geweest",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "boolean",
+                    "name": "Vraag8",
+                    "title": "Ziet u goed met de bril/contactlenzen op",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "boolean",
+                    "name": "Vraag9",
+                    "title": "Als u last heeft van dichtbij lezen heeft u al een leesbril?",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "Vraag10",
+                    "title": "Hoe oud is uw huidige bril?",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "meer dan een jaar oud"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "pas gekocht"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "ik draag geen bril"
+                        }
+                    ]
+                },
+                {
+                    "type": "boolean",
+                    "name": "Vraag11",
+                    "title": "Verbetert het zicht met druppels of knipperen",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "boolean",
+                    "name": "Vraag12",
+                    "title": "Heeft u pijn aan de ogen of branderige ogen?",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "boolean",
+                    "name": "Vraag13",
+                    "title": "Heeft u last van rode ogen?",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee"
+                }
+            ],
+            "visibleIf": "{Klachten} contains 'Item 1' or {KlachtenLinks} contains 'Item 1' or {KlachtenRechts} contains 'Item 1'",
+            "title": "Verminderde Visus"
+        },
+        {
+            "name": "roodheid",
+            "elements": [
+                {
+                    "type": "radiogroup",
+                    "name": "RoodheidOog",
+                    "title": "Heeft u problemen van roodheid aan een oog of beide ogen",
+                    "isRequired": true,
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "Eén oog"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "Beide ogen"
+                        }
+                    ]
+                },
+                {
+                    "type": "boolean",
+                    "name": "InOog",
+                    "title": "Is er iets in het oog gekomen",
+                    "isRequired": true,
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "Vraag14",
+                    "title": "Heeft u last van pijn?",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "Ja"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "Ja, en wordt veel erger bij oogbewegingen"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "Nee"
+                        }
+                    ]
+                },
+                {
+                    "type": "boolean",
+                    "name": "Vraag15",
+                    "title": "Heeft u een irritatie, branderige ogen of zandkorrelig gevoel?",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "Vraag16",
+                    "title": "Heeft u last van uitvloed?",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "Ja, tranen"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "Ja, Pus"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "Ja, Slijm"
+                        },
+                        {
+                            "value": "Item 4",
+                            "text": "Nee"
+                        }
+                    ]
+                },
+                {
+                    "type": "boolean",
+                    "name": "Vraag17",
+                    "title": "Zijn de oogleden s`ochtends dichtgeplakt?",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "boolean",
+                    "name": "Vraag18",
+                    "title": "Zijn er mensen in de omgeving met rode ogen",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "Vraag19",
+                    "title": "Hoe lang heeft u last van rode ogen",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "minder dan 1 dag"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "dagen"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "weken"
+                        },
+                        {
+                            "value": "Item 4",
+                            "text": "meer dan 4 weken"
+                        }
+                    ]
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "Vraag20",
+                    "title": "Ziet u minder goed?",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "Ja, continue"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "Ja, maar wordt ook weer beter"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "Nee"
+                        }
+                    ]
+                },
+                {
+                    "type": "boolean",
+                    "name": "Vraag21",
+                    "visible": false,
+                    "title": "Heeft u last van het licht?",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "Vraag22",
+                    "title": "Gebruikt u al kunstranen?",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "ja, helpt"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "ja maar helpt helemaal niet"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "nee"
+                        }
+                    ]
+                },
+                {
+                    "type": "boolean",
+                    "name": "Vraag23",
+                    "title": "Jeukt het oog of de oogleden?",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "boolean",
+                    "name": "Vraag24",
+                    "title": "Draagt u contactlenzen",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "Vraag25",
+                    "title": "Is het gehele oog rood of een gedeelte ervan?",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "Hele oog"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "Gedeelte"
+                        }
+                    ]
+                }
+            ],
+            "visibleIf": "{Klachten} contains 'Item 2' or {KlachtenLinks} contains 'Item 2' or {KlachtenRechts} contains 'Item 2'",
+            "title": "Roodheid"
+        },
+        {
+            "name": "flitsen en vlekken",
+            "elements": [
+                {
+                    "type": "radiogroup",
+                    "name": "Vraag50",
+                    "title": "Ziet u Flitsen?",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "ja, bliksem,puntjes,watergolven"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "ja, gekleurde flitsen gekarteld"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "nee"
+                        }
+                    ]
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "Vraag51",
+                    "title": "Hoelang houden de episodes flitsen aan?",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "seconden"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "minuten/uren"
+                        }
+                    ]
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "Vraag52",
+                    "title": "Heeft u al meer dan 6 weken last van Flitsen en/of Vlekken",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "ja maar blijft gelijk"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "ja en neemt toe"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "nee"
+                        }
+                    ]
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "Vraag53",
+                    "title": "Heeft u Vlekken?",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "ja, blijven op een vaste plek"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "ja, en bewegen mee"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "nee"
+                        }
+                    ]
+                },
+                {
+                    "type": "boolean",
+                    "name": "Vraag54",
+                    "title": "Heeft u het idee dat er een gordijn voor het beeld hangt , welke niet heen en weer beweegt?",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "Vraag55",
+                    "title": "Ziet u minder scherp",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "ja, continue"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "ja , maar trekt weer bij"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "nee"
+                        }
+                    ]
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "Vraag56",
+                    "title": "Bent u bekend met Migraine?",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "Ja"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "Nee, maar ik heb wel hoofdpijn na het zien van de flitsen"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "Nee"
+                        }
+                    ]
+                }
+            ],
+            "visibleIf": "{Klachten} contains 'Item 3' or {KlachtenLinks} contains 'Item 3' or {KlachtenRechts} contains 'Item 3'",
+            "title": "Flitsen en vlekken"
+        },
+        {
+            "name": "oogleden",
+            "elements": [
+                {
+                    "type": "radiogroup",
+                    "name": "Vraag42",
+                    "title": "Heeft u last van een zwelling bij het ooglid of is het gehele ooglid verdikt?",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "zwelling ooglid"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "gehele ooglid"
+                        },
+                        "Item 3"
+                    ]
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "Vraag43",
+                    "title": "Hoelang bestaan de problemen al?",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "1 week"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "1 maand- 3 maanden"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": ">3 maanden"
+                        }
+                    ]
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "Vraag44",
+                    "title": "Doet het ooglid pijn?",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "ja"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "ja, met name bij bij het aanraken"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "nee"
+                        }
+                    ]
+                },
+                {
+                    "type": "boolean",
+                    "name": "Vraag45",
+                    "title": "Is het rondom het oog ook verdikt en/of rood?",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "Vraag46",
+                    "title": "Wordt de zwelling groter?",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "Ja"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "ja maar soms ook kleiner"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "nee"
+                        }
+                    ]
+                },
+                {
+                    "type": "boolean",
+                    "name": "Vraag47",
+                    "title": "Heeft uw last van Jeuk van het ooglid?",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "boolean",
+                    "name": "Vraag48",
+                    "title": "Zijn de oogleden 's ochtends dichtplakt?",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "Vraag49",
+                    "title": "Heeft u last van hangende bovenoogleden",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "ja"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "ja, het valt over de pupil heen"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "nee"
+                        }
+                    ]
+                }
+            ],
+            "visibleIf": "{Klachten} contains 'Item 4' or {KlachtenLinks} contains 'Item 4' or {KlachtenRechts} contains 'Item 4'",
+            "title": "Oogleden"
+        },
+        {
+            "name": "branderige / pijnlijke ogen",
+            "elements": [
+                {
+                    "type": "radiogroup",
+                    "name": "Vraag35",
+                    "title": "Heeft u last van branderige ogen of Pijnlijke ogen",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "branderige"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "pijnlijke"
+                        }
+                    ]
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "Vraag34",
+                    "title": "Heeft u iets in het oog gekregen",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "ja"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "niet dat ik weet"
+                        }
+                    ]
+                },
+                {
+                    "type": "rating",
+                    "name": "Vraag36",
+                    "title": "Wat is uw pijnscore",
+                    "autoGenerate": false,
+                    "rateCount": 3,
+                    "rateValues": [
+                        {
+                            "value": 1,
+                            "text": "0-3"
+                        },
+                        {
+                            "value": 2,
+                            "text": "3-6"
+                        },
+                        {
+                            "value": 3,
+                            "text": "hoger"
+                        }
+                    ],
+                    "rateMin": 6,
+                    "rateMax": 8
+                },
+                {
+                    "type": "boolean",
+                    "name": "Vraag37",
+                    "title": "Is er sprake van verminderd zicht",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "boolean",
+                    "name": "Vraag38",
+                    "title": "Bent u lichtschuuw",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "boolean",
+                    "name": "Vraag39",
+                    "title": "Zijn de oogleden oog geirriteerd?",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "Vraag40",
+                    "title": "Hoelang heeft u last van branderige/pijnlijke ogen",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "binnen 1 dag"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "aantal dagen"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "weken/maanden"
+                        }
+                    ]
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "Vraag41",
+                    "title": "Gebruikt u al druppels ?",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "ja, die helpen wel iets"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "ja, maar die helpen niet"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "nee"
+                        }
+                    ]
+                }
+            ],
+            "visibleIf": "{Klachten} contains 'Item 5' or {KlachtenLinks} contains 'Item 5' or {KlachtenRechts} contains 'Item 5'",
+            "title": "Branderige ogen / Pijnlijke ogen"
+        },
+        {
+            "name": "tranen",
+            "elements": [
+                {
+                    "type": "radiogroup",
+                    "name": "Vraag26",
+                    "title": "Wanneer heeft u last van tranen?",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "Hele dag"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "Met name in de avond"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "Meer last buitenhuis"
+                        },
+                        {
+                            "value": "Item 4",
+                            "text": "Meer last binnenshuis"
+                        }
+                    ]
+                },
+                {
+                    "type": "boolean",
+                    "name": "Vraag27",
+                    "title": "Wordt het erger bij langdurig lezen",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "boolean",
+                    "name": "Vraag28",
+                    "title": "Zijn de ogen ook rood?",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "boolean",
+                    "name": "Vraag29",
+                    "title": "zijn de ogen branderig of pijnlijk?",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "boolean",
+                    "name": "Vraag30",
+                    "title": "Zijn de oogleden geirriteerd  en/of jeuken die?",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "boolean",
+                    "name": "Vraag31",
+                    "title": "hangen de onderste oogleden?",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "checkbox",
+                    "name": "Vraag32",
+                    "title": "Gebruikt u al druppels ?",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "ja, die helpen wel iets"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "ja, maar die helpen niet"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "nee"
+                        }
+                    ]
+                },
+                {
+                    "type": "boolean",
+                    "name": "Vraag33",
+                    "title": "Heeft u in het verleden een operatie gehad aan de oogleden of bent u gelaserd voor uw sterkte",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                }
+            ],
+            "visibleIf": "{Klachten} contains 'Item 6' or {KlachtenLinks} contains 'Item 6' or {KlachtenRechts} contains 'Item 6'",
+            "title": "Tranen"
+        },
+        {
+            "name": "screening",
+            "title": "Screening"
+        },
+        {
+            "name": "anders",
+            "elements": [
+                {
+                    "type": "radiogroup",
+                    "name": "Vraag57",
+                    "title": "Heeft u last van dubbelbeelden",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "Ja"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "ja en gaat weg als ik een oog sluit"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "Nee"
+                        }
+                    ]
+                },
+                {
+                    "type": "boolean",
+                    "name": "Vraag58",
+                    "title": "Heeft uw pijn bij oogbewegingen?",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "Vraag59",
+                    "title": "Sinds hoelang heeft u last van dubbelbeelden?",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "24 uur"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "weken"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "maanden"
+                        }
+                    ]
+                },
+                {
+                    "type": "text",
+                    "name": "Vraag60",
+                    "title": "Verandering van het oog zelf?"
+                },
+                {
+                    "type": "boolean",
+                    "name": "Vraag61",
+                    "title": "Is de pupil veranderd in grote",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "boolean",
+                    "name": "Vraag62",
+                    "title": "Zit er een vliesje of een zwellinkje op oogwit?",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "Vraag63",
+                    "title": "Is er sprake van verkleuring of zwelling?",
+                    "choices": [
+                        {
+                            "value": "Item 1",
+                            "text": "ja er is een grijze/blauwe verkleuring op het oogwit"
+                        },
+                        {
+                            "value": "Item 2",
+                            "text": "Ja een grijze kring rondom het oog"
+                        },
+                        {
+                            "value": "Item 3",
+                            "text": "Ja de iris is veranderd van kleur"
+                        },
+                        {
+                            "value": "Item 4",
+                            "text": "Ja, er is een zwelling aanwezig"
+                        },
+                        {
+                            "value": "Item 5",
+                            "text": "nee"
+                        }
+                    ]
+                },
+                {
+                    "type": "boolean",
+                    "name": "Vraag64",
+                    "title": "Heeft u er last van",
+                    "labelTrue": "Ja",
+                    "labelFalse": "Nee",
+                    "swapOrder": true
+                }
+            ],
+            "visibleIf": "{Klachten} contains 'Item 8' or {KlachtenLinks} contains 'Item 8' or {KlachtenRechts} contains 'Item 8'",
+            "title": "Anders"
+        }
+    ],
+    "showPageTitles": false,
+    "showProgressBar": "bottom",
+    "progressBarShowPageTitles": true,
+    "startSurveyText": "Starten",
+    "pagePrevText": "Vorige",
+    "pageNextText": "Volgende",
+    "completeText": "Afronden",
+    "firstPageIsStarted": true
+}

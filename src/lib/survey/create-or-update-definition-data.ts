@@ -79,49 +79,51 @@ export async function createOrUpdateSurveyDefintionDataStructure(surveyDefinitio
           number: pageId,
         },
       })
-      for (const question of page.elements) {
-        if (SUPPORTED_QUESTION_TYPES.includes(question.type)) {
-          const questionEntity = await prisma.surveyQuestion.create({
-            data: {
-              title: question.title,
-              type: question.type,
-              pageId: pageEntity.id,
-              question: question.name,
-              surveyDefId: surveyDefinition.id,
-            },
-          })
-
-          if (question.type === 'boolean') {
-            //console.log('Creating boolean question options', question)
-            await prisma.surveyQuestionOption.create({
+      if (page.elements) {
+        for (const question of page.elements) {
+          if (SUPPORTED_QUESTION_TYPES.includes(question.type)) {
+            const questionEntity = await prisma.surveyQuestion.create({
               data: {
-                surveyQuestionId: questionEntity.id,
-                answer: question.labelTrue || 'Ja',
-                text: question.labelTrue || 'Ja',
+                title: question.title,
+                type: question.type,
+                pageId: pageEntity.id,
+                question: question.name,
+                surveyDefId: surveyDefinition.id,
               },
             })
 
-            await prisma.surveyQuestionOption.create({
-              data: {
-                surveyQuestionId: questionEntity.id,
-                answer: question.labelFalse || 'Nee',
-                text: question.labelFalse || 'Nee',
-              },
-            })
-          } else {
-            question.choices?.forEach(async (choice) => {
+            if (question.type === 'boolean') {
+              //console.log('Creating boolean question options', question)
               await prisma.surveyQuestionOption.create({
                 data: {
                   surveyQuestionId: questionEntity.id,
-                  answer: isObjectChoice(choice) ? choice.value : choice,
-                  text: isObjectChoice(choice) ? choice.text : choice,
+                  answer: question.labelTrue || 'Ja',
+                  text: question.labelTrue || 'Ja',
                 },
               })
-            })
+
+              await prisma.surveyQuestionOption.create({
+                data: {
+                  surveyQuestionId: questionEntity.id,
+                  answer: question.labelFalse || 'Nee',
+                  text: question.labelFalse || 'Nee',
+                },
+              })
+            } else {
+              question.choices?.forEach(async (choice) => {
+                await prisma.surveyQuestionOption.create({
+                  data: {
+                    surveyQuestionId: questionEntity.id,
+                    answer: isObjectChoice(choice) ? choice.value : choice,
+                    text: isObjectChoice(choice) ? choice.text : choice,
+                  },
+                })
+              })
+            }
           }
         }
+        pageId++
       }
-      pageId++
     }
     console.log('Finished creating or updating survey definition data structure')
     return surveyDefinition

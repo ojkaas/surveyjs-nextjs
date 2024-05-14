@@ -34,7 +34,7 @@ export default function WeightedDiagnosesSideMenu({ pages, survey, activePage, a
                 <CollapsibleTrigger
                   className={`group flex w-full items-center justify-between rounded-md py-2 px-3 text-sm font-medium transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-950 dark:hover:bg-gray-800 dark:focus-visible:ring-gray-300`}
                 >
-                  <span>
+                  <span className='truncate'>
                     Pagina {surveyPage.number}
                     {surveyPage.title && ` - ${surveyPage.title}`}
                   </span>
