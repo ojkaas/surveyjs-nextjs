@@ -55,7 +55,7 @@ function isObjectChoice(choice: Choice): choice is Exclude<Choice, string> {
 }
 
 export async function createOrUpdateSurveyDefintionDataStructure(surveyDefinition: SurveyDefinition) {
-  console.log('Creating or updating survey definition data structure', surveyDefinition)
+  console.log('Creating or updating survey definition data structure')
 
   if (surveyDefinition.data && typeof surveyDefinition.data === 'object') {
     const pages = await prisma.surveyPage.findMany({
@@ -92,7 +92,7 @@ export async function createOrUpdateSurveyDefintionDataStructure(surveyDefinitio
           })
 
           if (question.type === 'boolean') {
-            console.log('Creating boolean question options', question)
+            //console.log('Creating boolean question options', question)
             await prisma.surveyQuestionOption.create({
               data: {
                 surveyQuestionId: questionEntity.id,
@@ -123,7 +123,7 @@ export async function createOrUpdateSurveyDefintionDataStructure(surveyDefinitio
       }
       pageId++
     }
-    // Implement the logic here
+    console.log('Finished creating or updating survey definition data structure')
     return surveyDefinition
   }
 }

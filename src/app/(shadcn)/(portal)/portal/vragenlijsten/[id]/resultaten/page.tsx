@@ -8,7 +8,7 @@ const getActiveSurveyDefinitionJson = unstable_cache(async () => prisma.surveyDe
   tags: ['active-survey'],
 })
 
-const getSurvey = unstable_cache(async (key) => prisma.survey.findFirstOrThrow({ where: { key } }), ['survey'], {
+const getSurvey = unstable_cache(async (id) => prisma.survey.findFirstOrThrow({ where: { id } }), ['survey'], {
   tags: ['survey'],
 })
 
