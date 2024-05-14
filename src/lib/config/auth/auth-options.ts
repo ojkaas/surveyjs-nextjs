@@ -19,8 +19,8 @@ export const authOptions: AuthOptions = {
         },
       },
       from: process.env.EMAIL_FROM,
-      sendVerificationRequest({ identifier, url, provider, expires, token, theme }) {
-        CustomsendVerificationRequest({ identifier, url, provider, expires, token, theme })
+      async sendVerificationRequest({ identifier, url, provider, expires, token, theme }) {
+        await CustomsendVerificationRequest({ identifier, url, provider, expires, token, theme })
       },
     }),
   ],

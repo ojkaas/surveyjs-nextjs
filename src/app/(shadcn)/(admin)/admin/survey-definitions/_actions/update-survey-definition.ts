@@ -9,7 +9,7 @@ import { revalidateTag } from 'next/cache'
 export const updateSurveyDefinition = authAdminAction(updateSurveyDefinitionSchema, async (data) => {
   try {
     const surveyDefinition = await prisma.surveyDefinition.update({ where: { id: data.id }, data: data })
-    createOrUpdateSurveyDefintionDataStructure(surveyDefinition)
+    await createOrUpdateSurveyDefintionDataStructure(surveyDefinition)
     revalidateTag('survey-definitions')
     revalidateTag('active-survey')
     return surveyDefinition
@@ -21,7 +21,7 @@ export const updateSurveyDefinition = authAdminAction(updateSurveyDefinitionSche
 export const addCreatorDataToSurveyDefinition = authAdminAction(addCreatorDataToSurveyDefinitionSchema, async (data) => {
   try {
     const surveyDefinition = await prisma.surveyDefinition.update({ where: { id: data.id }, data: { ...data, data: data.data || undefined } })
-    createOrUpdateSurveyDefintionDataStructure(surveyDefinition)
+    await createOrUpdateSurveyDefintionDataStructure(surveyDefinition)
     revalidateTag('survey-definitions')
     revalidateTag('active-survey')
     revalidateTag('weighted-diagnoses')

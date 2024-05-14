@@ -16,6 +16,7 @@ export async function CustomsendVerificationRequest(params: SendVerificationRequ
   })
   const failed = result.rejected.concat(result.pending).filter(Boolean)
   if (failed.length) {
+    console.log('Email(s) could not be sent:', failed.join(', '), result.response)
     throw new Error(`Email(s) (${failed.join(', ')}) could not be sent`)
   }
   console.log('Email sent.')

@@ -12,7 +12,7 @@ export const createSurveyDefinition = authAdminAction(createSurveyDefinitionSche
   try {
     const session = await getServerSession(authOptions)
     const definition = await prisma.surveyDefinition.create({ data: { ...surveyDefinitionData, createdBy: session?.user.name, data: surveyDefinitionData.data || undefined } })
-    createOrUpdateSurveyDefintionDataStructure(definition)
+    await createOrUpdateSurveyDefintionDataStructure(definition)
     revalidateTag('survey-definitions')
     revalidateTag('active-survey')
     revalidateTag('weighted-diagnoses')
