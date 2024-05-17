@@ -17,14 +17,14 @@ export default function DiagnoseTooltip({ weightedDiagnoses }: Props) {
             <span className='sr-only'>Bekijk mogelijke diagnoses</span>
           </Button>
         </TooltipTrigger>
-        <TooltipContent className='w-[320px] space-y-4 p-4 bg-white text-black border-2'>
+        <TooltipContent className='w-[420px] space-y-4 p-4 bg-white text-black border-2'>
           <h3 className='text-lg font-semibold'>Diagnose overzicht</h3>
           <div className='space-y-3'>
             {weightedDiagnoses.weights.map((diagnose) => (
               <div key={diagnose.diagnose.name} className='flex items-center justify-between'>
                 <div className='flex items-center gap-3'>
                   <div className='h-2 w-2 rounded-full bg-green-500' />
-                  <p className='font-medium'>{diagnose.diagnose.name}</p>
+                  <p className='font-medium truncate w-56'>{diagnose.diagnose.name} asddsa asdas asdsad</p>
                 </div>
                 <div className='flex items-center gap-2'>
                   <span className='font-medium'>{Math.floor((diagnose.weight / weightedDiagnoses.total) * 100)}%</span>

@@ -24,9 +24,11 @@ const SelectDiagnosesForm = ({ diagnoses, page }: Props) => {
   const linkedDiagnosesItems = page.activeDiagnoses ? page.activeDiagnoses.map((diagnose) => ({ value: diagnose.id, label: diagnose.name })) : []
   const [selected, setSelected] = useState<SelectItem[]>(linkedDiagnosesItems)
 
+  const items = diagnoses.map((diagnose) => ({ value: diagnose.id, label: diagnose.name })).filter((diagnose) => !selected.map((s) => s.value).includes(diagnose.value))
+
   return (
     <div>
-      <MultiSelect items={diagnoses.map((diagnose) => ({ value: diagnose.id, label: diagnose.name }))} selected={selected} setSelected={setSelected} placeholder='Selecteer diagnoses' />
+      <MultiSelect items={items} selected={selected} setSelected={setSelected} placeholder='Selecteer diagnoses' />
       <Button
         onClick={() => {
           linkDiagnoseToPage({ diagnoses: selected.map((i) => ({ id: i.value })), pageId: page.id })
