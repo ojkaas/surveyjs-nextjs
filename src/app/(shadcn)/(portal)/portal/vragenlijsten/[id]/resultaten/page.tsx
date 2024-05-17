@@ -1,74 +1,98 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import DiagnoseTooltip from '@/app/(shadcn)/(portal)/portal/vragenlijsten/[id]/resultaten/_components/diagnose.tooltip'
+import QuestionTabs from '@/app/(shadcn)/(portal)/portal/vragenlijsten/[id]/resultaten/_components/question.tabs'
 import prisma from '@/db/db'
+import { calculateWeight } from '@/lib/survey/calculate-weight'
+import { combineDefinitionAndAnswers } from '@/lib/survey/combine-definition-and-answers'
+import { SurveyJson, SurveyResultJson } from '@/lib/surveyjs/types'
+import { DateTime } from 'luxon'
+
 import { unstable_cache } from 'next/cache'
 
 type Props = { params: { id: string } }
 
-const getActiveSurveyDefinitionJson = unstable_cache(async () => prisma.surveyDefinition.findFirstOrThrow({ where: { active: true }, select: { data: true, id: true } }), ['active-survey'], {
-  tags: ['active-survey'],
-})
+type ThenArg<T> = T extends PromiseLike<infer U> ? U : T
+export type SurveyDefinitionWithWeigthedDiagnosis = ThenArg<ReturnType<typeof getSurvey>>
 
-const getSurvey = unstable_cache(async (id) => prisma.survey.findFirstOrThrow({ where: { id } }), ['survey'], {
-  tags: ['survey'],
-})
+const getSurvey = unstable_cache(
+  async (id) =>
+    prisma.survey.findFirstOrThrow({
+      where: { id },
+      include: { surveyDefinition: { include: { pages: { include: { questions: { include: { answers: { include: { weightedDiagnoses: { include: { diagnose: true } } } } } } } } } } },
+    }),
+  ['survey'],
+  {
+    tags: ['survey'],
+  }
+)
 
 const ResultPage = async ({ params: { id } }: Props) => {
-  const activeSurvey = await getActiveSurveyDefinitionJson()
+  //const activeSurvey = await getActiveSurveyDefinitionJson()
   const survey = await getSurvey(id)
 
+  const definition = survey.surveyDefinition?.data as SurveyJson
+
+  const answers = survey.result as SurveyResultJson
+
+  const questionsWithAnswers = combineDefinitionAndAnswers(definition, answers)
+  const calculatedWeights = calculateWeight(questionsWithAnswers, survey)
+  const mostProbableDiagnose = calculatedWeights.weights[0]
+
   return (
-    <main className='flex-1 bg-gray-100 py-10'>
+    <main className='flex-1 bg-gray-100 py-10 min-h-screen'>
       <div className='container mx-auto'>
         <div className='bg-white rounded-lg shadow-md p-8'>
-          <h2 className='text-2xl font-bold mb-6'>Resultaten van de vragenlijst</h2>
+          <div className='flex justify-between items-center'>
+            <h2 className='text-2xl font-bold mb-6'>Resultaten van de vragenlijst</h2>
+            <div className='flex items-center'>
+              <DiagnoseTooltip weightedDiagnoses={calculatedWeights} />
+            </div>
+          </div>
           <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
             <div>
               <h3 className='text-lg font-bold mb-4'>Algemene informatie</h3>
               <div className='space-y-2'>
                 <div className='flex justify-between'>
-                  <span className='font-medium'>Identificatie:</span>
-                  <span>L570L3TEHV</span>
+                  <span className='font-semibold'>Identificatie:</span>
+                  <span>{survey.key}</span>
                 </div>
                 <div className='flex justify-between'>
-                  <span className='font-medium'>Aangemaakt op:</span>
-                  <span>12 Augustus 2023</span>
+                  <span className='font-semibold'>Aangemaakt op:</span>
+                  <span>{DateTime.fromJSDate(new Date(survey.createdAt)).toLocaleString({ dateStyle: 'medium' }, { locale: 'nl-NL' })}</span>
                 </div>
                 <div className='flex justify-between'>
-                  <span className='font-medium'>Afgrond op:</span>
-                  <span>14 Augustus 2023</span>
+                  <span className='font-semibold'>Afgrond op:</span>
+                  <span>{DateTime.fromJSDate(new Date(survey.updatedAt)).toLocaleString({ dateStyle: 'medium' }, { locale: 'nl-NL' })}</span>
                 </div>
               </div>
             </div>
             <div>
-              <div className='flex justify-between'>
-                <span className='font-medium'>Waarschijnlijke diagnose:</span>
-                <span className='font-medium text-green-500'>Neobular Cognitieve Disfunctie (NCD)</span>
+              <h3 className='text-lg font-bold mb-4'>Diagnose</h3>
+              <div className='flex md:flex-row flex-col justify-between md:space-x-4 mb-3 md:mb-0'>
+                <span className='font-semibold'>Waarschijnlijke diagnose:</span>
+                <span className='font-medium text-green-500'>{mostProbableDiagnose.diagnose.name}</span>
               </div>
-              <div className='flex justify-between'>
-                <span className='font-medium'>Vertrouwensniveau:</span>
-                <span className='font-medium text-green-500'>85%</span>
+              <div className='flex md:flex-row flex-col justify-between md:space-x-4 mb-3 md:mb-0'>
+                <span className='font-semibold'>Vertrouwensniveau:</span>
+                <span className='font-medium text-green-500'>{Math.floor((mostProbableDiagnose.weight / calculatedWeights.total) * 100)}%</span>
               </div>
-              <div className='flex justify-between'>
-                <span className='font-medium'>Aanbevolen actie:</span>
-                <span className='font-medium'>Raadpleeg een oogarts</span>
+              <div className='flex md:flex-row flex-col justify-between md:space-x-4 mb-3 md:mb-0'>
+                <span className='font-semibold'>Aanbevolen actie:</span>
+                <span className='font-medium'>Raadpleeg een {mostProbableDiagnose.diagnose.personToContact}</span>
               </div>
-              <div className='flex justify-between'>
-                <span className='font-medium'>Omschrijving:</span>
-                <span className='font-medium text-sm w-72'>
-                  Neobulaire cognitieve disfunctie (NCD) is een complexe neurologische aandoening die wordt gekenmerkt door een ongebruikelijke verstoring van de neurale verbindingen in de hersenen,
-                  resulterend in cognitieve achteruitgang en neurologische symptomen.
-                </span>
+              <div className='flex md:flex-row flex-col justify-between md:space-x-4 mb-3 md:mb-0'>
+                <span className='font-semibold'>Omschrijving:</span>
+                <span className='font-medium'>{mostProbableDiagnose.diagnose.description}</span>
               </div>
             </div>
           </div>
-          <div className='mt-8'>
-            <h3 className='text-lg font-bold mb-4'>Questionnaire Responses</h3>
-            <Tabs defaultValue='page1'>
-              <TabsList className='flex border-b border-gray-200'>
-                <TabsTrigger value='page1'>Pagina 1</TabsTrigger>
-                <TabsTrigger value='page2'>Pagina 2</TabsTrigger>
-                <TabsTrigger value='page3'>Pagina 3</TabsTrigger>
-              </TabsList>
+          <QuestionTabs questions={questionsWithAnswers} />
+        </div>
+      </div>
+    </main>
+  )
+}
+
+/*
               <TabsContent value='page1'>
                 <div className='space-y-4'>
                   <div>
@@ -125,13 +149,6 @@ const ResultPage = async ({ params: { id } }: Props) => {
                     <p className='text-gray-500'>Nee, mijn zintuigen zijn normaal.</p>
                   </div>
                 </div>
-              </TabsContent>
-            </Tabs>
-          </div>
-        </div>
-      </div>
-    </main>
-  )
-}
+              </TabsContent>*/
 
 export default ResultPage

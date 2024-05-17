@@ -3,7 +3,7 @@
 import { ColumnDefWithVisibility } from '@/components/data-table/data-table'
 import { Checkbox } from '@/components/ui/checkbox'
 
-import { SurveyTableRowActions } from '@/app/(shadcn)/(portal)/portal/vragenlijsten/components/survey-table-row-actions'
+import { SurveyTableRowActions } from '@/app/(shadcn)/(portal)/portal/vragenlijsten/_components/survey-table-row-actions'
 import { availables, finisheds } from '@/app/(shadcn)/(portal)/portal/vragenlijsten/data/data'
 import { Survey } from '@/app/(shadcn)/(portal)/portal/vragenlijsten/data/schema'
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'

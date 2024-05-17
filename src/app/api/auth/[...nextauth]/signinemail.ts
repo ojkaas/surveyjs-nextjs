@@ -3,7 +3,6 @@ import { SendVerificationRequestParams } from 'next-auth/providers/email'
 import { createTransport } from 'nodemailer'
 
 export async function CustomsendVerificationRequest(params: SendVerificationRequestParams) {
-  console.log('Sending email....')
   const { identifier, url, provider, theme } = params
   const { host } = new URL(url)
   const transport = createTransport(provider.server)
@@ -19,7 +18,6 @@ export async function CustomsendVerificationRequest(params: SendVerificationRequ
     console.log('Email(s) could not be sent:', failed.join(', '), result.response)
     throw new Error(`Email(s) (${failed.join(', ')}) could not be sent`)
   }
-  console.log('Email sent.')
 }
 
 function html(params: { url: string; host: string; theme: Theme; identifier: string }) {

@@ -1,4 +1,4 @@
-import { createSurvey } from '@/app/(shadcn)/(portal)/portal/vragenlijsten/actions/create-survey.action'
+import { createSurvey } from '@/app/(shadcn)/(portal)/portal/vragenlijsten/_actions/create-survey.action'
 import { createSurveySchema } from '@/app/(shadcn)/(portal)/portal/vragenlijsten/data/schema'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
@@ -28,7 +28,7 @@ export const SurveyForm = ({ closeDialog }: Props) => {
   })
 
   const onSubmit = async (data: z.infer<typeof createSurveySchema>) => {
-    const actionPromise = createSurvey(data)
+    const actionPromise = createSurvey({ ...data, sendEmail: true })
     const loadingMessage = 'Uitnodiging versturen...'
     const successMessageCallback = (data: { key: string }) => `Uitnodiging met ID: '${data.key}' aangemaakt!`
 

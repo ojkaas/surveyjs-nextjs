@@ -1,6 +1,6 @@
 'use server'
 
-import { createSurveySchema } from '@/app/(shadcn)/(portal)/portal/vragenlijsten/data/schema'
+import { createSurveyActionSchema } from '@/app/(shadcn)/(portal)/portal/vragenlijsten/data/schema'
 import prisma from '@/db/db'
 import { authOptions } from '@/lib/config/auth/auth-options'
 import { sendMail } from '@/lib/mailer/mail.transporter'
@@ -10,7 +10,7 @@ import { nanoid } from 'nanoid'
 import { getServerSession } from 'next-auth'
 import { revalidateTag } from 'next/cache'
 
-export const createSurvey = authPortalAction(createSurveySchema, async (surveyData) => {
+export const createSurvey = authPortalAction(createSurveyActionSchema, async (surveyData) => {
   try {
     const session = await getServerSession(authOptions)
     if (!session) {
@@ -20,9 +20,12 @@ export const createSurvey = authPortalAction(createSurveySchema, async (surveyDa
     let survey
     let retryCount = 0
     const maxRetries = 3
+
+    const surveyDefintion = await prisma.surveyDefinition.findFirstOrThrow({ where: { active: true } })
+
     while (retryCount < maxRetries) {
       try {
-        survey = await prisma.survey.create({ data: { user: { connect: { id: session.user.id } }, key: nanoid(10).toLocaleUpperCase() } })
+        survey = await prisma.survey.create({ data: { user: { connect: { id: session.user.id } }, key: nanoid(10).toLocaleUpperCase(), surveyDefinition: { connect: { id: surveyDefintion.id } } } })
         break
       } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
@@ -37,11 +40,11 @@ export const createSurvey = authPortalAction(createSurveySchema, async (surveyDa
       throw new Error('Failed to create a unique survey key')
     }
 
-    if (survey) {
+    if (survey && surveyData.sendEmail) {
       sendMail({
         templateName: 'invite.hbs',
         templateData: { url: `${process.env.NEXTAUTH_URL}/survey/${survey.key}` },
-        to: surveyData.email,
+        to: surveyData.email!,
         subject: 'Oogned - Triage vragenlijst',
       })
     }

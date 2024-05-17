@@ -1,62 +1,14 @@
 import prisma from '@/db/db'
+import { Choice, SurveyJson } from '@/lib/surveyjs/types'
 import { SurveyDefinition } from '@prisma/client'
-import { JsonValue } from 'next-auth/adapters'
-
-type Choice =
-  | string
-  | {
-      value: string
-      text: string
-      imageLink?: string
-    }
-
-interface Question {
-  type: string
-  name: string
-  html?: string
-  title?: string
-  isRequired?: boolean
-  choices?: Choice[]
-  visibleIf?: string
-  showSelectAllItem?: boolean
-  selectAllText?: string
-  labelTrue?: string
-  labelFalse?: string
-  swapOrder?: boolean
-  imageFit?: string
-}
-
-interface Page {
-  name: string
-  elements: Question[]
-  title: string
-  visibleIf?: string
-}
-
-export type SurveyJson = JsonValue & {
-  title: string
-  completedHtml: string
-  completedBeforeHtml: string
-  loadingHtml: string
-  pages: Page[]
-  showProgressBar: string
-  progressBarShowPageTitles: boolean
-  startSurveyText: string
-  pagePrevText: string
-  pageNextText: string
-  completeText: string
-  firstPageIsStarted: boolean
-}
 
 const SUPPORTED_QUESTION_TYPES = ['boolean', 'checkbox', 'radiogroup', 'dropdown', 'imagepicker', 'rating', 'ranking']
 
-function isObjectChoice(choice: Choice): choice is Exclude<Choice, string> {
+export function isObjectChoice(choice: Choice): choice is Exclude<Choice, string> {
   return typeof choice !== 'string'
 }
 
 export async function createOrUpdateSurveyDefintionDataStructure(surveyDefinition: SurveyDefinition) {
-  console.log('Creating or updating survey definition data structure')
-
   if (surveyDefinition.data && typeof surveyDefinition.data === 'object') {
     const pages = await prisma.surveyPage.findMany({
       where: { surveyDefId: surveyDefinition.id },
@@ -93,7 +45,6 @@ export async function createOrUpdateSurveyDefintionDataStructure(surveyDefinitio
             })
 
             if (question.type === 'boolean') {
-              //console.log('Creating boolean question options', question)
               await prisma.surveyQuestionOption.create({
                 data: {
                   surveyQuestionId: questionEntity.id,
@@ -125,7 +76,7 @@ export async function createOrUpdateSurveyDefintionDataStructure(surveyDefinitio
         pageId++
       }
     }
-    console.log('Finished creating or updating survey definition data structure')
+
     return surveyDefinition
   }
 }

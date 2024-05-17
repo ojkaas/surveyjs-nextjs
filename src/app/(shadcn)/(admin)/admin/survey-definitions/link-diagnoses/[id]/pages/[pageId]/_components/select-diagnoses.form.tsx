@@ -21,7 +21,6 @@ const linkDiagnoseToPage = async (data: z.infer<typeof linkDiagnoseSchema>) => {
 }
 
 const SelectDiagnosesForm = ({ diagnoses, page }: Props) => {
-  console.log('Page: ', page)
   const linkedDiagnosesItems = page.activeDiagnoses ? page.activeDiagnoses.map((diagnose) => ({ value: diagnose.id, label: diagnose.name })) : []
   const [selected, setSelected] = useState<SelectItem[]>(linkedDiagnosesItems)
 

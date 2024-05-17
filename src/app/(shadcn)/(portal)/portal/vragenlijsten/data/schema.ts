@@ -14,4 +14,9 @@ export const createSurveySchema = z.object({
   name: z.string().optional(),
 })
 
+export const createSurveyActionSchema = createSurveySchema.extend({
+  sendEmail: z.boolean(),
+  email: z.string().optional(),
+})
+
 export type CreateSurvey = z.infer<typeof createSurveySchema>

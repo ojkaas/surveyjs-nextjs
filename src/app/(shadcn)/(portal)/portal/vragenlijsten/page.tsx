@@ -1,5 +1,5 @@
-import { surveyColumns } from '@/app/(shadcn)/(portal)/portal/vragenlijsten/components/survey-columns'
-import { SurveyTableToolbar } from '@/app/(shadcn)/(portal)/portal/vragenlijsten/components/survey-table-toolbar'
+import { surveyColumns } from '@/app/(shadcn)/(portal)/portal/vragenlijsten/_components/survey-columns'
+import { SurveyTableToolbar } from '@/app/(shadcn)/(portal)/portal/vragenlijsten/_components/survey-table-toolbar'
 import { DataTable } from '@/components/data-table/data-table'
 import prisma from '@/db/db'
 import { authOptions } from '@/lib/config/auth/auth-options'

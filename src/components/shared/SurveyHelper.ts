@@ -13,7 +13,7 @@ export function saveSurveyDataLocally(survey: Model) {
 export async function saveSurveyToDatabase(sender: SurveyModel, options: CompleteEvent, id: string, definitionId: string) {
   //options.showSaveInProgress()
   const resultPromise = saveSurveyData({ id, data: sender.data })
-  console.log('saveSurveyToDatabase', resultPromise)
+
   toastifyActionResponse(resultPromise, { loadingMessage: 'Vragenlijst wordt opgeslagen', successMessage: (data) => 'Vragenlijst is opgeslagen' })
 
   const result = await resultPromise
