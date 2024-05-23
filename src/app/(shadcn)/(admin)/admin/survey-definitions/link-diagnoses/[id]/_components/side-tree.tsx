@@ -18,14 +18,14 @@ type Props = {
 
 export default function WeightedDiagnosesSideMenu({ pages, survey, activePage, activeQuestion }: Props) {
   return (
-    <div className='flex h-screen w-64 flex-col bg-white shadow-lg dark:bg-gray-950'>
+    <div className='flex h-full w-64 flex-col bg-white shadow-lg dark:bg-gray-950'>
       <div className='flex h-16 items-center justify-between px-4'>
         <span className='flex items-center gap-2 font-semibold'>
           <QuestionaireIcon className='h-6 w-6' />
           <span className='text-lg'>{survey.name}</span>
         </span>
       </div>
-      <div className='flex-1 overflow-auto py-4'>
+      <div className='flex-1 h-full py-4'>
         <nav className='space-y-1'>
           {pages.map((surveyPage) => {
             if (!surveyPage.questions.length) return null
