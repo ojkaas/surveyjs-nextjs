@@ -46,7 +46,7 @@ const QuestionTabs = ({ questions }: Props) => {
             )
           })}
         </TabsList>
-        <DropdownMenu>
+        <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
             <Button variant='default' className='flex md:hidden bg-muted hover:bg-slate-400 text-muted-foreground data-[state=open]:bg-muted'>
               <DocumentIcon className='mr-2 h-4 w-4' />
