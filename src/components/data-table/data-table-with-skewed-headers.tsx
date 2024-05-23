@@ -75,6 +75,7 @@ export function DataTableWithSkewedHeaders<TData, TValue>({ columns, data, toolb
       columnVisibility: getInVisibleColumn<TData>(columnsWithVisibility),
     },
     enableRowSelection: true,
+    manualPagination: true,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,

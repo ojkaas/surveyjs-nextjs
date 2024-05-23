@@ -26,6 +26,7 @@ import { DataTablePagination } from './data-table-pagination'
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  disablePagination?: boolean
   toolbar?: React.ComponentType<DataTableToolbarProps<TData>>
 }
 
@@ -54,7 +55,7 @@ function getInVisibleColumn<T extends RowData>(columns: ColumnDefWithVisibility<
   return inVisibleColumns
 }
 
-export function DataTable<TData, TValue>({ columns, data, toolbar: Toolbar }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, toolbar: Toolbar, disablePagination = false }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
@@ -76,6 +77,7 @@ export function DataTable<TData, TValue>({ columns, data, toolbar: Toolbar }: Da
       columnVisibility: getInVisibleColumn<TData>(columnsWithVisibility),
     },
     enableRowSelection: true,
+    manualPagination: disablePagination,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
