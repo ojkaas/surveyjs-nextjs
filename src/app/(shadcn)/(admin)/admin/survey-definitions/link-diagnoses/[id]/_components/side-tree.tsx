@@ -17,6 +17,7 @@ type Props = {
 }
 
 export default function WeightedDiagnosesSideMenu({ pages, survey, activePage, activeQuestion }: Props) {
+  pages.sort((a, b) => a.number - b.number)
   return (
     <div className='flex h-full w-64 flex-col bg-white shadow-lg dark:bg-gray-950'>
       <div className='flex h-16 items-center justify-between px-4'>
@@ -25,9 +26,9 @@ export default function WeightedDiagnosesSideMenu({ pages, survey, activePage, a
           <span className='text-lg'>{survey.name}</span>
         </span>
       </div>
-      <div className='flex-1 h-full py-4'>
+      <div className='flex-1 h-full min-h-[86vh] py-4'>
         <nav className='space-y-1'>
-          {pages.map((surveyPage) => {
+          {pages.sort().map((surveyPage) => {
             if (!surveyPage.questions.length) return null
             return (
               <Collapsible key={surveyPage.number} defaultOpen={surveyPage.number === activePage} className='group'>
@@ -48,23 +49,25 @@ export default function WeightedDiagnosesSideMenu({ pages, survey, activePage, a
                     <DiagnoseIcon className='h-3 w-3' />
                     <span className='text-xs font-medium text-gray-700'>Gekoppelde diagnoses</span>
                   </Link>
-                  {surveyPage.questions.map((question) => {
-                    return (
-                      <Link
-                        key={question.id}
-                        className={cn(
-                          `flex items-center gap-3 mr-1 rounded-md px-3 py-2 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800`,
-                          {
-                            'bg-gray-200 dark:bg-gray-900': question.id === activeQuestion,
-                          }
-                        )}
-                        href={`/admin/survey-definitions/link-diagnoses/${survey.id}/questions/${question.id}`}
-                      >
-                        {question.question}
-                        {question.title && ` - ${question.title}`}
-                      </Link>
-                    )
-                  })}
+                  {surveyPage.questions
+                    .sort((a, b) => a.questionNumber - b.questionNumber)
+                    .map((question) => {
+                      return (
+                        <Link
+                          key={question.id}
+                          className={cn(
+                            `flex items-center gap-3 mr-1 rounded-md px-3 py-2 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800`,
+                            {
+                              'bg-gray-200 dark:bg-gray-900': question.id === activeQuestion,
+                            }
+                          )}
+                          href={`/admin/survey-definitions/link-diagnoses/${survey.id}/questions/${question.id}`}
+                        >
+                          {question.question}
+                          {question.title && ` - ${question.title}`}
+                        </Link>
+                      )
+                    })}
                 </CollapsibleContent>
               </Collapsible>
             )

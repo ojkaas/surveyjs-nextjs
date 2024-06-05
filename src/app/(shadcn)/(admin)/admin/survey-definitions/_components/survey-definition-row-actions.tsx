@@ -5,7 +5,7 @@ import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 import { deleteSurveyDefinitionAction } from '@/app/(shadcn)/(admin)/admin/survey-definitions/_actions/delete-survey-definition'
 import ActivateSurvey from '@/app/(shadcn)/(admin)/admin/survey-definitions/_components/activate-survey'
 import { SurveyDefinitionForm } from '@/app/(shadcn)/(admin)/admin/survey-definitions/_components/survey-definition-form'
-import { SurveyDefinition } from '@/app/(shadcn)/(admin)/admin/survey-definitions/_data/schema'
+import { Json, SurveyDefinition } from '@/app/(shadcn)/(admin)/admin/survey-definitions/_data/schema'
 import { DataTableRowActionsProps } from '@/components/data-table/data-table'
 import { Button } from '@/components/ui/button'
 import { MultiDialog } from '@/components/ui/custom/multi-dialog'
@@ -14,6 +14,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import { toastifyActionResponse } from '@/lib/toastify-action-response'
 import Link from 'next/link'
 import { useState } from 'react'
+import { SurveyPDF } from 'survey-pdf'
 
 type Modals = 'edit' | 'delete' | 'activate' // or enum
 
@@ -36,6 +37,14 @@ export function SurveyDefinitionTableRowActions({ row }: DataTableRowActionsProp
     afterDelete()
   }
 
+  const downloadPdf = async (data: Json) => {
+    // Download PDF
+    const pdf = new SurveyPDF(data, {})
+    pdf.showInvisibleElements = true
+    pdf.showPageNumbers = true
+    pdf.save()
+  }
+
   return (
     <DropdownMenu modal={false} open={rowActionOpens} onOpenChange={setRowActionOpens}>
       <DropdownMenuTrigger asChild>
@@ -56,6 +65,14 @@ export function SurveyDefinitionTableRowActions({ row }: DataTableRowActionsProp
               </DropdownMenuItem>
               <DropdownMenuItem asChild disabled={!row.original.questionCount || row.original.questionCount <= 0}>
                 <Link href={`/admin/survey-definitions/link-diagnoses/${row.original.id}`}>Diagnose koppelen</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                disabled={!row.original.questionCount || row.original.questionCount <= 0}
+                onClick={() => {
+                  downloadPdf(row.original.data)
+                }}
+              >
+                PDF Downloaden
               </DropdownMenuItem>
               <mdb.Trigger value='activate'>
                 <DropdownMenuItem>Activeren</DropdownMenuItem>

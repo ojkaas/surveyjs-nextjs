@@ -20,7 +20,7 @@ export const authAdminAction = createSafeActionClient({
       throw new Error('No access!')
     }
 
-    return { bla: true }
+    return {}
   },
   handleReturnedServerError(e) {
     if (e instanceof ServerActionError) {

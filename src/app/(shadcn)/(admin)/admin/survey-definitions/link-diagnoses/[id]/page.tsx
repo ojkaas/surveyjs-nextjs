@@ -32,9 +32,11 @@ const LinkDiagnosePage = async ({ params: { id } }: Props) => {
               </p>
             </div>
             <div className='flex flex-col gap-2 min-[400px]:flex-row'>
-              <Button asChild>
-                <Link href={`/admin/survey-definitions/link-diagnoses/${surveyDefinition.id}/questions/${surveyDefinition.pages[0].questions[0].id}`}>Begin met koppelen</Link>
-              </Button>
+              {surveyDefinition.pages[0]?.questions[0] && (
+                <Button asChild>
+                  <Link href={`/admin/survey-definitions/link-diagnoses/${surveyDefinition.id}/questions/${surveyDefinition.pages[0].questions[0].id}`}>Begin met koppelen</Link>
+                </Button>
+              )}
             </div>
           </div>
         </section>

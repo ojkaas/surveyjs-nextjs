@@ -1,7 +1,7 @@
 'use client'
 import { createSurveyDefinition } from '@/app/(shadcn)/(admin)/admin/survey-definitions/_actions/create-survey-definition'
 import { updateSurveyDefinition } from '@/app/(shadcn)/(admin)/admin/survey-definitions/_actions/update-survey-definition'
-import { SurveyDefinition, createSurveyDefinitionSchema } from '@/app/(shadcn)/(admin)/admin/survey-definitions/_data/schema'
+import { SurveyDefinition, createSurveyDefinitionActionSchema, createSurveyDefinitionSchema } from '@/app/(shadcn)/(admin)/admin/survey-definitions/_data/schema'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -65,12 +65,13 @@ export const SurveyDefinitionForm = ({ closeDialog, editMode = false, copyMode =
       loadingMessage = 'Vragenlijst bijwerken...'
       successMessageCallback = (data: { name: string | null }) => `Vragenlijst '${data.name}' bijgewerkt!`
     } else {
+      let createData: z.infer<typeof createSurveyDefinitionActionSchema> = { ...data }
       // Create new user
       if (copyMode && surveyDefinition) {
-        data = { ...data, data: surveyDefinition.data, internalVersion: surveyDefinition.internalVersion }
+        createData = { ...createData, data: surveyDefinition.data, internalVersion: surveyDefinition.internalVersion, copyOf: surveyDefinition.id }
       }
 
-      actionPromise = createSurveyDefinition(data)
+      actionPromise = createSurveyDefinition(createData)
       loadingMessage = 'Vragenlijst aanmaken...'
       successMessageCallback = (data: { name: string | null }) => (
         <>

@@ -8,6 +8,10 @@ export type Choice =
       imageLink?: string
     }
 
+export type RateValue = {
+  text: string
+  value: number
+}
 export interface Question {
   type: string
   name: string
@@ -15,8 +19,10 @@ export interface Question {
   title?: string
   isRequired?: boolean
   choices?: Choice[]
+  rateValues?: RateValue[]
   visibleIf?: string
   showSelectAllItem?: boolean
+  rateCount?: number
   selectAllText?: string
   labelTrue?: string
   labelFalse?: string

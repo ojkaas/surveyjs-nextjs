@@ -7,11 +7,22 @@ import { revalidateTag } from 'next/cache'
 
 export const linkDiagnosesAction = authAdminAction(linkDiagnoseSchema, async (linkDiagnoses) => {
   try {
-    const diagnoseIds = (linkDiagnoses.diagnoses = linkDiagnoses.diagnoses.map((diagnose) => ({ id: diagnose.id })))
+    const diagnoseIdObjs = linkDiagnoses.diagnoses.map((diagnose) => ({ id: diagnose.id }))
+    const diagnoseIds = linkDiagnoses.diagnoses.map((diagnose) => diagnose.id)
+
+    const oldPage = await prisma.surveyPage.findUniqueOrThrow({ where: { id: linkDiagnoses.pageId }, include: { activeDiagnoses: true } })
+    const oldDiagnoseIds = oldPage.activeDiagnoses.map((diagnose) => diagnose.id)
+    const removeDiagnoseIds = oldDiagnoseIds.filter((diagnose) => !diagnoseIds.includes(diagnose))
+
     //remove all current linked diagnoses
-    await prisma.surveyPage.update({ where: { id: linkDiagnoses.pageId }, data: { activeDiagnoses: { disconnect: [] } } })
+    await prisma.surveyPage.update({ where: { id: linkDiagnoses.pageId }, data: { activeDiagnoses: { set: [] } } })
+
+    //remove all weighted diagnoses for diagnoses that are removed
+    await prisma.weightedDiagnose.deleteMany({ where: { surveyAnswer: { surveyQuestion: { pageId: linkDiagnoses.pageId } }, diagnoseId: { in: removeDiagnoseIds } } })
+
     //link the new diagnoses
-    const linkDiagnoseResult = await prisma.surveyPage.update({ where: { id: linkDiagnoses.pageId }, data: { activeDiagnoses: { connect: diagnoseIds } } })
+    const linkDiagnoseResult = await prisma.surveyPage.update({ where: { id: linkDiagnoses.pageId }, data: { activeDiagnoses: { connect: diagnoseIdObjs } } })
+
     revalidateTag('survey-definitions')
     revalidateTag('active-survey')
     revalidateTag('weighted-diagnoses')

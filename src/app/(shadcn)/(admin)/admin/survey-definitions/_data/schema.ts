@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 const literalSchema = z.union([z.string(), z.number(), z.boolean(), z.null()])
 type Literal = z.infer<typeof literalSchema>
-type Json = Literal | { [key: string]: Json } | Json[]
+export type Json = Literal | { [key: string]: Json } | Json[]
 const jsonSchema: z.ZodType<Json> = z.lazy(() => z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)]))
 
 export const surveyDefinitionSchema = z.object({
@@ -23,6 +23,8 @@ export const addCreatorDataToSurveyDefinitionSchema = surveyDefinitionSchema.omi
 export const createSurveyDefinitionSchema = surveyDefinitionSchema
   .omit({ id: true, questionCount: true })
   .extend({ notes: z.string().optional(), internalVersion: z.string().nullable().optional(), active: z.boolean().optional(), data: jsonSchema.nullable().optional() })
+
+export const createSurveyDefinitionActionSchema = createSurveyDefinitionSchema.extend({ copyOf: z.string().optional() })
 
 export type CreateSurvey = z.infer<typeof createSurveyDefinitionSchema>
 

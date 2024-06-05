@@ -1,6 +1,8 @@
 'use client'
 
-import { addCreatorDataToSurveyDefinition } from '@/app/(shadcn)/(admin)/admin/survey-definitions/_actions/update-survey-definition'
+import { addCreatorDataToSurveyDefinition, validateCreateData } from '@/app/(shadcn)/(admin)/admin/survey-definitions/_actions/update-survey-definition'
+import { ValidationResponse } from '@/components/forms/validate-and-execute.button'
+import ValidationDialog from '@/components/forms/validation.dialog'
 import { Button } from '@/components/ui/button'
 import { toastifyActionResponse } from '@/lib/toastify-action-response'
 import { JsonValue } from '@prisma/client/runtime/library'
@@ -23,11 +25,14 @@ const defaultCreatorOptions: ICreatorOptions = {
 export function SurveyCreatorWidget(props: { json?: JsonValue; options?: ICreatorOptions; id: string }) {
   let [creator, setCreator] = useState<SurveyCreator>()
 
+  const [showModal, setShowModal] = useState(false)
+  const [validationResult, setValidationResult] = useState<ValidationResponse | undefined>({ status: 'ok', title: 'Success' })
+  const [executeAction, setExecuteAction] = useState<() => any>(() => {})
+
   const SSR = typeof window === 'undefined'
 
   useEffect(() => {
-    const newCreator = new SurveyCreator(props.options || defaultCreatorOptions)
-    newCreator.saveSurveyFunc = (no: number, callback: (num: number, status: boolean) => void) => {
+    async function executeSave(newCreator: SurveyCreator, no: number, callback: (num: number, status: boolean) => void, status: boolean = true) {
       const updateResult = addCreatorDataToSurveyDefinition({ id: props.id, data: newCreator.JSON, internalVersion: no.toString() })
       toastifyActionResponse(updateResult, {
         loadingMessage: 'Vragenlijst bijwerken...',
@@ -44,7 +49,30 @@ export function SurveyCreatorWidget(props: { json?: JsonValue; options?: ICreato
           )
         },
       })
-      callback(no, true)
+      const result = await updateResult
+      if (result.data) setShowModal(false)
+      callback(no, status)
+    }
+
+    const newCreator = new SurveyCreator(props.options || defaultCreatorOptions)
+    newCreator.saveSurveyFunc = async (no: number, callback: (num: number, status: boolean) => void) => {
+      const validationPromise = validateCreateData({ id: props.id, data: newCreator.JSON, internalVersion: no.toString() })
+
+      toastifyActionResponse(validationPromise, {
+        loadingMessage: 'Vragenlijst valideren...',
+        successMessage: (data: ValidationResponse) => (data.status == 'ok' ? 'Vragenlijst is geldig.' : 'Problemen gevonden in de vragenlijst.'),
+      })
+
+      const validationResult = await validationPromise
+
+      if (validationResult.data && validationResult.data.status == 'ok') {
+        executeSave(newCreator, no, callback)
+      } else {
+        setValidationResult(validationResult.data)
+        setExecuteAction(() => () => executeSave(newCreator, no, callback))
+        setShowModal(true)
+        if (validationResult.data?.status == 'error') callback(no, false)
+      }
     }
     editorLocalization.currentLocale = 'nl'
     newCreator.locale = 'nl'
@@ -67,6 +95,7 @@ export function SurveyCreatorWidget(props: { json?: JsonValue; options?: ICreato
       {!SSR && creator && (
         <div style={{ height: '90vh', width: '100%' }}>
           <SurveyCreatorComponent creator={creator} />
+          <ValidationDialog showModal={showModal} validationResult={validationResult} setShowModal={setShowModal} executeAction={executeAction} />
         </div>
       )}
     </>

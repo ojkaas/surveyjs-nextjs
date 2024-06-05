@@ -50,10 +50,10 @@ model User {
 model Survey {
   id               String            @id @default(cuid())
   surveyDefId      String?
-  surveyDefinition SurveyDefinition? @relation(fields: [surveyDefId], references: [id])
+  surveyDefinition SurveyDefinition? @relation(fields: [surveyDefId], references: [id], onDelete: SetNull)
   key              String            @unique
   result           Json?
-  user             User              @relation(fields: [userId], references: [id])
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId           String
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
@@ -81,7 +81,7 @@ model SurveyPage {
   id               String           @id @default(cuid())
   surveyDefId      String
   surveyDefinition SurveyDefinition @relation(fields: [surveyDefId], references: [id], onDelete: Cascade)
-  title            String?
+  title            String
   number           Int
   description      String?
   questions        SurveyQuestion[]
@@ -99,6 +99,7 @@ model SurveyQuestion {
   title            String?
   question         String
   type             String
+  questionNumber   Int                    @default(0)
   answers          SurveyQuestionOption[]
   createdAt        DateTime               @default(now())
   updatedAt        DateTime               @updatedAt
@@ -120,7 +121,7 @@ model WeightedDiagnose {
   surveyAnswerId String
   surveyAnswer   SurveyQuestionOption @relation(fields: [surveyAnswerId], references: [id], onDelete: Cascade)
   diagnoseId     String
-  diagnose       Diagnoses            @relation(fields: [diagnoseId], references: [id])
+  diagnose       Diagnoses            @relation(fields: [diagnoseId], references: [id], onDelete: Cascade)
   weight         Int
   createdAt      DateTime             @default(now())
   updatedAt      DateTime             @updatedAt
