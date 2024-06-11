@@ -63,6 +63,7 @@ export const UploadFileForm = (props: Props) => {
                         accept='image/*'
                         className='w-full'
                         id='file'
+                        data-testid='image-upload'
                         type='file'
                         onBlur={field.onBlur}
                         name={field.name}

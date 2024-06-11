@@ -7,7 +7,7 @@ import { s3Client } from '@/lib/utils/s3-file-management'
 export const requestPresignedUrl = authAdminAction(requestUploadUrl, async (uploadFile) => {
   try {
     let result = await s3Client.presignedPutObject(process.env.S3_BUCKET_NAME || '', uploadFile.filename, 60 * 60)
-    if (result.startsWith('http://')) {
+    if (result.startsWith('http://') && process.env.S3_TESTMODE !== 'true') {
       result = result.replace('http://', 'https://')
     }
     return result

@@ -1,5 +1,6 @@
 import { CustomsendVerificationRequest } from '@/app/api/auth/[...nextauth]/signinemail'
 import prisma from '@/db/db'
+import { RevalidationHelper } from '@/lib/cache/revalidation.helper'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import { Role } from '@prisma/client'
 import { AuthOptions } from 'next-auth'
@@ -26,7 +27,10 @@ export const authOptions: AuthOptions = {
   ],
   callbacks: {
     signIn({ user }) {
-      if (user.role === Role.ADMIN || user.role === Role.PORTAL) return true
+      if (user.role === Role.ADMIN || user.role === Role.PORTAL) {
+        RevalidationHelper.revalidateAll()
+        return true
+      }
       return Boolean((user as AdapterUser).emailVerified)
     },
     jwt({ token, user }) {

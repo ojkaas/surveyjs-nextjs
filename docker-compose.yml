@@ -8,6 +8,28 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DATABASE}
+  test-db:
+    image: postgres
+    ports:
+      - ${POSTGRES_PORT}:5432
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+  minio:
+    image: minio/minio:latest
+    environment:
+      MINIO_ROOT_USER: root
+      MINIO_ROOT_PASSWORD: password
+    command: server --console-address ":9001" /data
+    ports:
+      - 9000:9000
+      - 9001:9001
+  createbuckets:
+    image: minio/mc
+    depends_on:
+      - minio
+    entrypoint: /bin/sh -c " /usr/bin/mc alias set myminio http://minio:9000 root password && /usr/bin/mc mb myminio/image --region=ap-northeast-1 && /usr/bin/mc anonymous set public myminio/image && /usr/bin/mc anonymous set download myminio/image"   
   pgadmin:
     image: dpage/pgadmin4
     ports:
@@ -24,6 +46,18 @@ services:
         target: /pgadmin4/servers.json
       - source: pgpass
         target: /pgpass
+  mailhog:
+        container_name: oogned_mailhog
+        image: mailhog/mailhog:latest
+        ports:
+            - '8025:8025'
+            - '1025:1025'
+        environment:
+            MH_STORAGE: maildir
+            MH_MAILDIR_PATH: /tmp
+        volumes:
+            - maildir:/tmp
+        #command: -invite-jim=1 -jim-accept=0.50
 configs:
   pgpass:
     content: db:${POSTGRES_PORT}:*:${POSTGRES_USER}:${POSTGRES_PASSWORD}

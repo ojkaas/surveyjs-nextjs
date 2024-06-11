@@ -33,6 +33,7 @@ export default function Signin() {
                   onChange={(e) => setEmail(e.target.value)}
                   onKeyDown={handleKeyDown} // Add the onKeyDown event handler
                   id='email'
+                  data-testid='email'
                   placeholder='mijn@email.nl'
                   required
                   type='email'

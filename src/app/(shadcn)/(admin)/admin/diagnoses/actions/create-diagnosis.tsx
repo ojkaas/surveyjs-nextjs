@@ -3,14 +3,15 @@
 import { createDiagnosisSchema } from '@/app/(shadcn)/(admin)/admin/diagnoses/data/schema'
 import prisma from '@/db/db'
 import { ServerActionError } from '@/lib/action-error'
+import { RevalidationHelper } from '@/lib/cache/revalidation.helper'
 import { authAdminAction } from '@/lib/safe-actions'
 import { Prisma } from '@prisma/client'
-import { revalidateTag } from 'next/cache'
 
 export const createDiagnosis = authAdminAction(createDiagnosisSchema, async (data) => {
   try {
     const user = await prisma.diagnoses.create({ data })
-    revalidateTag('diagnoses')
+    RevalidationHelper.revalidateDiagnoses()
+
     return user
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {

@@ -44,7 +44,11 @@ export default async function ImageUploadPage() {
         <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 border rounded-lg p-4 md:gap-8'>
           {files.map((file) => (
             <div className='flex items-center gap-4' key={file.name}>
-              <NextCloudImage src={`https://clzjyyuyna.cloudimg.io/${process.env.S3_BUCKET_NAME}/${file.name}`} alt='Test' className='h-52 w-52 aspect-video rounded-md object-cover overflow-hidden' />
+              <NextCloudImage
+                src={`${process.env.IMAGE_PUBLIC_URL}/${process.env.S3_BUCKET_NAME}/${file.name}`}
+                alt='Test'
+                className='h-52 w-52 aspect-video rounded-md object-cover overflow-hidden'
+              />
               <div className='flex-1 grid gap-1 text-sm'>
                 <p className='line-clamp-2'>
                   <b>Naam: </b>
@@ -55,7 +59,7 @@ export default async function ImageUploadPage() {
                 </p>
                 <div className='flex gap-1 text-sm'>
                   <DeleteImageButton filename={file.name} />
-                  <CopyUrlButton url={`https://clzjyyuyna.cloudimg.io/${process.env.S3_BUCKET_NAME}/${file.name}?func=cropfit&gravity=smart&aspect_ratio=1`} />
+                  <CopyUrlButton url={`${process.env.IMAGE_PUBLIC_URL}/${process.env.S3_BUCKET_NAME}/${file.name}?func=cropfit&gravity=smart&aspect_ratio=1`} />
                 </div>
               </div>
             </div>

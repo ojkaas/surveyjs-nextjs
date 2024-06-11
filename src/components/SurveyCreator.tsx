@@ -1,5 +1,6 @@
 'use client'
 
+import { requestPresignedUrl } from '@/app/(shadcn)/(admin)/admin/image-upload/actions/request-presigned-url.action'
 import { addCreatorDataToSurveyDefinition, validateCreateData } from '@/app/(shadcn)/(admin)/admin/survey-definitions/_actions/update-survey-definition'
 import { ValidationResponse } from '@/components/forms/validate-and-execute.button'
 import ValidationDialog from '@/components/forms/validation.dialog'
@@ -87,6 +88,30 @@ export function SurveyCreatorWidget(props: { json?: JsonValue; options?: ICreato
         imageLink: 'https://s3.ojkaas.nl/images/KAACODE.png',
       },
     ]
+    newCreator.onUploadFile.add((sender, options) => {
+      options.files.forEach(async function (file) {
+        const response = await requestPresignedUrl({ filename: file.name })
+        if (response.data) {
+          const result = await fetch(response.data, {
+            method: 'PUT',
+            body: file,
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Methods': 'DELETE, POST, GET, OPTIONS',
+              'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With',
+            },
+          })
+          if (result.ok) {
+            console.log('success', JSON.stringify(result))
+            const url = response.data.split('?')[0]
+            console.log('success', url)
+            options.callback('success', url)
+          } else {
+            options.callback('error')
+          }
+        }
+      })
+    })
     setCreator(newCreator)
   }, [props.json, props.options, props.id])
 

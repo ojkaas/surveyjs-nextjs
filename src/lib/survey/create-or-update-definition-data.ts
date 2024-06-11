@@ -141,6 +141,7 @@ async function createSurveyPagesAndQuestions(surveyDefId: string, pages: Page[],
   let pageId = 1
 
   for (const page of pages) {
+    if (!page.title) page.title = `Pagina${pageId}`
     const oldPage = existingPages.find((existingPage) => existingPage.title === page.title)
     const pageEntity = await SurveyDataHelper.createSurveyPage(surveyDefId, page.title, pageId)
 
@@ -214,7 +215,13 @@ async function createDefaultOptions(surveyQuestionId: string, question: Question
   const questionOptions: SurveyQuestionOption[] = []
   if (question.choices) {
     for (const choice of question.choices) {
-      questionOptions.push(await SurveyDataHelper.createSurveyQuestionOption(surveyQuestionId, isObjectChoice(choice) ? choice.value : choice, isObjectChoice(choice) ? choice.text : choice))
+      questionOptions.push(
+        await SurveyDataHelper.createSurveyQuestionOption(
+          surveyQuestionId,
+          isObjectChoice(choice) ? choice.value : choice,
+          isObjectChoice(choice) ? (choice.text ? choice.text : choice.value) : choice
+        )
+      )
     }
   }
   return questionOptions
