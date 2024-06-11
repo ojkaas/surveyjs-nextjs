@@ -5,8 +5,8 @@ import NextCloudImage from '@/components/image/next-cloudimage'
 import { s3Client } from '@/lib/utils/s3-file-management'
 import { DateTime } from 'luxon'
 import { BucketItem } from 'minio'
-import { unstable_cache } from 'next/cache'
 
+/*
 const getFiles = unstable_cache(
   async () => {
     return new Promise<BucketItem[]>((resolve, reject) => {
@@ -32,7 +32,30 @@ const getFiles = unstable_cache(
   },
   ['all-images'],
   { tags: ['images'] }
-)
+)*/
+
+const getFiles = async () => {
+  return new Promise<BucketItem[]>((resolve, reject) => {
+    const dataArray: BucketItem[] = [] // Array to collect data
+
+    const objectStream = s3Client.listObjectsV2(process.env.S3_BUCKET_NAME || '')
+
+    objectStream.on('data', (data) => {
+      // Add data to the array
+      dataArray.push(data)
+    })
+
+    objectStream.on('end', () => {
+      // Resolve the promise with the collected data array
+      resolve(dataArray)
+    })
+
+    objectStream.on('error', (error) => {
+      // Reject the promise if there's an error
+      reject(error)
+    })
+  })
+}
 
 export default async function ImageUploadPage() {
   const files = await getFiles()
