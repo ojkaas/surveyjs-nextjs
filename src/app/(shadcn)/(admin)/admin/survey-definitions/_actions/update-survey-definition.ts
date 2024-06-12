@@ -83,18 +83,19 @@ export const patchSurveyDefinitions = authAdminAction({}, async () => {
     return
   }
   console.log('Patching survey definitions')
-  prisma.surveyDefinition.findMany({ select: { id: true, data: true } }).then(async (surveyDefinitions) => {
-    const surveyDefinitionDatas = surveyDefinitions.map((surveyDefinition) => {
-      return {
-        surveyDefId: surveyDefinition.id,
-        jsonData: surveyDefinition.data as any,
-      }
-    })
-    console.log('Creating survey definition data records', surveyDefinitionDatas.length)
-    try {
-      await prisma.surveyDefinitionData.createMany({ data: surveyDefinitionDatas })
-    } catch (e) {
-      console.error('Failed to create survey definition data records:', e)
+  const defs = await prisma.surveyDefinition.findMany({ select: { id: true, data: true } })
+  const surveyDefinitionDatas = defs.map((surveyDefinition) => {
+    return {
+      surveyDefId: surveyDefinition.id,
+      jsonData: surveyDefinition.data as any,
     }
   })
+  console.log('Creating survey definition data records', surveyDefinitionDatas.length)
+  try {
+    await prisma.surveyDefinitionData.createMany({ data: surveyDefinitionDatas })
+    return { success: true }
+  } catch (e) {
+    console.error('Failed to create survey definition data records:', e)
+    return { success: false, error: e }
+  }
 })
