@@ -5,8 +5,8 @@ const nextConfig = {
     serverActions: {
       bodySizeLimit: '2mb',
     },
-    serverSourceMaps: true,
   },
+  /*
   webpack: (config, { isServer }) => {
     // Add the aliases
     config.resolve.alias = {
@@ -14,9 +14,9 @@ const nextConfig = {
       'handlebars/runtime': 'handlebars/dist/cjs/handlebars.runtime',
       handlebars: 'handlebars/dist/cjs/handlebars.runtime',
     }
-
     return config
   },
+  */
 }
 
 export default nextConfig
