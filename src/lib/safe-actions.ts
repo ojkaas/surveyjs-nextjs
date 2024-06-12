@@ -26,7 +26,7 @@ export const authAdminAction = createSafeActionClient({
     if (e instanceof ServerActionError) {
       return e.message
     }
-    return DEFAULT_SERVER_ERROR
+    return e.message
   },
   handleServerErrorLog(e) {},
 })
