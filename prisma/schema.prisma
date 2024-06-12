@@ -63,7 +63,6 @@ model Survey {
 
 model SurveyDefinition {
   id              String                @id @default(cuid())
-  data            Json?
   name            String
   version         String
   internalVersion String?

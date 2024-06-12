@@ -25,7 +25,7 @@ const CopySurveyButton = ({ surveyDefinition }: Props) => {
         </Button>
       </DialogTrigger>
       <DialogContent className='sm:max-w-[425px]'>
-        <SurveyDefinitionForm copyMode surveyDefinition={{ ...surveyDefinition, data: surveyDefinition.data as any }} closeDialog={closeDialog} />
+        <SurveyDefinitionForm copyMode surveyDefinition={{ ...surveyDefinition, data: {} }} closeDialog={closeDialog} />
       </DialogContent>
     </Dialog>
   )

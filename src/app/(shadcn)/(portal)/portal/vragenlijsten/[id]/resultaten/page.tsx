@@ -17,7 +17,9 @@ const getSurvey = unstable_cache(
   async (id) =>
     prisma.survey.findFirstOrThrow({
       where: { id },
-      include: { surveyDefinition: { include: { pages: { include: { questions: { include: { answers: { include: { weightedDiagnoses: { include: { diagnose: true } } } } } } } } } } },
+      include: {
+        surveyDefinition: { include: { surveyData: true, pages: { include: { questions: { include: { answers: { include: { weightedDiagnoses: { include: { diagnose: true } } } } } } } } } },
+      },
     }),
   ['survey'],
   {
@@ -29,7 +31,7 @@ const ResultPage = async ({ params: { id } }: Props) => {
   //const activeSurvey = await getActiveSurveyDefinitionJson()
   const survey = await getSurvey(id)
 
-  const definition = survey.surveyDefinition?.data as SurveyJson
+  const definition = survey.surveyDefinition?.surveyData?.jsonData as SurveyJson
 
   const answers = survey.result as SurveyResultJson
 

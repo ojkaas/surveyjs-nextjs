@@ -2,7 +2,7 @@ import { SurveyDefinitionWithAllDetails } from '@/app/(shadcn)/(admin)/admin/sur
 import { ValidationResponse } from '@/components/forms/validate-and-execute.button'
 import prisma from '@/db/db'
 import { Choice, Page, Question, SurveyJson } from '@/lib/surveyjs/types'
-import { Prisma, SurveyDefinition, SurveyQuestionOption } from '@prisma/client'
+import { Prisma, SurveyQuestionOption } from '@prisma/client'
 import { PageWithAllDetails, SurveyDataHelper } from './data.helpers'
 
 const SUPPORTED_QUESTION_TYPES = ['boolean', 'checkbox', 'radiogroup', 'dropdown', 'imagepicker', 'rating', 'ranking']
@@ -104,17 +104,18 @@ export async function validateCreateDataStucture(surveyDefinition: SurveyDefinit
   return { status: 'ok', title: 'Success' }
 }
 
-export async function createOrUpdateSurveyDefinitionDataStructure(surveyDefinition: SurveyDefinition, copyOfId?: string) {
-  if (surveyDefinition.data && typeof surveyDefinition.data === 'object') {
-    const existingPages = await SurveyDataHelper.fetchExistingSurveyPages(copyOfId ? copyOfId : surveyDefinition.id)
-    const surveyJson = surveyDefinition.data as SurveyJson
-    await createSurveyPagesAndQuestions(surveyDefinition.id, surveyJson.pages, existingPages, copyOfId)
+export async function createOrUpdateSurveyDefinitionDataStructure(surveyDefinitionId: string, copyOfId?: string) {
+  const surveyDefinitionData = await prisma.surveyDefinitionData.findUnique({ where: { surveyDefId: surveyDefinitionId } })
+  if (surveyDefinitionData?.jsonData && typeof surveyDefinitionData.jsonData === 'object') {
+    const existingPages = await SurveyDataHelper.fetchExistingSurveyPages(copyOfId ? copyOfId : surveyDefinitionId)
+    const surveyJson = surveyDefinitionData.jsonData as SurveyJson
+    await createSurveyPagesAndQuestions(surveyDefinitionId, surveyJson.pages, existingPages, copyOfId)
 
     if (existingPages.length > 0 && !copyOfId) {
-      await deleteRemovedPagesAndQuestions(surveyDefinition.id, existingPages, surveyDefinition.data as SurveyJson)
+      await deleteRemovedPagesAndQuestions(surveyDefinitionId, existingPages, surveyDefinitionData.jsonData as SurveyJson)
     }
 
-    return surveyDefinition
+    return surveyDefinitionId
   }
 }
 

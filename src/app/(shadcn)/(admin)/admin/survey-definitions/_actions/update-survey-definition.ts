@@ -1,10 +1,11 @@
 'use server'
 
-import { activateSurveyDefinitionSchema, addCreatorDataToSurveyDefinitionSchema, dummySchema, updateSurveyDefinitionSchema } from '@/app/(shadcn)/(admin)/admin/survey-definitions/_data/schema'
+import { activateSurveyDefinitionSchema, addCreatorDataToSurveyDefinitionSchema, updateSurveyDefinitionSchema } from '@/app/(shadcn)/(admin)/admin/survey-definitions/_data/schema'
 import prisma from '@/db/db'
 import { authAdminAction } from '@/lib/safe-actions'
 import { createOrUpdateSurveyDefinitionDataStructure, validateCreateDataStucture } from '@/lib/survey/create-or-update-definition-data'
 import { SurveyJson } from '@/lib/surveyjs/types'
+import { JsonObject } from '@prisma/client/runtime/library'
 import { revalidateTag, unstable_cache } from 'next/cache'
 
 type ThenArg<T> = T extends PromiseLike<infer U> ? U : T
@@ -23,7 +24,7 @@ const getSurveyDefintionWithAllDetails = unstable_cache(
 export const updateSurveyDefinition = authAdminAction(updateSurveyDefinitionSchema, async (data) => {
   try {
     const surveyDefinition = await prisma.surveyDefinition.update({ where: { id: data.id }, data: data })
-    await createOrUpdateSurveyDefinitionDataStructure(surveyDefinition)
+
     revalidateTag('survey-definitions')
     revalidateTag('active-survey')
     return surveyDefinition
@@ -39,12 +40,12 @@ export const validateCreateData = authAdminAction(addCreatorDataToSurveyDefiniti
 
 export const addCreatorDataToSurveyDefinition = authAdminAction(addCreatorDataToSurveyDefinitionSchema, async (data) => {
   try {
-    const surveyDefinition = await prisma.surveyDefinition.update({ where: { id: data.id }, data: { ...data, data: data.data || undefined } })
-    await createOrUpdateSurveyDefinitionDataStructure(surveyDefinition)
+    await prisma.surveyDefinitionData.update({ where: { surveyDefId: data.id }, data: { jsonData: (data.data as JsonObject) || undefined } })
+    await createOrUpdateSurveyDefinitionDataStructure(data.id)
     revalidateTag('survey-definitions')
     revalidateTag('active-survey')
     revalidateTag('weighted-diagnoses')
-    return surveyDefinition
+    return await prisma.surveyDefinition.findUniqueOrThrow({ where: { id: data.id } })
   } catch (e) {
     console.log('Error in addCreatorDataToSurveyDefinition', e)
     throw e
@@ -73,30 +74,5 @@ export const activateSurveyDefinition = authAdminAction(activateSurveyDefinition
     return surveyDefinition
   } catch (e) {
     throw e
-  }
-})
-
-export const patchSurveyDefinitions = authAdminAction(dummySchema, async (data) => {
-  try {
-    const dataRecords = await prisma.surveyDefinitionData.count()
-    console.log('Data records:', dataRecords)
-    if (dataRecords > 0) {
-      return
-    }
-    console.log('Patching survey definitions')
-    const defs = await prisma.surveyDefinition.findMany({ select: { id: true, data: true } })
-    const surveyDefinitionDatas = defs.map((surveyDefinition) => {
-      return {
-        surveyDefId: surveyDefinition.id,
-        jsonData: surveyDefinition.data as any,
-      }
-    })
-    console.log('Creating survey definition data records', surveyDefinitionDatas.length)
-
-    await prisma.surveyDefinitionData.createMany({ data: surveyDefinitionDatas })
-    return { success: true }
-  } catch (e) {
-    console.error('Failed to create survey definition data records:', e)
-    return { success: false, error: e }
   }
 })

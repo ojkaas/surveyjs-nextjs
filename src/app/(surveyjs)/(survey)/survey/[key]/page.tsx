@@ -6,9 +6,13 @@ import Link from 'next/link'
 // import dynamic from 'next/dynamic';
 // const SurveyComponent = dynamic(() => import("@/components/Survey"), { ssr: false });
 
-const getActiveSurveyDefinitionJson = unstable_cache(async () => prisma.surveyDefinition.findFirstOrThrow({ where: { active: true }, select: { data: true, id: true } }), ['active-survey'], {
-  tags: ['active-survey'],
-})
+const getActiveSurveyDefinitionJson = unstable_cache(
+  async () => prisma.surveyDefinition.findFirstOrThrow({ where: { active: true }, select: { id: true, surveyData: { select: { jsonData: true } } } }),
+  ['active-survey'],
+  {
+    tags: ['active-survey'],
+  }
+)
 
 const getSurvey = unstable_cache(async (key) => prisma.survey.findFirstOrThrow({ where: { key } }), ['survey'], {
   tags: ['survey'],
@@ -48,7 +52,7 @@ export default async function Survey({ params: { key } }: Props) {
 
   return (
     <div className='flex min-h-screen flex-col items-center justify-between'>
-      <SurveyComponent json={activeSurvey.data} definitionId={activeSurvey.id} id={key} />
+      <SurveyComponent json={activeSurvey.surveyData!.jsonData} definitionId={activeSurvey.id} id={key} />
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import { ActiveSurveyDefinition } from '@/app/(shadcn)/(admin)/admin/survey-definitions/_components/active-survey'
 import NoActiveSurveyDefinition from '@/app/(shadcn)/(admin)/admin/survey-definitions/_components/no-active-survey'
 import NoDefinitionComponent from '@/app/(shadcn)/(admin)/admin/survey-definitions/_components/no-definition'
-import { PatchButton } from '@/app/(shadcn)/(admin)/admin/survey-definitions/_components/patch-button'
+
 import { surveyDefinitionColumns } from '@/app/(shadcn)/(admin)/admin/survey-definitions/_components/survey-defintion-columns'
 import { DataTable } from '@/components/data-table/data-table'
 import prisma from '@/db/db'
@@ -51,7 +51,6 @@ const SurveyDefinitionsPage = async (props: Props) => {
     <div className='w-full py-6 space-y-4'>
       <div className='container space-y-4'>{activeSurveyDefinition ? <ActiveSurveyDefinition activeSurveyDefinition={activeSurveyDefinition} /> : <NoActiveSurveyDefinition />}</div>
       <div className='container'>
-        <PatchButton />
         <DataTable columns={surveyDefinitionColumns} data={surveyDefinitionsWithCount as any[]} />
       </div>
     </div>
