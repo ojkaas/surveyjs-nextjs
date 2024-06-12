@@ -6,7 +6,7 @@ import { toastifyActionResponse } from '@/lib/toastify-action-response'
 type Props = {}
 
 function patchAction() {
-  const actionPromise = patchSurveyDefinitions({})
+  const actionPromise = patchSurveyDefinitions({ go: true })
   toastifyActionResponse(actionPromise, {
     loadingMessage: 'Patching SurveyDefinition data...',
     successMessage() {

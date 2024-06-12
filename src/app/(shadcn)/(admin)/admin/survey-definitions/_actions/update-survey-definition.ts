@@ -1,6 +1,6 @@
 'use server'
 
-import { activateSurveyDefinitionSchema, addCreatorDataToSurveyDefinitionSchema, updateSurveyDefinitionSchema } from '@/app/(shadcn)/(admin)/admin/survey-definitions/_data/schema'
+import { activateSurveyDefinitionSchema, addCreatorDataToSurveyDefinitionSchema, dummySchema, updateSurveyDefinitionSchema } from '@/app/(shadcn)/(admin)/admin/survey-definitions/_data/schema'
 import prisma from '@/db/db'
 import { authAdminAction } from '@/lib/safe-actions'
 import { createOrUpdateSurveyDefinitionDataStructure, validateCreateDataStucture } from '@/lib/survey/create-or-update-definition-data'
@@ -76,7 +76,7 @@ export const activateSurveyDefinition = authAdminAction(activateSurveyDefinition
   }
 })
 
-export const patchSurveyDefinitions = authAdminAction({}, async () => {
+export const patchSurveyDefinitions = authAdminAction(dummySchema, async (data) => {
   try {
     const dataRecords = await prisma.surveyDefinitionData.count()
     console.log('Data records:', dataRecords)

@@ -33,7 +33,7 @@ export const UploadFileForm = (props: Props) => {
           'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With',
         },
       }).then(() => {
-        uploadSuccessAction({})
+        uploadSuccessAction({ go: true })
         form.reset()
         toast.success('Afbeelding succesvol geüpload.')
       })
