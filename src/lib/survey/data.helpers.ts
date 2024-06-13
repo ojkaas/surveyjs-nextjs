@@ -61,18 +61,30 @@ export class SurveyDataHelper {
     await prisma.surveyQuestion.delete({ where: { id: questionId } })
   }
 
-  static async reattachWeightedDiagnoses(oldQuestion: QuestionWithDetails, newQuestionOptions: SurveyQuestionOption[]) {
+  static async reattachWeightedDiagnoses(oldQuestion: QuestionWithDetails, newQuestionOptions: SurveyQuestionOption[], copyOf?: boolean) {
     for (const option of newQuestionOptions) {
       const oldOption = oldQuestion.answers.find((a) => a.answer === option.answer)
       if (oldOption) {
-        await prisma.surveyQuestionOption.update({
-          where: { id: option.id },
-          data: {
-            weightedDiagnoses: {
-              connect: oldOption.weightedDiagnoses.map((wd) => ({ id: wd.id })),
+        if (copyOf) {
+          const newWeightedDiagnoses = oldOption.weightedDiagnoses.map(
+            (wd) =>
+              ({
+                diagnoseId: wd.diagnoseId,
+                weight: wd.weight,
+                surveyAnswerId: option.id,
+              }) as Prisma.WeightedDiagnoseCreateManyInput
+          )
+          await prisma.weightedDiagnose.createMany({ data: newWeightedDiagnoses })
+        } else {
+          await prisma.surveyQuestionOption.update({
+            where: { id: option.id },
+            data: {
+              weightedDiagnoses: {
+                connect: oldOption.weightedDiagnoses.map((wd) => ({ id: wd.id })),
+              },
             },
-          },
-        })
+          })
+        }
       }
     }
   }
