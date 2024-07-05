@@ -1,4 +1,4 @@
-import { SurveyCreatorWidget } from '@/components/SurveyCreator'
+import CreatorWrapper from '@/app/(shadcn)/(admin)/admin/survey-definitions/creator/[id]/wrapper'
 import prisma from '@/db/db'
 import { unstable_cache } from 'next/cache'
 
@@ -11,7 +11,11 @@ const getSurveyDefinitionData = unstable_cache(async (id: string) => prisma.surv
 const CreatorPage = async ({ params: { id } }: Props) => {
   const surveyDefinitionData = await getSurveyDefinitionData(id)
 
-  return <SurveyCreatorWidget id={id} json={surveyDefinitionData.jsonData || {}} />
+  return (
+    <>
+      <CreatorWrapper id={id} surveyDefinitionData={surveyDefinitionData} />
+    </>
+  )
 }
 
 export default CreatorPage

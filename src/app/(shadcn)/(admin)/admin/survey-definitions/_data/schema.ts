@@ -29,6 +29,7 @@ export const createSurveyDefinitionActionSchema = createSurveyDefinitionSchema.e
 export type CreateSurvey = z.infer<typeof createSurveyDefinitionSchema>
 
 export const deleteSurveyDefinitionSchema = surveyDefinitionSchema.pick({ id: true })
+export const retrieveSurveyDefinitionSchema = surveyDefinitionSchema.pick({ id: true })
 export const activateSurveyDefinitionSchema = surveyDefinitionSchema.pick({ id: true })
 
 export const dummySchema = z.object({

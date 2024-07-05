@@ -36,7 +36,7 @@ const ResultPage = async ({ params: { id } }: Props) => {
   const answers = survey.result as SurveyResultJson
 
   const questionsWithAnswers = combineDefinitionAndAnswers(definition, answers)
-  const calculatedWeights = calculateWeight(questionsWithAnswers, survey)
+  const calculatedWeights = calculateWeight(questionsWithAnswers, survey?.surveyDefinition)
   const mostProbableDiagnose = calculatedWeights.weights[0]
 
   return (

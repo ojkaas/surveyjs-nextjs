@@ -1,5 +1,5 @@
+import DiagnoseResultList from '@/app/(shadcn)/(portal)/portal/vragenlijsten/[id]/resultaten/_components/diagnose.list'
 import { Button } from '@/components/ui/button'
-import { Progress } from '@/components/ui/progress'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { JSX, SVGProps } from 'react'
 
@@ -18,21 +18,7 @@ export default function DiagnoseTooltip({ weightedDiagnoses }: Props) {
           </Button>
         </TooltipTrigger>
         <TooltipContent className='w-[420px] space-y-4 p-4 bg-white text-black border-2'>
-          <h3 className='text-lg font-semibold'>Diagnose overzicht</h3>
-          <div className='space-y-3'>
-            {weightedDiagnoses.weights.map((diagnose) => (
-              <div key={diagnose.diagnose.name} className='flex items-center justify-between'>
-                <div className='flex items-center gap-3'>
-                  <div className='h-2 w-2 rounded-full bg-green-500' />
-                  <p className='font-medium truncate w-56'>{diagnose.diagnose.name} asddsa asdas asdsad</p>
-                </div>
-                <div className='flex items-center gap-2'>
-                  <span className='font-medium'>{Math.floor((diagnose.weight / weightedDiagnoses.total) * 100)}%</span>
-                  <Progress className='h-3 w-24' value={(diagnose.weight / weightedDiagnoses.total) * 100} />
-                </div>
-              </div>
-            ))}
-          </div>
+          <DiagnoseResultList weightedDiagnoses={weightedDiagnoses} />
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

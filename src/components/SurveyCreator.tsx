@@ -9,6 +9,7 @@ import { toastifyActionResponse } from '@/lib/toastify-action-response'
 import { JsonValue } from '@prisma/client/runtime/library'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import { ComputedUpdater } from 'survey-core'
 import 'survey-core/defaultV2.css'
 import { editorLocalization, ICreatorOptions } from 'survey-creator-core'
 import 'survey-creator-core/i18n/dutch'
@@ -23,7 +24,7 @@ const defaultCreatorOptions: ICreatorOptions = {
   questionTypes: ['boolean', 'text', 'checkbox', 'radiogroup', 'dropdown', 'imagepicker', 'rating', 'ranking'],
 }
 
-export function SurveyCreatorWidget(props: { json?: JsonValue; options?: ICreatorOptions; id: string }) {
+export function SurveyCreatorWidget(props: { json?: JsonValue; options?: ICreatorOptions; id: string; showDiagnoseCallback?: (survey: string, openChanges: boolean) => void }) {
   let [creator, setCreator] = useState<SurveyCreator>()
 
   const [showModal, setShowModal] = useState(false)
@@ -102,9 +103,7 @@ export function SurveyCreatorWidget(props: { json?: JsonValue; options?: ICreato
             },
           })
           if (result.ok) {
-            console.log('success', JSON.stringify(result))
             const url = response.data.split('?')[0]
-            console.log('success', url)
             options.callback('success', url)
           } else {
             options.callback('error')
@@ -112,8 +111,27 @@ export function SurveyCreatorWidget(props: { json?: JsonValue; options?: ICreato
         }
       })
     })
+
+    if (props.showDiagnoseCallback !== undefined) {
+      newCreator.onSurveyInstanceCreated.add(function (sender, options) {
+        if (options.reason == 'test') {
+          var survey = options.survey
+          survey.addNavigationItem({
+            id: 'survey_show_diagnoses',
+            title: '[Test] Diagnose Tonen',
+            visibleIndex: 49,
+            visible: new ComputedUpdater(() => {
+              return survey.isLastPage
+            }),
+            action: () => {
+              props.showDiagnoseCallback!(survey.data, newCreator.state == 'modified' || newCreator.state == 'saving')
+            },
+          })
+        }
+      })
+    }
     setCreator(newCreator)
-  }, [props.json, props.options, props.id])
+  }, [props.json, props.options, props.id, props.showDiagnoseCallback])
 
   return (
     <>

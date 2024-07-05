@@ -5,10 +5,14 @@ import prisma from '@/db/db'
 import { authAdminAction } from '@/lib/safe-actions'
 import { revalidateTag } from 'next/cache'
 
+type DiagnoseRef = {
+  id: string
+}
+
 export const linkDiagnosesAction = authAdminAction(linkDiagnoseSchema, async (linkDiagnoses) => {
   try {
-    const diagnoseIdObjs = linkDiagnoses.diagnoses.map((diagnose) => ({ id: diagnose.id }))
-    const diagnoseIds = linkDiagnoses.diagnoses.map((diagnose) => diagnose.id)
+    const diagnoseIdObjs = linkDiagnoses.diagnoses.map((diagnose: DiagnoseRef) => ({ id: diagnose.id }))
+    const diagnoseIds = linkDiagnoses.diagnoses.map((diagnose: DiagnoseRef) => diagnose.id)
 
     const oldPage = await prisma.surveyPage.findUniqueOrThrow({ where: { id: linkDiagnoses.pageId }, include: { activeDiagnoses: true } })
     const oldDiagnoseIds = oldPage.activeDiagnoses.map((diagnose) => diagnose.id)

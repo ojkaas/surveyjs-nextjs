@@ -34,7 +34,6 @@ async function main() {
       role: 'PORTAL',
     },
   })*/
-  console.log({ admin, portal })
 }
 main()
   .then(async () => {
