@@ -1,11 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
 
-.sd-boolean__switch {
-  width: 85% !important;
-}
 
 @layer base {
   :root {
