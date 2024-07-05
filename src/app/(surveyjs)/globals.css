@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+.sd-boolean--checked.sd-boolean--exchanged .sd-boolean__thumb {
+  margin-left: unset !important;
+}
 
 @layer base {
   :root {
