@@ -4,7 +4,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { JSX, SVGProps } from 'react'
 
 type Props = {
-  weightedDiagnoses: { total: number; weights: { weight: number; diagnose: { name: string } }[] }
+  weightedDiagnoses: { total: number; weights: { weight: number; minMaxNormalizedWeight: number; softMaxNormalizedWeight: number; zScore: number; diagnose: { name: string } }[] }
 }
 
 export default function DiagnoseTooltip({ weightedDiagnoses }: Props) {
