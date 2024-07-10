@@ -10,7 +10,7 @@ export const diagnosisSchema = z.object({
     message: 'Naam moet minimaal 2 karakters zijn.',
   }),
   description: descriptionValidation.nullable(),
-  personToContact: z.enum(['OOGARTS', 'OPTOMETRIST', 'HUISARTS'], { required_error: 'Verplicht veld' }),
+  personToContact: z.enum(['OOGARTS', 'OPTOMETRIST', 'HUISARTS', 'OPTICIEN', 'ORTHOPTIST', 'NEUROLOOG'], { required_error: 'Verplicht veld' }),
 })
 
 export type Diagnosis = z.infer<typeof diagnosisSchema>

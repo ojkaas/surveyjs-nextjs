@@ -175,5 +175,8 @@ enum Role {
 enum PersonToContact {
   OOGARTS
   OPTOMETRIST
+  OPTICIEN
+  ORTHOPTIST
   HUISARTS
+  NEUROLOOG
 }

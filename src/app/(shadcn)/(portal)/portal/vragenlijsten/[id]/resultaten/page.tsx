@@ -87,6 +87,7 @@ const ResultPage = async ({ params: { id } }: Props) => {
               </div>
             </div>
           </div>
+
           <QuestionTabs questions={questionsWithAnswers} />
         </div>
       </div>

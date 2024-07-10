@@ -1,3 +1,4 @@
+import NextSectionButton from '@/app/(shadcn)/(public)/_components/next-section.button'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -15,6 +16,7 @@ export default function Homepage() {
                   oogklachten die de huisarts zelf kan behandelen.
                 </p>
               </div>
+              <NextSectionButton nextSectionId='vragenlijst' />
             </div>
             <Image
               src={'/eye_doctor.jpeg'}
@@ -27,7 +29,7 @@ export default function Homepage() {
           </div>
         </div>
       </section>
-      <section className='w-full py-5 md:py-6 lg:py-8 xl:py-12 bg-muted'>
+      <section id='vragenlijst' className='w-full py-5 md:py-6 lg:py-8 xl:py-12 bg-muted'>
         <div className='container px-4 md:px-6'>
           <div className='flex flex-col items-center justify-center space-y-4 text-center'>
             <div className='space-y-2'>

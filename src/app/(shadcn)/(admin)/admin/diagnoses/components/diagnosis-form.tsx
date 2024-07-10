@@ -125,9 +125,27 @@ export const DiagnosisForm = ({ closeDialog, editMode = false, diagnosis }: Prop
                     </FormItem>
                     <FormItem className='flex items-center space-x-3 space-y-0'>
                       <FormControl>
+                        <RadioGroupItem value='OPTICIEN' />
+                      </FormControl>
+                      <FormLabel className='font-normal'>Opticien</FormLabel>
+                    </FormItem>
+                    <FormItem className='flex items-center space-x-3 space-y-0'>
+                      <FormControl>
+                        <RadioGroupItem value='ORTHOPTIST' />
+                      </FormControl>
+                      <FormLabel className='font-normal'>Orthoptist</FormLabel>
+                    </FormItem>
+                    <FormItem className='flex items-center space-x-3 space-y-0'>
+                      <FormControl>
                         <RadioGroupItem value='HUISARTS' />
                       </FormControl>
                       <FormLabel className='font-normal'>Huisarts</FormLabel>
+                    </FormItem>
+                    <FormItem className='flex items-center space-x-3 space-y-0'>
+                      <FormControl>
+                        <RadioGroupItem value='NEUROLOOG' />
+                      </FormControl>
+                      <FormLabel className='font-normal'>Neuroloog</FormLabel>
                     </FormItem>
                   </RadioGroup>
                 </FormControl>

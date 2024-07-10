@@ -72,8 +72,8 @@ const QuestionTabs = ({ questions }: Props) => {
                 {page.elements.map((question, index) => {
                   return (
                     <div className='gap-2' key={`question${index}`}>
-                      <h4 className='font-semibold'>{question.title}</h4>
-                      <p className=''>{question.answerText}</p>
+                      <h4 className='font-semibold'>{question.title ? question.title : question.name}</h4>
+                      <p className=''>{question.answerText ? question.answerText : question.answer}</p>
                     </div>
                   )
                 })}

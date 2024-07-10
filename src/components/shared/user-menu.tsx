@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import SignOutButton from '@/components/auth/sign-out.button'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
@@ -11,6 +12,7 @@ type Props = {}
 
 const UserMenu = async (props: Props) => {
   const session = await getServerSession(authOptions)
+
   if (!session) {
     return (
       <Link className='text-gray-400' href='/sign-in'>
@@ -24,7 +26,7 @@ const UserMenu = async (props: Props) => {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button className='rounded-full' size='icon' variant='secondary'>
-            <CircleUserIcon className='h-5 w-5 text-gray-400' />
+            <img className='rounded-full w-8 h-8' src={`https://ui-avatars.com/api/?&name=${session?.user.name}`} alt='Avatar' />
             <span className='sr-only'>Toggle gebruikers menu</span>
           </Button>
         </DropdownMenuTrigger>
@@ -32,12 +34,12 @@ const UserMenu = async (props: Props) => {
           <DropdownMenuLabel className='text-gray-400'>Mijn Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
           {session.user?.role === Role.ADMIN && (
-            <DropdownMenuItem className='text-gray-400 hover:text-white' asChild>
+            <DropdownMenuItem className='text-gray-600 hover:text-white' asChild>
               <Link href='/admin/survey-definitions'>Beheeromgeving</Link>
             </DropdownMenuItem>
           )}
           {session.user?.role === Role.PORTAL && (
-            <DropdownMenuItem className='text-gray-400 hover:text-white' asChild>
+            <DropdownMenuItem className='text-gray-600 hover:text-white' asChild>
               <Link href='/portal/vragenlijsten'>Vragenlijsten</Link>
             </DropdownMenuItem>
           )}
