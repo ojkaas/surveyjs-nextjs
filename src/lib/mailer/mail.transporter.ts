@@ -21,7 +21,7 @@ type SendEmailOptions = {
   templateName: string
   templateData: { [key: string]: any }
 }
-export const sendMail = (options: SendEmailOptions) => {
+export const sendMail = async (options: SendEmailOptions) => {
   let emailTemplateSource = 'no template'
 
   if (options.templateName === 'invite.hbs') emailTemplateSource = inviteHbs
@@ -35,7 +35,7 @@ export const sendMail = (options: SendEmailOptions) => {
   const template = Handlebars.compile(emailTemplateSource)
   const html = template(options.templateData)
 
-  mailer.sendMail({
+  await mailer.sendMail({
     to: options.to,
     from: process.env.EMAIL_FROM,
     subject: options.subject,

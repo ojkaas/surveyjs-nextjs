@@ -41,7 +41,7 @@ export const createSurvey = authPortalAction(createSurveyActionSchema, async (su
     }
 
     if (survey && surveyData.sendEmail) {
-      sendMail({
+      await sendMail({
         templateName: 'invite.hbs',
         templateData: { url: `${process.env.NEXTAUTH_URL}/survey/${survey.key}` },
         to: surveyData.email!,

@@ -20,7 +20,7 @@ export const sendContactFormAction = publicAction(contactFormSchema, async (cont
     const outcome = await result.json()
     console.log(outcome)
     if (outcome.success) {
-      sendMail({
+      await sendMail({
         templateName: 'contact.hbs',
         templateData: contactForm,
         to: 'olaf@ojkaas.nl',
