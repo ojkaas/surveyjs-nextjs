@@ -24,6 +24,7 @@ export type WeigthedDiagnoseWithCalculations = {
 export function calculateWeight(survey: SurveyJson, definition: SurveyDefinitionWithAllDetails | null, testMode = false) {
   if (!definition) return { total: 0, weights: [] }
   let totalWeight: WeigthedDiagnose[] = []
+  console.log(survey)
   const allQuestions = definition.pages.flatMap((page) => page.questions)
   survey.pages.forEach((page: Page) => {
     if (!page.elements) return
@@ -34,7 +35,8 @@ export function calculateWeight(survey: SurveyJson, definition: SurveyDefinition
         let answer = question.answer
 
         if (answer) {
-          const weightedDiagnosis = definitionQuestion.answers.find((answerOption: SurveyQuestionOption) => answerOption.answer === answer)
+          console.log(definitionQuestion)
+          const weightedDiagnosis = definitionQuestion.answers.find((answerOption: SurveyQuestionOption) => answerOption.answer === answer || answerOption.text === answer)
 
           if (weightedDiagnosis) {
             weightedDiagnosis.weightedDiagnoses.forEach((weightedDiagnoses) => {

@@ -71,13 +71,13 @@ const CreatorWrapper = ({ surveyDefinitionData, id }: Props) => {
                   <div className='space-y-3 pt-10'>
                     <span className='text-lg font-semibold pt-10 mt-10'>Gewichten per diagnose: </span>
                     {results.weights.map((w, i) => (
-                      <div key={i} className='items-center justify-between'>
-                        <span className='text-base pt-10 mt-10'>
-                          {w.diagnose.name} = Totaal: {w.weight}
-                        </span>
-
+                      <div key={i}>
+                        <div className='flex items-center'>
+                          <div className='text-base font-semibold truncate w-64'>{w.diagnose.name}</div>
+                          <span className='text-base font-medium'> = Totaal: {w.weight}</span>
+                        </div>
                         {w.questionWithWeight?.map((q, i) => (
-                          <div key={i} className='flex items-center justify-between'>
+                          <div key={i} className='flex items-center'>
                             <span className='font-medium truncate w-56'>{q.question}</span>
                             <span className='font-medium'>{q.weight}</span>
                           </div>
