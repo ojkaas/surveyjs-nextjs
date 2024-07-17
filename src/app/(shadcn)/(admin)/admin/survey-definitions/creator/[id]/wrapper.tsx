@@ -8,6 +8,7 @@ import { combineDefinitionAndAnswers } from '@/lib/survey/combine-definition-and
 import { SurveyJson, SurveyResultJson } from '@/lib/surveyjs/types'
 import { toastifyActionResponse } from '@/lib/toastify-action-response'
 import { SurveyDefinitionData } from '@prisma/client'
+import { Separator } from '@radix-ui/react-dropdown-menu'
 import { useCallback, useState } from 'react'
 
 type Props = {
@@ -15,7 +16,17 @@ type Props = {
   surveyDefinitionData: SurveyDefinitionData
 }
 
-type WeigtedDiagnoses = { total: number; weights: { weight: number; minMaxNormalizedWeight: number; softMaxNormalizedWeight: number; zScore: number; diagnose: { name: string } }[] }
+type WeigtedDiagnoses = {
+  total: number
+  weights: {
+    weight: number
+    minMaxNormalizedWeight: number
+    softMaxNormalizedWeight: number
+    zScore: number
+    diagnose: { name: string }
+    questionWithWeight?: { question: string; weight: number }[]
+  }[]
+}
 
 const CreatorWrapper = ({ surveyDefinitionData, id }: Props) => {
   const [open, setOpen] = useState(false)
@@ -51,7 +62,33 @@ const CreatorWrapper = ({ surveyDefinitionData, id }: Props) => {
             <DialogDescription>Een overzicht van mogelijke diagnoses gebasseerd op ingevulde testdata.</DialogDescription>
           </DialogHeader>
           {openChanges && <div>Kan diagnoses niet bepalen, zorg ervoor dat alle wijzigingen eerst worden opgeslagen.</div>}
-          {!openChanges && <div>{results && <DiagnoseResultList testMode={true} weightedDiagnoses={results} />}</div>}
+          {!openChanges && (
+            <div>
+              {results && (
+                <>
+                  <DiagnoseResultList testMode={true} weightedDiagnoses={results} />
+                  <Separator />
+                  <div className='space-y-3 pt-10'>
+                    <span className='text-lg font-semibold pt-10 mt-10'>Gewichten per diagnose: </span>
+                    {results.weights.map((w, i) => (
+                      <div key={i} className='items-center justify-between'>
+                        <span className='text-base pt-10 mt-10'>
+                          {w.diagnose.name} = Totaal: {w.weight}
+                        </span>
+
+                        {w.questionWithWeight?.map((q, i) => (
+                          <div key={i} className='flex items-center justify-between'>
+                            <span className='font-medium truncate w-56'>{q.question}</span>
+                            <span className='font-medium'>{q.weight}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+          )}
         </DialogContent>
       </Dialog>
     </>

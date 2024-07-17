@@ -8,20 +8,22 @@ type WeigthedDiagnose = {
   minMaxNormalizedWeight?: number
   softMaxNormalizedWeight?: number
   zScore?: number
+  questionWithWeight?: { question: string; weight: number }[]
 }
 
-type WeigthedDiagnoseWithCalculations = {
+export type WeigthedDiagnoseWithCalculations = {
   diagnose: Diagnoses
   weight: number
   minMaxNormalizedWeight: number
   softMaxNormalizedWeight: number
   zScore: number
+  questionWithWeight?: { question: string; weight: number }[]
 }
 
 //Calculate the total weight of the survey answers, based on the definition
-export function calculateWeight(survey: SurveyJson, definition: SurveyDefinitionWithAllDetails | null) {
+export function calculateWeight(survey: SurveyJson, definition: SurveyDefinitionWithAllDetails | null, testMode = false) {
   if (!definition) return { total: 0, weights: [] }
-  let totalWeight: { weight: number; diagnose: Diagnoses }[] = []
+  let totalWeight: WeigthedDiagnose[] = []
   const allQuestions = definition.pages.flatMap((page) => page.questions)
   survey.pages.forEach((page: Page) => {
     if (!page.elements) return
@@ -37,9 +39,11 @@ export function calculateWeight(survey: SurveyJson, definition: SurveyDefinition
           if (weightedDiagnosis) {
             weightedDiagnosis.weightedDiagnoses.forEach((weightedDiagnoses) => {
               if (totalWeight.find((w) => w.diagnose.id === weightedDiagnoses.diagnose.id)) {
-                totalWeight.find((w) => w.diagnose.id === weightedDiagnoses.diagnose.id)!.weight += weightedDiagnoses.weight
+                const weightedDiagnose = totalWeight.find((w) => w.diagnose.id === weightedDiagnoses.diagnose.id)!
+                weightedDiagnose.weight += weightedDiagnoses.weight
+                if (weightedDiagnose.questionWithWeight) weightedDiagnose.questionWithWeight.push({ question: question.name, weight: weightedDiagnoses.weight })
               } else {
-                totalWeight.push({ weight: weightedDiagnoses.weight, diagnose: weightedDiagnoses.diagnose })
+                totalWeight.push({ weight: weightedDiagnoses.weight, diagnose: weightedDiagnoses.diagnose, questionWithWeight: [{ question: question.name, weight: weightedDiagnoses.weight }] })
               }
             })
           }
@@ -63,6 +67,9 @@ function minMaxNormalization(diagnoses: WeigthedDiagnose[]): WeigthedDiagnose[] 
   const weights = diagnoses.map((d) => d.weight)
   const min = Math.min(...weights)
   const max = Math.max(...weights)
+
+  console.log('min', min)
+  console.log('max', max)
 
   return diagnoses.map((d) => ({
     ...d,
