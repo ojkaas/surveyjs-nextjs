@@ -1,3 +1,4 @@
+export const maxDuration = 30
 import CreatorWrapper from '@/app/(shadcn)/(admin)/admin/survey-definitions/creator/[id]/wrapper'
 import prisma from '@/db/db'
 import { unstable_cache } from 'next/cache'
