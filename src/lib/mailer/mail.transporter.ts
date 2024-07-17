@@ -1,3 +1,4 @@
+import { contactFormString } from '@/lib/mailer/contact-form.string'
 import { inviteHbs } from '@/lib/mailer/stupid-solution'
 import Handlebars from 'handlebars'
 import { createTransport } from 'nodemailer'
@@ -24,6 +25,7 @@ export const sendMail = (options: SendEmailOptions) => {
   let emailTemplateSource = 'no template'
 
   if (options.templateName === 'invite.hbs') emailTemplateSource = inviteHbs
+  if (options.templateName === 'contact.hbs') emailTemplateSource = contactFormString
   //const emailTemplateSource = readFileSync(templatePath, 'utf8')
   //const emailTemplateSource = readFileSync(templatePath, 'utf8')
   //const emailTemplateSource = readFileSync(path.join(__dirname, '../../../handlebar/' + options.templateName), 'utf8')

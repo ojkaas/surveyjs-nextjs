@@ -58,6 +58,8 @@ export class SurveyDataHelper {
   }
 
   static async deleteSurveyQuestion(questionId: string) {
+    const question = await prisma.surveyQuestion.findFirst({ where: { id: questionId } })
+    if (!question) return
     await prisma.surveyQuestion.delete({ where: { id: questionId } })
   }
 

@@ -154,7 +154,7 @@ async function createSurveyPagesAndQuestions(surveyDefId: string, pages: Page[],
           const questionEntity = await SurveyDataHelper.createSurveyQuestion(surveyDefId, pageEntity.id, question, questionId)
           const newQuestionOptions = await createQuestionOptions(questionEntity.id, question)
           if (oldQuestion && areQuestionOptionsTheSame(oldQuestion, question)) {
-            SurveyDataHelper.reattachWeightedDiagnoses(oldQuestion, newQuestionOptions, !!copyOfId)
+            await SurveyDataHelper.reattachWeightedDiagnoses(oldQuestion, newQuestionOptions, !!copyOfId)
           } else if (oldQuestion && !copyOfId) {
             await SurveyDataHelper.deleteSurveyQuestion(oldQuestion.id)
           }

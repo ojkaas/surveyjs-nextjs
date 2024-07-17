@@ -58,4 +58,11 @@ export const authPortalAction = createSafeActionClient({
   handleServerErrorLog(e) {},
 })
 
-export const action = createSafeActionClient()
+export const publicAction = createSafeActionClient({
+  handleReturnedServerError(e) {
+    if (e instanceof ServerActionError) {
+      return e.message
+    }
+    return DEFAULT_SERVER_ERROR
+  },
+})

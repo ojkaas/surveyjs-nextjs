@@ -2,10 +2,10 @@
 
 import { saveSurveyResults } from '@/app/(surveyjs)/(survey)/survey/data/schema'
 import prisma from '@/db/db'
-import { action } from '@/lib/safe-actions'
+import { publicAction } from '@/lib/safe-actions'
 import { revalidateTag } from 'next/cache'
 
-export const saveSurveyData = action(saveSurveyResults, async (surveyData) => {
+export const saveSurveyData = publicAction(saveSurveyResults, async (surveyData) => {
   try {
     const survey = await prisma.survey.update({ where: { key: surveyData.id }, data: { result: surveyData.data as any, finished: true, available: false } })
 
