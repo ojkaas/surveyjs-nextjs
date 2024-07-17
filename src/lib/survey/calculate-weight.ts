@@ -68,9 +68,6 @@ function minMaxNormalization(diagnoses: WeigthedDiagnose[]): WeigthedDiagnose[] 
   const min = Math.min(...weights)
   const max = Math.max(...weights)
 
-  console.log('min', min)
-  console.log('max', max)
-
   return diagnoses.map((d) => ({
     ...d,
     minMaxNormalizedWeight: (d.weight - min) / (max - min),

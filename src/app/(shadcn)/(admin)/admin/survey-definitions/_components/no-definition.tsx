@@ -2,7 +2,7 @@
 import { SurveyDefinitionForm } from '@/app/(shadcn)/(admin)/admin/survey-definitions/_components/survey-definition-form'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
-import { PlusIcon } from '@heroicons/react/24/outline'
+import { PlusCircledIcon } from '@radix-ui/react-icons'
 import { useState } from 'react'
 
 type Props = {}
@@ -26,7 +26,7 @@ const NoDefinitionComponent = (props: Props) => {
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
               <DialogTrigger asChild>
                 <Button size='lg'>
-                  <PlusIcon className='lg:mr-2 h-4 w-4' /> <span>Maak vragenlijst aan.</span>
+                  <PlusCircledIcon className='lg:mr-2 h-4 w-4' /> <span>Maak vragenlijst aan.</span>
                 </Button>
               </DialogTrigger>
               <DialogContent className='sm:max-w-[425px]'>

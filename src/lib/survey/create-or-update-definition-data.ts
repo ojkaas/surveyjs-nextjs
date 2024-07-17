@@ -131,7 +131,7 @@ async function deleteRemovedPagesAndQuestions(surveyDefId: string, existingPages
 
   for (const oldQuestion of allOldQuestions) {
     if (!allNewQuestions.find((newQuestion) => newQuestion.name === oldQuestion.question)) {
-      SurveyDataHelper.deleteSurveyQuestion(oldQuestion.id)
+      await SurveyDataHelper.deleteSurveyQuestion(oldQuestion.id)
     }
   }
 }

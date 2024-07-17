@@ -5,7 +5,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { SurveyJson } from '@/lib/surveyjs/types'
 import { cn } from '@/lib/utils'
-import { DocumentIcon } from '@heroicons/react/24/outline'
+import { FileIcon } from '@radix-ui/react-icons'
+
 import * as TabsPrimitive from '@radix-ui/react-tabs'
 import { useState } from 'react'
 
@@ -49,7 +50,7 @@ const QuestionTabs = ({ questions }: Props) => {
         <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
             <Button variant='default' className='flex md:hidden bg-muted hover:bg-slate-400 text-muted-foreground data-[state=open]:bg-muted'>
-              <DocumentIcon className='mr-2 h-4 w-4' />
+              <FileIcon className='mr-2 h-4 w-4' />
               <span>Kies pagina</span>
             </Button>
           </DropdownMenuTrigger>

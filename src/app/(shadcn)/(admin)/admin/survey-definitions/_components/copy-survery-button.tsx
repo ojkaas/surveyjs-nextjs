@@ -3,8 +3,8 @@ import { SurveyDefinitionForm } from '@/app/(shadcn)/(admin)/admin/survey-defini
 
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
-import { PencilSquareIcon } from '@heroicons/react/24/outline'
 import { SurveyDefinition } from '@prisma/client'
+import { Pencil2Icon } from '@radix-ui/react-icons'
 import { useState } from 'react'
 
 type Props = {
@@ -21,7 +21,7 @@ const CopySurveyButton = ({ surveyDefinition }: Props) => {
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
         <Button>
-          <PencilSquareIcon className='mr-2 h-4 w-4' /> <span>Kopieer naar nieuwe versie</span>
+          <Pencil2Icon className='mr-2 h-4 w-4' /> <span>Kopieer naar nieuwe versie</span>
         </Button>
       </DialogTrigger>
       <DialogContent className='sm:max-w-[425px]'>

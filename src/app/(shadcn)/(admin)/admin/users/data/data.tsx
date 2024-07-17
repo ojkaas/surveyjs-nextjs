@@ -1,10 +1,10 @@
-import { ScissorsIcon, UserIcon, WrenchIcon } from '@heroicons/react/24/outline'
+import { PersonIcon, RocketIcon, ScissorsIcon } from '@radix-ui/react-icons'
 
 export const roles = [
   {
     value: 'ADMIN',
     label: 'Admin',
-    icon: WrenchIcon,
+    icon: RocketIcon,
   },
   {
     value: 'PORTAL',
@@ -14,6 +14,6 @@ export const roles = [
   {
     value: 'USER',
     label: 'Gebruiker',
-    icon: UserIcon,
+    icon: PersonIcon,
   },
 ]

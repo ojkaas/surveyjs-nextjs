@@ -1,13 +1,12 @@
 import BrainIcon from '@/components/icons/brain-icon'
 import OptometristIcon from '@/components/icons/optometrist-icon'
-import { EyeIcon } from '@heroicons/react/24/outline'
-import { HomeIcon } from '@radix-ui/react-icons'
+import { EyeOpenIcon, HomeIcon } from '@radix-ui/react-icons'
 
 export const personsToContact = [
   {
     value: 'OOGARTS',
     label: 'Oogarts',
-    icon: EyeIcon,
+    icon: EyeOpenIcon,
   },
   {
     value: 'OPTOMETRIST',
