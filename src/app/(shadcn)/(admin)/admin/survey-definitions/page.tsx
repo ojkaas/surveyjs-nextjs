@@ -1,3 +1,4 @@
+export const maxDuration = 30
 import { ActiveSurveyDefinition } from '@/app/(shadcn)/(admin)/admin/survey-definitions/_components/active-survey'
 import NoActiveSurveyDefinition from '@/app/(shadcn)/(admin)/admin/survey-definitions/_components/no-active-survey'
 import NoDefinitionComponent from '@/app/(shadcn)/(admin)/admin/survey-definitions/_components/no-definition'
