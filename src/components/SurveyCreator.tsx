@@ -104,7 +104,10 @@ export function SurveyCreatorWidget(props: { json?: JsonValue; options?: ICreato
           })
           if (result.ok) {
             const url = response.data.split('?')[0]
-            options.callback('success', url)
+            const filename = url.split('/').pop()
+            const cdnUrl = `${process.env.IMAGE_PUBLIC_URL}/${process.env.S3_BUCKET_NAME}/${filename}`
+
+            options.callback('success', cdnUrl)
           } else {
             options.callback('error')
           }
