@@ -13,7 +13,7 @@ import { useCallback, useState } from 'react'
 
 type Props = {
   id: string
-  surveyDefinitionData: SurveyDefinitionData
+  surveyDefinitionData: SurveyDefinitionData | null
 }
 
 type WeigtedDiagnoses = {
@@ -35,6 +35,7 @@ const CreatorWrapper = ({ surveyDefinitionData, id }: Props) => {
 
   const openDiagnoseDialog = useCallback(
     async (survey: string, openChanges: boolean) => {
+      if (surveyDefinitionData === null) return
       setOpenChanges(openChanges)
 
       const answers = survey as SurveyResultJson
@@ -49,12 +50,12 @@ const CreatorWrapper = ({ surveyDefinitionData, id }: Props) => {
       setResults(calculatedWeights)
       setOpen(true)
     },
-    [id, surveyDefinitionData.jsonData]
+    [id, surveyDefinitionData]
   )
 
   return (
     <>
-      <SurveyCreatorWidget id={id} showDiagnoseCallback={openDiagnoseDialog} json={surveyDefinitionData.jsonData || {}} />
+      <SurveyCreatorWidget id={id} showDiagnoseCallback={openDiagnoseDialog} json={surveyDefinitionData?.jsonData || {}} />
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader>

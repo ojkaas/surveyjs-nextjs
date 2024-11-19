@@ -110,7 +110,7 @@ export const UserForm = ({ closeDialog, editMode = false, user }: Props) => {
                 <FormItem className='space-y-3'>
                   <FormLabel>Gebruikers rol</FormLabel>
                   <FormControl>
-                    <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className='flex flex-col space-y-1'>
+                    <RadioGroup onValueChange={field.onChange} value={field.value} className='flex flex-col space-y-1'>
                       <FormItem className='flex items-center space-x-3 space-y-0'>
                         <FormControl>
                           <RadioGroupItem value='ADMIN' />

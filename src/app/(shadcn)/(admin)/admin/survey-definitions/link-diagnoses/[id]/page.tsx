@@ -4,7 +4,7 @@ import prisma from '@/db/db'
 import { unstable_cache } from 'next/cache'
 import Link from 'next/link'
 
-type Props = { params: { id: string } }
+type Props = { params: Promise<{ id: string }> }
 
 const getSurveyDefinition = unstable_cache(
   async (id: string) => prisma.surveyDefinition.findUniqueOrThrow({ where: { id }, include: { pages: { include: { questions: true } } } }),
@@ -12,7 +12,11 @@ const getSurveyDefinition = unstable_cache(
   { tags: ['survey-definitions'] }
 )
 
-const LinkDiagnosePage = async ({ params: { id } }: Props) => {
+const LinkDiagnosePage = async (props: Props) => {
+  const params = await props.params
+
+  const { id } = params
+
   const surveyDefinition = await getSurveyDefinition(id)
 
   return (

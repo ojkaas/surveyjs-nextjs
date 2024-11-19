@@ -1,7 +1,7 @@
 'use client'
 import { SurveyDefinitionForm } from '@/app/(shadcn)/(admin)/admin/survey-definitions/_components/survey-definition-form'
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { PlusCircledIcon } from '@radix-ui/react-icons'
 import { useState } from 'react'
 
@@ -30,6 +30,7 @@ const NoDefinitionComponent = (props: Props) => {
                 </Button>
               </DialogTrigger>
               <DialogContent className='sm:max-w-[425px]'>
+                <DialogTitle>Vragenlijst aanmaken</DialogTitle>
                 <SurveyDefinitionForm closeDialog={closeDialog} />
               </DialogContent>
             </Dialog>

@@ -18,6 +18,10 @@ const WeightToggleInput = ({ diagnosis, answer, initialWeight }: Props) => {
   const [inputValue, setInputValue] = useState(initialWeight)
   const controls = useAnimation()
 
+  //TODO: Fix this any type
+  const MotionButton = motion.button as any
+  const MotionInput = motion.input as any
+
   const saveWeightedDiagnose = async (data: z.infer<typeof weightedDiagnoseSchema>) => {
     const actionPromise = upsertWeightedDiagnose(data)
     const successMessageCallback = (data: unknown) => `Gewicht voor diagnose opgeslagen!`
@@ -58,7 +62,7 @@ const WeightToggleInput = ({ diagnosis, answer, initialWeight }: Props) => {
 
   return (
     <div className='relative flex items-center max-w-4[rem]'>
-      <motion.button
+      <MotionButton
         type='button'
         data-input-counter-decrement='quantity-input'
         onClick={decrement}
@@ -72,8 +76,8 @@ const WeightToggleInput = ({ diagnosis, answer, initialWeight }: Props) => {
         <svg className='w-2 h-2 text-gray-900 dark:text-white' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 18 2'>
           <path stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M1 1h16' />
         </svg>
-      </motion.button>
-      <motion.input
+      </MotionButton>
+      <MotionInput
         type='text'
         data-input-counter
         value={inputValue}
@@ -83,7 +87,7 @@ const WeightToggleInput = ({ diagnosis, answer, initialWeight }: Props) => {
         disabled
         animate={controls}
       />
-      <motion.button
+      <MotionButton
         type='button'
         data-input-counter-increment='quantity-input'
         onClick={increment}
@@ -97,7 +101,7 @@ const WeightToggleInput = ({ diagnosis, answer, initialWeight }: Props) => {
         <svg className='w-2 h-2 text-gray-900 dark:text-white' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 18 18'>
           <path stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M9 1v16M1 9h16' />
         </svg>
-      </motion.button>
+      </MotionButton>
     </div>
   )
 }

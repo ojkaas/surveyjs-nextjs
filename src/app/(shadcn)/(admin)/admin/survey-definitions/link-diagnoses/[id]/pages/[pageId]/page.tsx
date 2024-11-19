@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import prisma from '@/db/db'
 import { unstable_cache } from 'next/cache'
 
-type Props = { params: { id: string; pageId: string } }
+type Props = { params: Promise<{ id: string; pageId: string }> }
 
 type ThenArg<T> = T extends PromiseLike<infer U> ? U : T
 export type SurveyPageWithLinkedDiagnosis = ThenArg<ReturnType<typeof getSurveyPage>>
@@ -20,7 +20,11 @@ const getSurveyPage = unstable_cache(async (id: string) => prisma.surveyPage.fin
 
 const getDiagnosis = unstable_cache(async () => prisma.diagnoses.findMany(), ['diagnoses'], { tags: ['diagnoses'] })
 
-const PagePage = async ({ params: { id, pageId } }: Props) => {
+const PagePage = async (props: Props) => {
+  const params = await props.params
+
+  const { id, pageId } = params
+
   const surveyDefinition = await getSurveyDefinition(id)
   const surveyPage = await getSurveyPage(pageId)
   const diagnoses = await getDiagnosis()

@@ -1,6 +1,6 @@
 'use client'
 import ValidationDialog from '@/components/forms/validation.dialog'
-import { FC, ReactNode, cloneElement, useState } from 'react'
+import { FC, ReactElement, cloneElement, useState } from 'react'
 
 export type ValidationResponse = {
   status: 'ok' | 'error' | 'warning'
@@ -16,7 +16,7 @@ export interface ValidationAction {
 interface Props {
   validationAction: ValidationAction
   executeAction: () => any
-  children: ReactNode
+  children: ReactElement<{ onClick: () => void }>
 }
 
 const ValidateAndExecute: FC<Props> = ({ validationAction, executeAction, children }) => {
@@ -33,7 +33,7 @@ const ValidateAndExecute: FC<Props> = ({ validationAction, executeAction, childr
     }
   }
 
-  const childElement = cloneElement(children as React.ReactElement, {
+  const childElement = cloneElement(children, {
     onClick: handleExecute,
   })
 

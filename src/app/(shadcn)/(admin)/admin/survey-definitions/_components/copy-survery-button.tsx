@@ -2,7 +2,7 @@
 import { SurveyDefinitionForm } from '@/app/(shadcn)/(admin)/admin/survey-definitions/_components/survey-definition-form'
 
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { SurveyDefinition } from '@prisma/client'
 import { Pencil2Icon } from '@radix-ui/react-icons'
 import { useState } from 'react'
@@ -25,6 +25,7 @@ const CopySurveyButton = ({ surveyDefinition }: Props) => {
         </Button>
       </DialogTrigger>
       <DialogContent className='sm:max-w-[425px]'>
+        <DialogTitle>Kopieer naar nieuwe versie</DialogTitle>
         <SurveyDefinitionForm copyMode surveyDefinition={{ ...surveyDefinition, data: {} }} closeDialog={closeDialog} />
       </DialogContent>
     </Dialog>

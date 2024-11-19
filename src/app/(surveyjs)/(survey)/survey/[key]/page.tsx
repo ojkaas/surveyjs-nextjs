@@ -19,12 +19,16 @@ const getSurvey = unstable_cache(async (key) => prisma.survey.findFirstOrThrow({
 })
 
 type Props = {
-  params: {
+  params: Promise<{
     key: string
-  }
+  }>
 }
 
-export default async function Survey({ params: { key } }: Props) {
+export default async function Survey(props: Props) {
+  const params = await props.params
+
+  const { key } = params
+
   const activeSurvey = await getActiveSurveyDefinitionJson()
   const survey = await getSurvey(key)
   if (survey.finished) {

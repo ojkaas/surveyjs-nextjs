@@ -20,7 +20,7 @@ export async function validateCreateDataStucture(surveyDefinition: SurveyDefinit
   if (data && typeof data === 'object') {
     const errors = []
     const json = data as SurveyJson
-    const allNewQuestions = json.pages.flatMap((page) => page.elements || []).filter((element) => SUPPORTED_QUESTION_TYPES.includes(element.type))
+    const allNewQuestions = json.pages ? json.pages.flatMap((page) => page.elements || []).filter((element) => SUPPORTED_QUESTION_TYPES.includes(element.type)) : []
     const allOldQuestions = surveyDefinition.pages.flatMap((page) => page.questions)
     const questionsToCheckDetails: { old: QuestionWithAnswersAndWeights; new: Question }[] = []
     // Check if all old questions are still present in the new data structure
@@ -120,9 +120,9 @@ export async function createOrUpdateSurveyDefinitionDataStructure(surveyDefiniti
 }
 
 async function deleteRemovedPagesAndQuestions(surveyDefId: string, existingPages: PageWithAllDetails[], surveyJson: SurveyJson) {
-  const newPageTitles = surveyJson.pages.map((page) => page.title)
+  const newPageTitles = surveyJson.pages ? surveyJson.pages.map((page) => page.title) : []
   const allOldQuestions = existingPages.flatMap((page) => page.questions)
-  const allNewQuestions = surveyJson.pages.flatMap((page) => page.elements || []).filter((element) => SUPPORTED_QUESTION_TYPES.includes(element.type))
+  const allNewQuestions = surveyJson.pages ? surveyJson.pages.flatMap((page) => page.elements || []).filter((element) => SUPPORTED_QUESTION_TYPES.includes(element.type)) : []
 
   const deletedPages = existingPages.filter((page) => !newPageTitles.includes(page.title!))
   for (const page of deletedPages) {
@@ -136,7 +136,8 @@ async function deleteRemovedPagesAndQuestions(surveyDefId: string, existingPages
   }
 }
 
-async function createSurveyPagesAndQuestions(surveyDefId: string, pages: Page[], existingPages: PageWithAllDetails[], copyOfId?: string) {
+async function createSurveyPagesAndQuestions(surveyDefId: string, pages: Page[] | undefined, existingPages: PageWithAllDetails[], copyOfId?: string) {
+  if (!pages) return
   const allOldQuestions = existingPages.flatMap((page) => page.questions)
 
   let pageId = 1

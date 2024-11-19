@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
 import { DataTableToolbarProps } from '@/components/data-table/data-table'
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { useState } from 'react'
 
 import { DiagnosisForm } from '@/app/(shadcn)/(admin)/admin/diagnoses/components/diagnosis-form'
@@ -31,7 +31,8 @@ export function DiagnosisTableToolbar<TData>({ table }: DataTableToolbarProps<TD
               <PlusIcon className='lg:mr-2 h-4 w-4' /> <span className='hidden lg:block'>Diagnose toevoegen</span>
             </Button>
           </DialogTrigger>
-          <DialogContent className='sm:max-w-[425px]'>
+          <DialogContent className='sm:max-w-[425px] md:max-w-[820px]'>
+            <DialogTitle>Diagnose toevoegen</DialogTitle>
             <DiagnosisForm closeDialog={closeNewDiagnosisDialog} />
           </DialogContent>
         </Dialog>

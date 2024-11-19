@@ -3,7 +3,7 @@ import WeigthedDiagnoseMatrix from '@/app/(shadcn)/(admin)/admin/survey-definiti
 import prisma from '@/db/db'
 import { unstable_cache } from 'next/cache'
 
-type Props = { params: { id: string; questionId: string } }
+type Props = { params: Promise<{ id: string; questionId: string }> }
 
 type ThenArg<T> = T extends PromiseLike<infer U> ? U : T
 type SurveyWithQuestions = ThenArg<ReturnType<typeof getSurveyDefinition>>
@@ -64,7 +64,11 @@ function findNextQuestionId(definition: SurveyWithQuestions, currentPageId: stri
   return null // No more questions found
 }
 
-const QuestionPage = async ({ params: { id, questionId } }: Props) => {
+const QuestionPage = async (props: Props) => {
+  const params = await props.params
+
+  const { id, questionId } = params
+
   const surveyDefinition = await getSurveyDefinition(id)
   const surveyQuestion = await getSurveyQuestion(questionId)
   const diagnosis = await getDiagnosis()

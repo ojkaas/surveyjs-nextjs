@@ -1,6 +1,6 @@
 import { DialogProps } from '@radix-ui/react-dialog'
 import { Slot, SlotProps } from '@radix-ui/react-slot'
-import { Children, cloneElement, createContext, useCallback, useContext, useMemo, useState } from 'react'
+import { Children, cloneElement, createContext, useCallback, useContext, useMemo, useState, type JSX } from 'react'
 
 type Maybe<T> = T | null | undefined
 

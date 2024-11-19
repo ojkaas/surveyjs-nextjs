@@ -10,7 +10,7 @@ import { DiagnosisForm } from '@/app/(shadcn)/(admin)/admin/diagnoses/components
 import { Diagnosis } from '@/app/(shadcn)/(admin)/admin/diagnoses/data/schema'
 import { DataTableRowActionsProps } from '@/components/data-table/data-table'
 import { MultiDialog } from '@/components/ui/custom/multi-dialog'
-import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
 import { toastifyActionResponse } from '@/lib/toastify-action-response'
 import { useState } from 'react'
 
@@ -57,6 +57,7 @@ export function DiagnosisTableRowActions({ row }: DataTableRowActionsProps<Diagn
               <mdb.Container value='edit'>
                 <Dialog>
                   <DialogContent>
+                    <DialogTitle>Diagnose wijzigen</DialogTitle>
                     <DiagnosisForm
                       closeDialog={() => {
                         mdb.closeDialog('edit')
@@ -71,6 +72,7 @@ export function DiagnosisTableRowActions({ row }: DataTableRowActionsProps<Diagn
               <mdb.Container value='delete'>
                 <Dialog>
                   <DialogContent>
+                    <DialogTitle>Diagnose verwijderen</DialogTitle>
                     <div>
                       <h3 className='text-md font-bold'>Weet je zeker dat je deze diagnose wilt verwijderen?</h3>
                       <div className='gap-4 mt-4'>

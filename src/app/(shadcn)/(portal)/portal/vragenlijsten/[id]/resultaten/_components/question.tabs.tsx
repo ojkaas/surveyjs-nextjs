@@ -39,13 +39,14 @@ const QuestionTabs = ({ questions }: Props) => {
       <h3 className='text-lg font-bold mb-4'>Vragenlijst antwoorden</h3>
       <Tabs defaultValue='page1'>
         <TabsList id='tab-container' className={cn('border-b hidden border-gray-200 overflow-hidden md:flex')}>
-          {questions.pages.map((page, index) => {
-            return (
-              <TabsTrigger key={`tabtrigger${index}`} value={`page${index + 1}`}>
-                {page.title}
-              </TabsTrigger>
-            )
-          })}
+          {questions.pages &&
+            questions.pages.map((page, index) => {
+              return (
+                <TabsTrigger key={`tabtrigger${index}`} value={`page${index + 1}`}>
+                  {page.title}
+                </TabsTrigger>
+              )
+            })}
         </TabsList>
         <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
@@ -56,32 +57,34 @@ const QuestionTabs = ({ questions }: Props) => {
           </DropdownMenuTrigger>
           <DropdownMenuContent align='end'>
             <TabsPrimitive.List>
-              {questions.pages.map((page, index) => {
-                return (
-                  <DropdownMenuItem key={`dropdowntrigger${index}`}>
-                    <TabsTrigger value={`page${index + 1}`}>{page.title}</TabsTrigger>
-                  </DropdownMenuItem>
-                )
-              })}
+              {questions.pages &&
+                questions.pages.map((page, index) => {
+                  return (
+                    <DropdownMenuItem key={`dropdowntrigger${index}`}>
+                      <TabsTrigger value={`page${index + 1}`}>{page.title}</TabsTrigger>
+                    </DropdownMenuItem>
+                  )
+                })}
             </TabsPrimitive.List>
           </DropdownMenuContent>
         </DropdownMenu>
-        {questions.pages.map((page, index) => {
-          return (
-            <TabsContent key={`tabcontent${index}`} value={`page${index + 1}`}>
-              <div className='space-y-4'>
-                {page.elements.map((question, index) => {
-                  return (
-                    <div className='gap-2' key={`question${index}`}>
-                      <h4 className='font-semibold'>{question.title ? question.title : question.name}</h4>
-                      <p className=''>{question.answerText ? question.answerText : question.answer}</p>
-                    </div>
-                  )
-                })}
-              </div>
-            </TabsContent>
-          )
-        })}
+        {questions.pages &&
+          questions.pages.map((page, index) => {
+            return (
+              <TabsContent key={`tabcontent${index}`} value={`page${index + 1}`}>
+                <div className='space-y-4'>
+                  {page.elements.map((question, index) => {
+                    return (
+                      <div className='gap-2' key={`question${index}`}>
+                        <h4 className='font-semibold'>{question.title ? question.title : question.name}</h4>
+                        <p className=''>{question.answerText ? question.answerText : question.answer}</p>
+                      </div>
+                    )
+                  })}
+                </div>
+              </TabsContent>
+            )
+          })}
       </Tabs>
     </div>
   )

@@ -6,7 +6,7 @@ import { authOptions } from '@/lib/config/auth/auth-options'
 import { Role } from '@prisma/client'
 import { getServerSession } from 'next-auth'
 import Link from 'next/link'
-import { SVGProps } from 'react'
+import { SVGProps, type JSX } from 'react'
 
 type Props = {}
 

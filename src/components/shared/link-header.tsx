@@ -5,6 +5,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { HamburgerMenuIcon } from '@radix-ui/react-icons'
 import Image from 'next/image'
 import Link from 'next/link'
+import React from 'react'
 
 type Props = {
   Links: React.ReactElement
@@ -22,7 +23,7 @@ const LinkHeader = ({ Links }: Props) => {
         <Link href='#'>
           <Image src={'/oogned.png'} priority={true} className='h-auto max-w-screen-md' alt='Oogned logo' width={200} height={50} />
         </Link>
-        <Links.type {...Links.props} />
+        {React.isValidElement(Links) && <Links.type {...(Links.props as object)} />}
       </nav>
       <Sheet>
         <SheetTrigger asChild>
@@ -36,7 +37,7 @@ const LinkHeader = ({ Links }: Props) => {
             <Link className='flex items-center gap-2 text-lg font-semibold text-white md:text-base' href='#'>
               <Image src={'/oogned.png'} priority={true} className='h-auto' alt='Oogned logo' width={200} height={50} />
             </Link>
-            <Links.type {...Links.props} />
+            {React.isValidElement(Links) && <Links.type {...(Links.props as object)} />}
           </nav>
         </SheetContent>
       </Sheet>

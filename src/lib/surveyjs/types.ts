@@ -45,7 +45,7 @@ export type SurveyJson = JsonValue & {
   completedHtml: string
   completedBeforeHtml: string
   loadingHtml: string
-  pages: Page[]
+  pages?: Page[]
   showProgressBar: string
   progressBarShowPageTitles: boolean
   startSurveyText: string

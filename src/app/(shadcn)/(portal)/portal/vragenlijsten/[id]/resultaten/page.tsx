@@ -8,7 +8,7 @@ import { DateTime } from 'luxon'
 
 import { unstable_cache } from 'next/cache'
 
-type Props = { params: { id: string } }
+type Props = { params: Promise<{ id: string }> }
 
 type ThenArg<T> = T extends PromiseLike<infer U> ? U : T
 export type SurveyDefinitionWithWeigthedDiagnosis = ThenArg<ReturnType<typeof getSurvey>>
@@ -27,7 +27,11 @@ const getSurvey = unstable_cache(
   }
 )
 
-const ResultPage = async ({ params: { id } }: Props) => {
+const ResultPage = async (props: Props) => {
+  const params = await props.params
+
+  const { id } = params
+
   //const activeSurvey = await getActiveSurveyDefinitionJson()
   const survey = await getSurvey(id)
 

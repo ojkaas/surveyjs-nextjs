@@ -26,6 +26,8 @@ export const DiagnosisForm = ({ closeDialog, editMode = false, diagnosis }: Prop
       name: '',
       description: '',
       personToContact: 'OOGARTS',
+      treatment: '',
+      accessTime: '24uur',
     },
   })
 
@@ -33,7 +35,15 @@ export const DiagnosisForm = ({ closeDialog, editMode = false, diagnosis }: Prop
     if (editMode && diagnosis) {
       const fetchUserData = async () => {
         try {
-          form.reset({ name: diagnosis.name || '', description: diagnosis.description || '', personToContact: diagnosis.personToContact || PersonToContact.OOGARTS })
+          console.log(diagnosis)
+          console.log(diagnosis.accessTime)
+          form.reset({
+            name: diagnosis.name || '',
+            description: diagnosis.description || '',
+            personToContact: diagnosis.personToContact || PersonToContact.OOGARTS,
+            treatment: diagnosis.treatment || '',
+            accessTime: diagnosis.accessTime || '24uur',
+          })
         } catch (error) {
           console.error('Failed to fetch diagnosis data:', error)
         }
@@ -94,10 +104,23 @@ export const DiagnosisForm = ({ closeDialog, editMode = false, diagnosis }: Prop
                 <FormLabel>Omschrijving</FormLabel>
                 <FormControl>
                   <Textarea
-                    className='h-52'
-                    placeholder='"Fluxus Neuralis Hyperkineticus Transdimensionalis (FNHT)" is een denkbeeldige aandoening die wordt gekenmerkt door een abnormale en ongecontroleerde toestand van neuronale activiteit in de ...'
+                    className='h-52 lg:h-32 lg:w-[600px]'
+                    placeholder='Fluxus Neuralis Hyperkineticus Transdimensionalis (FNHT)" is een denkbeeldige aandoening die wordt gekenmerkt door een abnormale en ongecontroleerde toestand van neuronale activiteit in de ...'
                     {...field}
                   />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='treatment'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Behandeling</FormLabel>
+                <FormControl>
+                  <Textarea className='h-52 lg:h-32 lg:w-[600px]' placeholder='Beschrijf hier de aanbevolen behandeling...' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -110,7 +133,7 @@ export const DiagnosisForm = ({ closeDialog, editMode = false, diagnosis }: Prop
               <FormItem className='space-y-3'>
                 <FormLabel>Contactpersoon</FormLabel>
                 <FormControl>
-                  <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className='flex flex-col space-y-1'>
+                  <RadioGroup onValueChange={field.onChange} value={field.value} className='flex flex-col space-y-1'>
                     <FormItem className='flex items-center space-x-3 space-y-0'>
                       <FormControl>
                         <RadioGroupItem value='OOGARTS' />
@@ -146,6 +169,56 @@ export const DiagnosisForm = ({ closeDialog, editMode = false, diagnosis }: Prop
                         <RadioGroupItem value='NEUROLOOG' />
                       </FormControl>
                       <FormLabel className='font-normal'>Neuroloog</FormLabel>
+                    </FormItem>
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='accessTime'
+            render={({ field }) => (
+              <FormItem className='space-y-3'>
+                <FormLabel>Toegangstijd</FormLabel>
+                <FormControl>
+                  <RadioGroup onValueChange={field.onChange} value={field.value} className='flex flex-col space-y-1'>
+                    <FormItem className='flex items-center space-x-3 space-y-0'>
+                      <FormControl>
+                        <RadioGroupItem key='Binnen 24 uur' value='24uur' />
+                      </FormControl>
+                      <FormLabel className='font-normal'>Binnen 24 uur</FormLabel>
+                    </FormItem>
+                    <FormItem className='flex items-center space-x-3 space-y-0'>
+                      <FormControl>
+                        <RadioGroupItem value='Binnen 2 to 4 werkdagen' />
+                      </FormControl>
+                      <FormLabel className='font-normal'>Binnen 2 to 4 werkdagen</FormLabel>
+                    </FormItem>
+                    <FormItem className='flex items-center space-x-3 space-y-0'>
+                      <FormControl>
+                        <RadioGroupItem value='Binnen twee weken' />
+                      </FormControl>
+                      <FormLabel className='font-normal'>Binnen twee weken</FormLabel>
+                    </FormItem>
+                    <FormItem className='flex items-center space-x-3 space-y-0'>
+                      <FormControl>
+                        <RadioGroupItem value='Binnen 4 weken' />
+                      </FormControl>
+                      <FormLabel className='font-normal'>Binnen 4 weken</FormLabel>
+                    </FormItem>
+                    <FormItem className='flex items-center space-x-3 space-y-0'>
+                      <FormControl>
+                        <RadioGroupItem value='Binnen 1-3 maanden' />
+                      </FormControl>
+                      <FormLabel className='font-normal'>Binnen 1-3 maanden</FormLabel>
+                    </FormItem>
+                    <FormItem className='flex items-center space-x-3 space-y-0'>
+                      <FormControl>
+                        <RadioGroupItem value='Reguliere tijd' />
+                      </FormControl>
+                      <FormLabel className='font-normal'>Reguliere tijd</FormLabel>
                     </FormItem>
                   </RadioGroup>
                 </FormControl>

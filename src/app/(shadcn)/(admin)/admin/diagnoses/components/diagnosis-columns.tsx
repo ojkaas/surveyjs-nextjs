@@ -45,6 +45,17 @@ export const diagnosisColumns: ColumnDefWithVisibility<Diagnosis>[] = [
     },
   },
   {
+    accessorKey: 'accessTime',
+    header: ({ column }) => <DataTableColumnHeader column={column} title='Toegangstijd' />,
+    cell: ({ row }) => {
+      return (
+        <div className='flex space-x-2'>
+          <span className='max-w-[500px] truncate font-medium'>{row.getValue('accessTime')}</span>
+        </div>
+      )
+    },
+  },
+  {
     accessorKey: 'personToContact',
     header: ({ column }) => <DataTableColumnHeader column={column} title='Contactpersoon' />,
     cell: ({ row }) => {

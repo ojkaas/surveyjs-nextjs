@@ -23,7 +23,11 @@ export const createSurveyDefinition = authAdminAction(createSurveyDefinitionActi
     delete surveyDefinitionData.data
 
     const definition = await prisma.surveyDefinition.create({
-      data: { ...surveyDefinitionData, createdBy: session?.user.name, ...(copyOfData ? { surveyData: { create: { jsonData: copyOfData as JsonObject } } } : {}) },
+      data: {
+        ...surveyDefinitionData,
+        createdBy: session?.user.name,
+        ...(copyOfData ? { surveyData: { create: { jsonData: copyOfData as JsonObject } } } : { surveyData: { create: { jsonData: {} } } }),
+      },
     })
     await createOrUpdateSurveyDefinitionDataStructure(definition.id, copyOf)
     revalidateTag('survey-definitions')

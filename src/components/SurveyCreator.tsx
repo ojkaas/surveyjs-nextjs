@@ -13,7 +13,8 @@ import { ComputedUpdater } from 'survey-core'
 import 'survey-core/defaultV2.css'
 import { editorLocalization, ICreatorOptions } from 'survey-creator-core'
 import 'survey-creator-core/i18n/dutch'
-import 'survey-creator-core/survey-creator-core.min.css'
+//import 'survey-creator-core/survey-creator-core.min.css'
+import '@/app/(shadcn)/survey-creator-core.min.css'
 import { SurveyCreator, SurveyCreatorComponent } from 'survey-creator-react'
 
 const defaultCreatorOptions: ICreatorOptions = {
