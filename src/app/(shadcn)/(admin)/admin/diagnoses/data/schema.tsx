@@ -18,5 +18,5 @@ export const diagnosisSchema = z.object({
 export type Diagnosis = z.infer<typeof diagnosisSchema>
 
 export const createDiagnosisSchema = diagnosisSchema.omit({ id: true }).extend({ description: descriptionValidation.optional(), accessTime: z.string().optional(), treatment: z.string().optional() })
-export const updateDiagnosisSchema = diagnosisSchema.extend({ description: descriptionValidation.optional() })
+export const updateDiagnosisSchema = diagnosisSchema.extend({ description: descriptionValidation.optional(), accessTime: z.string().optional(), treatment: z.string().optional() })
 export const deleteDiagnosisSchema = diagnosisSchema.pick({ id: true })
