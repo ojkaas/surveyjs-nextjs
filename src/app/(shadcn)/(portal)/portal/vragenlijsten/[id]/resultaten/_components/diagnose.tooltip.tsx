@@ -1,6 +1,7 @@
 import DiagnoseResultList from '@/app/(shadcn)/(portal)/portal/vragenlijsten/[id]/resultaten/_components/diagnose.list'
 import { Button } from '@/components/ui/button'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { JSX, SVGProps } from 'react'
 
 type Props = {
@@ -9,19 +10,20 @@ type Props = {
 
 export default function DiagnoseTooltip({ weightedDiagnoses }: Props) {
   return (
-    <TooltipProvider delayDuration={350}>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button variant='outline'>
-            <InfoIcon className='h-5 w-5' />
-            <span className='sr-only'>Bekijk mogelijke diagnoses</span>
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent className='w-[420px] space-y-4 p-4 bg-white text-black border-2'>
-          <DiagnoseResultList weightedDiagnoses={weightedDiagnoses} />
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant='outline'>
+          <InfoCircledIcon className='h-5 w-5' />
+          <span className='sr-only'>Bekijk mogelijke diagnoses</span>
+        </Button>
+      </DialogTrigger>
+      <DialogContent className='w-[420px] space-y-4 p-4 bg-white text-black border-2'>
+        <DialogHeader>
+          <DialogTitle>Mogelijke diagnoses</DialogTitle>
+        </DialogHeader>
+        <DiagnoseResultList weightedDiagnoses={weightedDiagnoses} />
+      </DialogContent>
+    </Dialog>
   )
 }
 

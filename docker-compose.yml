@@ -46,18 +46,32 @@ services:
         target: /pgadmin4/servers.json
       - source: pgpass
         target: /pgpass
-  mailhog:
-        container_name: oogned_mailhog
-        image: mailhog/mailhog:latest
-        ports:
-            - '8025:8025'
-            - '1025:1025'
-        environment:
-            MH_STORAGE: maildir
-            MH_MAILDIR_PATH: /tmp
-        volumes:
-            - maildir:/tmp
+  # mailhog:
+  #       container_name: oogned_mailhog
+  #       image: mailhog/mailhog:latest
+  #       ports:
+  #           - '8025:8025'
+  #           - '1025:1025'
+  #       environment:
+  #           MH_STORAGE: maildir
+  #           MH_MAILDIR_PATH: /tmp
+  #       volumes:
+  #           - maildir:/tmp
         #command: -invite-jim=1 -jim-accept=0.50
+  mailpit:
+    image: axllent/mailpit
+    container_name: mailpit
+    restart: unless-stopped
+    volumes:
+      - ./data:/data
+    ports:
+      - 8025:8025
+      - 1025:1025
+    environment:
+      MP_MAX_MESSAGES: 5000
+      MP_DATABASE: /data/mailpit.db
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
 configs:
   pgpass:
     content: db:${POSTGRES_PORT}:*:${POSTGRES_USER}:${POSTGRES_PASSWORD}

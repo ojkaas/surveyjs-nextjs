@@ -20,7 +20,7 @@
     "prisma:reset": "cross-env NODE_ENV=test prisma migrate reset --force",
     "studio": "dotenv -e .env.local npx prisma studio",
     "db:dev:rm": "docker compose --env-file .env.local -p oogned rm db -s -f -v",
-    "db:dev:up": "docker compose --env-file .env.local -p oogned up db pgadmin mailhog -d",
+    "db:dev:up": "docker compose --env-file .env.local -p oogned up db pgadmin mailpit -d",
     "db:dev:restart": "npm run db:dev:rm && npm run db:dev:up",
     "test": "playwright test",
     "db:test:rm": "docker compose --env-file .env.test -p oogned rm test-db mailhog minio createbuckets -s -f -v",

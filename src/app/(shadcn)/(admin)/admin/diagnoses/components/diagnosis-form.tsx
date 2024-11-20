@@ -220,6 +220,12 @@ export const DiagnosisForm = ({ closeDialog, editMode = false, diagnosis }: Prop
                       </FormControl>
                       <FormLabel className='font-normal'>Reguliere tijd</FormLabel>
                     </FormItem>
+                    <FormItem className='flex items-center space-x-3 space-y-0'>
+                      <FormControl>
+                        <RadioGroupItem value='Niet' />
+                      </FormControl>
+                      <FormLabel className='font-normal'>Niet</FormLabel>
+                    </FormItem>
                   </RadioGroup>
                 </FormControl>
                 <FormMessage />
