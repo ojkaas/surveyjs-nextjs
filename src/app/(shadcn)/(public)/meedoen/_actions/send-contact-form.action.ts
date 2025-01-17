@@ -23,7 +23,7 @@ export const sendContactFormAction = publicAction(contactFormSchema, async (cont
       await sendMail({
         templateName: 'contact.hbs',
         templateData: contactForm,
-        to: 'olaf@ojkaas.nl',
+        to: 'info@oogned.nl',
         subject: 'OOGNED - Verzoek ontvangen',
       })
       return { success: true }

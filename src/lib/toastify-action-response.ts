@@ -10,7 +10,6 @@ export interface ToastifyOptions<Data> {
   loadingMessage?: LoadingMessage
   successMessage?: SuccessMessage<Data>
 }
-
 type LoadingMessage = string
 type SuccessMessage<T> = (data: T) => string | React.ReactNode
 
