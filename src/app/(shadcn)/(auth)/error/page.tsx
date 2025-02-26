@@ -17,7 +17,7 @@ export default function AuthError() {
     OAuthCallback: 'Er ging iets mis bij het inloggen met deze provider.',
     OAuthCreateAccount: 'Er ging iets mis bij het aanmaken van je account.',
     EmailCreateAccount: 'Er ging iets mis bij het aanmaken van je account.',
-    default: 'Er ging iets mis bij het inloggen.'
+    default: 'Er ging iets mis bij het inloggen.',
   }
 
   const errorMessage = error ? errorMessages[error] || errorMessages.default : errorMessages.default
@@ -27,12 +27,12 @@ export default function AuthError() {
       <div className='mx-auto w-full max-w-md md:max-w-xl space-y-6'>
         <Card>
           <CardHeader>
-            <CardTitle className="text-center">Fout bij inloggen</CardTitle>
+            <CardTitle className='text-center'>Fout bij inloggen</CardTitle>
           </CardHeader>
           <CardContent className='space-y-4'>
             <p className='text-center'>{errorMessage}</p>
             <Button asChild className='w-full'>
-              <Link href="/sign-in">Terug naar inloggen</Link>
+              <Link href='/sign-in'>Terug naar inloggen</Link>
             </Button>
           </CardContent>
         </Card>

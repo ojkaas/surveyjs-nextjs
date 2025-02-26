@@ -114,19 +114,23 @@ export const UserForm = ({ closeDialog, editMode = false, user }: Props) => {
                 <FormItem className='space-y-3'>
                   <FormLabel>Gebruikers rol</FormLabel>
                   <FormControl>
-                    <RadioGroup  onValueChange={(value) => {
-                    field.onChange(value)
-                    setShowPortalType(value === "PORTAL")                    
-                    if (value !== "PORTAL") {
-                      form.resetField('type', {
-                        defaultValue: undefined,
-                        keepDirty: false,
-                        keepTouched: false,
-                        keepError: false
-                      });
-                      form.setValue('type', undefined)
-                    }
-                  }} value={field.value} className='flex flex-col space-y-1'>
+                    <RadioGroup
+                      onValueChange={(value) => {
+                        field.onChange(value)
+                        setShowPortalType(value === 'PORTAL')
+                        if (value !== 'PORTAL') {
+                          form.resetField('type', {
+                            defaultValue: undefined,
+                            keepDirty: false,
+                            keepTouched: false,
+                            keepError: false,
+                          })
+                          form.setValue('type', undefined)
+                        }
+                      }}
+                      value={field.value}
+                      className='flex flex-col space-y-1'
+                    >
                       <FormItem className='flex items-center space-x-3 space-y-0'>
                         <FormControl>
                           <RadioGroupItem value='ADMIN' />
@@ -159,21 +163,26 @@ export const UserForm = ({ closeDialog, editMode = false, user }: Props) => {
                   <FormItem>
                     <FormLabel>Specialist type</FormLabel>
                     <FormControl>
-                    <RadioGroup  onValueChange={(value) => {
-                    field.onChange(value)}}  value={field.value} className='flex flex-col space-y-1'>
-                      <FormItem className='flex items-center space-x-3 space-y-0'>
-                        <FormControl>
-                          <RadioGroupItem value='ZIEKENHUIS' />
-                        </FormControl>
-                        <FormLabel className='font-normal'>Ziekenhuis</FormLabel>
-                      </FormItem>
-                      <FormItem className='flex items-center space-x-3 space-y-0'>
-                        <FormControl>
-                          <RadioGroupItem value='HUISARTS' />
-                        </FormControl>
-                        <FormLabel className='font-normal'>Huisarts</FormLabel>
-                      </FormItem>                     
-                    </RadioGroup>
+                      <RadioGroup
+                        onValueChange={(value) => {
+                          field.onChange(value)
+                        }}
+                        value={field.value}
+                        className='flex flex-col space-y-1'
+                      >
+                        <FormItem className='flex items-center space-x-3 space-y-0'>
+                          <FormControl>
+                            <RadioGroupItem value='ZIEKENHUIS' />
+                          </FormControl>
+                          <FormLabel className='font-normal'>Ziekenhuis</FormLabel>
+                        </FormItem>
+                        <FormItem className='flex items-center space-x-3 space-y-0'>
+                          <FormControl>
+                            <RadioGroupItem value='HUISARTS' />
+                          </FormControl>
+                          <FormLabel className='font-normal'>Huisarts</FormLabel>
+                        </FormItem>
+                      </RadioGroup>
                     </FormControl>
                     <FormMessage />
                   </FormItem>

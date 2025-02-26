@@ -42,8 +42,10 @@ export function DiagnosisTableToolbar<TData>({ table }: DataTableToolbarProps<TD
           onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
           className='h-8 w-[150px] lg:w-[250px]'
         />
-        {table.getColumn('personToContact') && <DataTableFacetedFilter column={table.getColumn('personToContact')} title='Contactpersoon (Huisarts)' options={personsToContact} />}        
-        {table.getColumn('personToContactZiekenhuis') && <DataTableFacetedFilter column={table.getColumn('personToContactZiekenhuis')} title='Contactpersoon (Ziekenhuis)' options={personsToContact} />}
+        {table.getColumn('personToContact') && <DataTableFacetedFilter column={table.getColumn('personToContact')} title='Contactpersoon (Huisarts)' options={personsToContact} />}
+        {table.getColumn('personToContactZiekenhuis') && (
+          <DataTableFacetedFilter column={table.getColumn('personToContactZiekenhuis')} title='Contactpersoon (Ziekenhuis)' options={personsToContact} />
+        )}
         {isFiltered && (
           <Button variant='ghost' onClick={() => table.resetColumnFilters()} className='h-8 px-2 lg:px-3'>
             Ongedaan maken

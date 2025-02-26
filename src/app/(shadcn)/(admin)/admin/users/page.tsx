@@ -18,9 +18,9 @@ export default async function UserPage() {
   const users = await getUsers()
 
   // Format users data for the table display
-  const formattedUsers = users.map(user => ({
+  const formattedUsers = users.map((user) => ({
     ...user,
-    type: user.type ? user.type : undefined
+    type: user.type ? user.type : undefined,
   }))
 
   return (

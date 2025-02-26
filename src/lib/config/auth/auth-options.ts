@@ -26,7 +26,7 @@ export const authOptions: AuthOptions = {
     }),
   ],
   callbacks: {
-    signIn({ user }) {      
+    signIn({ user }) {
       if (user.role === Role.ADMIN || user.role === Role.PORTAL) {
         RevalidationHelper.revalidateAll()
         return true

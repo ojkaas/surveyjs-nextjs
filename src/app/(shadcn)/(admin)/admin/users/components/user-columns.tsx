@@ -109,7 +109,7 @@ export const userColumns: ColumnDefWithVisibility<User>[] = [
       if (!type) {
         return '-'
       }
-      
+
       return type === 'ZIEKENHUIS' ? 'Ziekenhuis' : 'Huisarts'
     },
   },

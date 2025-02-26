@@ -3,7 +3,6 @@ import { SendVerificationRequestParams } from 'next-auth/providers/email'
 import { createTransport } from 'nodemailer'
 
 export async function CustomsendVerificationRequest(params: SendVerificationRequestParams) {
-  
   const { identifier, url, provider, theme } = params
   const { host } = new URL(url)
   const transport = createTransport(provider.server)
