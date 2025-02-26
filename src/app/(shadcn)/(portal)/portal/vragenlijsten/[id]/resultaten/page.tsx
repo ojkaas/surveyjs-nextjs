@@ -1,10 +1,13 @@
 import DiagnoseTooltip from '@/app/(shadcn)/(portal)/portal/vragenlijsten/[id]/resultaten/_components/diagnose.tooltip'
 import QuestionTabs from '@/app/(shadcn)/(portal)/portal/vragenlijsten/[id]/resultaten/_components/question.tabs'
 import prisma from '@/db/db'
+import { authOptions } from '@/lib/config/auth/auth-options'
 import { calculateWeight } from '@/lib/survey/calculate-weight'
 import { combineDefinitionAndAnswers } from '@/lib/survey/combine-definition-and-answers'
 import { SurveyJson, SurveyResultJson } from '@/lib/surveyjs/types'
+import { UserType } from '@prisma/client'
 import { DateTime } from 'luxon'
+import { getServerSession } from 'next-auth'
 
 import { unstable_cache } from 'next/cache'
 
@@ -28,6 +31,7 @@ const getSurvey = unstable_cache(
 )
 
 const ResultPage = async (props: Props) => {
+  const session = await getServerSession(authOptions)
   const params = await props.params
 
   const { id } = params
@@ -42,6 +46,14 @@ const ResultPage = async (props: Props) => {
   const questionsWithAnswers = combineDefinitionAndAnswers(definition, answers)
   const calculatedWeights = calculateWeight(questionsWithAnswers, survey?.surveyDefinition)
   const mostProbableDiagnose = calculatedWeights.weights[0]
+
+  const type = session?.user?.role ? 
+    (Object.values(UserType).includes(session.user.role as UserType) ? 
+      session.user.role as UserType : 
+      UserType.HUISARTS) : 
+    UserType.HUISARTS;
+  
+  const personToContact = type === UserType.HUISARTS ? mostProbableDiagnose.diagnose.personToContact : mostProbableDiagnose.diagnose.personToContactZiekenhuis
 
   return (
     <main className='flex-1 bg-gray-100 py-10 min-h-screen'>
@@ -83,7 +95,7 @@ const ResultPage = async (props: Props) => {
               </div>
               <div className='flex md:flex-row flex-col justify-between md:space-x-4 mb-3 md:mb-0'>
                 <span className='font-semibold'>Aanbevolen actie:</span>
-                <span className='font-medium'>Raadpleeg een {mostProbableDiagnose.diagnose.personToContact}</span>
+                <span className='font-medium'>Raadpleeg een {personToContact}</span>
               </div>
               <div className='flex md:flex-row flex-col justify-between md:space-x-4 mb-3 md:mb-0'>
                 <span className='font-semibold'>Omschrijving:</span>

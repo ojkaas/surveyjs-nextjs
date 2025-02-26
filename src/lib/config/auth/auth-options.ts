@@ -26,7 +26,7 @@ export const authOptions: AuthOptions = {
     }),
   ],
   callbacks: {
-    signIn({ user }) {
+    signIn({ user }) {      
       if (user.role === Role.ADMIN || user.role === Role.PORTAL) {
         RevalidationHelper.revalidateAll()
         return true
@@ -36,6 +36,7 @@ export const authOptions: AuthOptions = {
     jwt({ token, user }) {
       if (user) {
         token.role = user.role
+        token.type = user.type
         token.uid = user.id
       }
       return token
@@ -44,6 +45,7 @@ export const authOptions: AuthOptions = {
       if (session && session.user) {
         session.user.role = token.role //  Add role value to user object so it is passed along with session
         session.user.id = token.sub
+        session.user.type = token.type
       }
       return session
     },
@@ -51,6 +53,7 @@ export const authOptions: AuthOptions = {
   pages: {
     signIn: '/sign-in',
     verifyRequest: '/verify-request',
+    error: '/error',
   },
   session: {
     strategy: 'jwt',

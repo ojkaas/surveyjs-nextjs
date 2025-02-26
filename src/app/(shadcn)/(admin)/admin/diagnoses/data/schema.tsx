@@ -11,6 +11,7 @@ export const diagnosisSchema = z.object({
   }),
   description: descriptionValidation.nullable(),
   personToContact: z.enum(['OOGARTS', 'OPTOMETRIST', 'HUISARTS', 'OPTICIEN', 'ORTHOPTIST', 'NEUROLOOG'], { required_error: 'Verplicht veld' }),
+  personToContactZiekenhuis: z.enum(['OOGARTS', 'OPTOMETRIST', 'HUISARTS', 'OPTICIEN', 'ORTHOPTIST', 'NEUROLOOG'], { required_error: 'Verplicht veld' }),
   accessTime: z.string({ required_error: 'Verplicht veld' }).nullable(),
   treatment: z.string().optional().nullable(),
 })

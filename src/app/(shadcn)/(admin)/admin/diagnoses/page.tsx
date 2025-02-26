@@ -17,11 +17,6 @@ const getDiagnosis = unstable_cache(async () => prisma.diagnoses.findMany(), ['a
 export default async function DiagnosisPage() {
   const diagnosis = await getDiagnosis()
 
-  const filteredDiagnosis = diagnosis.map((item) => ({
-    ...item,
-    description: item.description || '', // Set description to an empty string if it is null
-  }))
-
   return (
     <>
       <div className='h-full container flex-1 flex-col space-y-8 p-8 flex'>

@@ -17,6 +17,12 @@ const getUsers = unstable_cache(async () => prisma.user.findMany(), ['all-users'
 export default async function UserPage() {
   const users = await getUsers()
 
+  // Format users data for the table display
+  const formattedUsers = users.map(user => ({
+    ...user,
+    type: user.type ? user.type : undefined
+  }))
+
   return (
     <>
       <div className='h-full container flex-1 flex-col space-y-8 p-8 flex'>
@@ -26,7 +32,7 @@ export default async function UserPage() {
             <p className='text-muted-foreground text-xs'>Huidige lijst van gebruikers.</p>
           </div>
         </div>
-        <DataTable data={users} columns={userColumns} toolbar={UserTableToolbar} />
+        <DataTable data={formattedUsers} columns={userColumns} toolbar={UserTableToolbar} />
       </div>
     </>
   )

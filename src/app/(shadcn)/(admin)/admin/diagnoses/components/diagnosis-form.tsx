@@ -26,6 +26,7 @@ export const DiagnosisForm = ({ closeDialog, editMode = false, diagnosis }: Prop
       name: '',
       description: '',
       personToContact: 'OOGARTS',
+      personToContactZiekenhuis: 'OOGARTS',
       treatment: '',
       accessTime: '24uur',
     },
@@ -34,13 +35,12 @@ export const DiagnosisForm = ({ closeDialog, editMode = false, diagnosis }: Prop
   useEffect(() => {
     if (editMode && diagnosis) {
       const fetchUserData = async () => {
-        try {
-          console.log(diagnosis)
-          console.log(diagnosis.accessTime)
+        try {          
           form.reset({
             name: diagnosis.name || '',
             description: diagnosis.description || '',
             personToContact: diagnosis.personToContact || PersonToContact.OOGARTS,
+            personToContactZiekenhuis: diagnosis.personToContactZiekenhuis || PersonToContact.OOGARTS,
             treatment: diagnosis.treatment || '',
             accessTime: diagnosis.accessTime || '24uur',
           })
@@ -126,12 +126,13 @@ export const DiagnosisForm = ({ closeDialog, editMode = false, diagnosis }: Prop
               </FormItem>
             )}
           />
+          <div className="flex flex-col md:flex-row gap-24">
           <FormField
             control={form.control}
             name='personToContact'
             render={({ field }) => (
               <FormItem className='space-y-3'>
-                <FormLabel>Contactpersoon</FormLabel>
+                <FormLabel>Contactpersoon (Ziekenhuis)</FormLabel>
                 <FormControl>
                   <RadioGroup onValueChange={field.onChange} value={field.value} className='flex flex-col space-y-1'>
                     <FormItem className='flex items-center space-x-3 space-y-0'>
@@ -176,6 +177,57 @@ export const DiagnosisForm = ({ closeDialog, editMode = false, diagnosis }: Prop
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name='personToContactZiekenhuis'
+            render={({ field }) => (
+              <FormItem className='space-y-3'>
+                <FormLabel>Contactpersoon  (Huisarts)</FormLabel>
+                <FormControl>
+                  <RadioGroup onValueChange={field.onChange} value={field.value} className='flex flex-col space-y-1'>
+                    <FormItem className='flex items-center space-x-3 space-y-0'>
+                      <FormControl>
+                        <RadioGroupItem value='OOGARTS' />
+                      </FormControl>
+                      <FormLabel className='font-normal'>Oogarts</FormLabel>
+                    </FormItem>
+                    <FormItem className='flex items-center space-x-3 space-y-0'>
+                      <FormControl>
+                        <RadioGroupItem value='OPTOMETRIST' />
+                      </FormControl>
+                      <FormLabel className='font-normal'>Optometrist</FormLabel>
+                    </FormItem>
+                    <FormItem className='flex items-center space-x-3 space-y-0'>
+                      <FormControl>
+                        <RadioGroupItem value='OPTICIEN' />
+                      </FormControl>
+                      <FormLabel className='font-normal'>Opticien</FormLabel>
+                    </FormItem>
+                    <FormItem className='flex items-center space-x-3 space-y-0'>
+                      <FormControl>
+                        <RadioGroupItem value='ORTHOPTIST' />
+                      </FormControl>
+                      <FormLabel className='font-normal'>Orthoptist</FormLabel>
+                    </FormItem>
+                    <FormItem className='flex items-center space-x-3 space-y-0'>
+                      <FormControl>
+                        <RadioGroupItem value='HUISARTS' />
+                      </FormControl>
+                      <FormLabel className='font-normal'>Huisarts</FormLabel>
+                    </FormItem>
+                    <FormItem className='flex items-center space-x-3 space-y-0'>
+                      <FormControl>
+                        <RadioGroupItem value='NEUROLOOG' />
+                      </FormControl>
+                      <FormLabel className='font-normal'>Neuroloog</FormLabel>
+                    </FormItem>
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          </div>
           <FormField
             control={form.control}
             name='accessTime'

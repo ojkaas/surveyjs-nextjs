@@ -13,8 +13,8 @@ import { ComputedUpdater } from 'survey-core'
 import 'survey-core/defaultV2.css'
 import { editorLocalization, ICreatorOptions } from 'survey-creator-core'
 import 'survey-creator-core/i18n/dutch'
-//import 'survey-creator-core/survey-creator-core.min.css'
-import '@/app/(shadcn)/survey-creator-core.min.css'
+import 'survey-creator-core/survey-creator-core.min.css'
+
 import { SurveyCreator, SurveyCreatorComponent } from 'survey-creator-react'
 
 const defaultCreatorOptions: ICreatorOptions = {
@@ -105,11 +105,8 @@ export function SurveyCreatorWidget(props: { json?: JsonValue; options?: ICreato
           })
           if (result.ok) {
             const url = response.data.split('?')[0]
-            console.log('URL: ' + url)
             const filename = url.split('/').pop()
-            console.log('Filename: ' + filename)
             const cdnUrl = `${process.env.NEXT_PUBLIC_IMAGE_URL}/${filename}`
-            console.log('CDN URL: ' + cdnUrl)
 
             options.callback('success', cdnUrl)
           } else {

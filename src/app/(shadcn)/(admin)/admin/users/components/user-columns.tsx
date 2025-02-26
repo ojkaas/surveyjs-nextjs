@@ -101,6 +101,19 @@ export const userColumns: ColumnDefWithVisibility<User>[] = [
     },
   },
   {
+    accessorKey: 'type',
+    header: ({ column }) => <DataTableColumnHeader column={column} title='Type' />,
+    cell: ({ row }) => {
+      const type = row.getValue('type')
+
+      if (!type) {
+        return '-'
+      }
+      
+      return type === 'ZIEKENHUIS' ? 'Ziekenhuis' : 'Huisarts'
+    },
+  },
+  {
     id: 'actions',
     cell: ({ row }) => <UserTableRowActions row={row} />,
   },

@@ -7,7 +7,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { toastifyActionResponse } from '@/lib/toastify-action-response'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Role } from '@prisma/client'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { createUser } from '../actions/create-user'
@@ -20,12 +20,15 @@ type Props = {
 }
 
 export const UserForm = ({ closeDialog, editMode = false, user }: Props) => {
+  const [showPortalType, setShowPortalType] = useState(false)
+
   const form = useForm<z.infer<typeof createUserSchema>>({
     resolver: zodResolver(createUserSchema),
     defaultValues: {
       name: '',
       email: '',
       role: 'ADMIN',
+      type: undefined,
     },
   })
 
@@ -33,7 +36,8 @@ export const UserForm = ({ closeDialog, editMode = false, user }: Props) => {
     if (editMode && user) {
       const loadUserData = async () => {
         try {
-          form.reset({ name: user.name || '', email: user.email || '', role: user.role || Role.ADMIN })
+          form.reset({ name: user.name || '', email: user.email || '', role: user.role || Role.ADMIN, type: user.type || undefined })
+          if (user.role === Role.PORTAL) setShowPortalType(true)
         } catch (error) {
           console.error('Failed to load user data:', error)
         }
@@ -110,7 +114,19 @@ export const UserForm = ({ closeDialog, editMode = false, user }: Props) => {
                 <FormItem className='space-y-3'>
                   <FormLabel>Gebruikers rol</FormLabel>
                   <FormControl>
-                    <RadioGroup onValueChange={field.onChange} value={field.value} className='flex flex-col space-y-1'>
+                    <RadioGroup  onValueChange={(value) => {
+                    field.onChange(value)
+                    setShowPortalType(value === "PORTAL")                    
+                    if (value !== "PORTAL") {
+                      form.resetField('type', {
+                        defaultValue: undefined,
+                        keepDirty: false,
+                        keepTouched: false,
+                        keepError: false
+                      });
+                      form.setValue('type', undefined)
+                    }
+                  }} value={field.value} className='flex flex-col space-y-1'>
                       <FormItem className='flex items-center space-x-3 space-y-0'>
                         <FormControl>
                           <RadioGroupItem value='ADMIN' />
@@ -135,6 +151,35 @@ export const UserForm = ({ closeDialog, editMode = false, user }: Props) => {
                 </FormItem>
               )}
             />
+            {showPortalType && (
+              <FormField
+                control={form.control}
+                name='type'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Specialist type</FormLabel>
+                    <FormControl>
+                    <RadioGroup  onValueChange={(value) => {
+                    field.onChange(value)}}  value={field.value} className='flex flex-col space-y-1'>
+                      <FormItem className='flex items-center space-x-3 space-y-0'>
+                        <FormControl>
+                          <RadioGroupItem value='ZIEKENHUIS' />
+                        </FormControl>
+                        <FormLabel className='font-normal'>Ziekenhuis</FormLabel>
+                      </FormItem>
+                      <FormItem className='flex items-center space-x-3 space-y-0'>
+                        <FormControl>
+                          <RadioGroupItem value='HUISARTS' />
+                        </FormControl>
+                        <FormLabel className='font-normal'>Huisarts</FormLabel>
+                      </FormItem>                     
+                    </RadioGroup>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
             <Button type='submit' disabled={!form.formState.isDirty && !form.formState.isValid}>
               {editMode ? 'Gebruiker aanpassen' : 'Gebruiker aanmaken'}
             </Button>

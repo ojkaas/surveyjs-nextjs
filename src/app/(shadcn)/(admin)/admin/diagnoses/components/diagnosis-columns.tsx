@@ -57,9 +57,30 @@ export const diagnosisColumns: ColumnDefWithVisibility<Diagnosis>[] = [
   },
   {
     accessorKey: 'personToContact',
-    header: ({ column }) => <DataTableColumnHeader column={column} title='Contactpersoon' />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title='Contactpersoon (Huisarts)' />,
     cell: ({ row }) => {
       const personToContact = personsToContact.find((personToContact) => personToContact.value === row.getValue('personToContact'))
+
+      if (!personToContact) {
+        return null
+      }
+
+      return (
+        <div className='flex w-[100px] items-center'>
+          {personToContact.icon && <personToContact.icon className='mr-2 h-4 w-4 text-muted-foreground' />}
+          <span>{personToContact.label}</span>
+        </div>
+      )
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
+    },
+  },
+  {
+    accessorKey: 'personToContactZiekenhuis',
+    header: ({ column }) => <DataTableColumnHeader column={column} title='Contactpersoon (Ziekenhuis)' />,
+    cell: ({ row }) => {
+      const personToContact = personsToContact.find((personToContact) => personToContact.value === row.getValue('personToContactZiekenhuis'))
 
       if (!personToContact) {
         return null

@@ -45,6 +45,7 @@ model User {
   sessions      Session[]
   role          Role      @default(USER)
   surveys       Survey[]
+  type          UserType?
 }
 
 model Survey {
@@ -139,16 +140,17 @@ model WeightedDiagnose {
 }
 
 model Diagnoses {
-  id              String             @id @default(cuid())
-  name            String             @unique
-  description     String?
-  accessTime      String?
-  treatment       String?
-  personToContact PersonToContact
-  createdAt       DateTime           @default(now())
-  updatedAt       DateTime           @updatedAt
-  weigths         WeightedDiagnose[]
-  linkedPages     SurveyPage[]
+  id                        String                    @id @default(cuid())
+  name                      String                    @unique
+  description               String?
+  accessTime                String?
+  treatment                 String?
+  personToContact           PersonToContact
+  personToContactZiekenhuis PersonToContactZiekenhuis @default(OOGARTS)
+  createdAt                 DateTime                  @default(now())
+  updatedAt                 DateTime                  @updatedAt
+  weigths                   WeightedDiagnose[]
+  linkedPages               SurveyPage[]
 }
 
 model VerificationToken {
@@ -181,4 +183,18 @@ enum PersonToContact {
   ORTHOPTIST
   HUISARTS
   NEUROLOOG
+}
+
+enum PersonToContactZiekenhuis {
+  OOGARTS
+  OPTOMETRIST
+  OPTICIEN
+  ORTHOPTIST
+  HUISARTS
+  NEUROLOOG
+}
+
+enum UserType {
+  HUISARTS
+  ZIEKENHUIS
 }
