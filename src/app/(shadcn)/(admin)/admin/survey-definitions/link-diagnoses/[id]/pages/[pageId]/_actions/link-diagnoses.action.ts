@@ -9,7 +9,7 @@ type DiagnoseRef = {
   id: string
 }
 
-export const linkDiagnosesAction = authAdminAction(linkDiagnoseSchema, async (linkDiagnoses) => {
+export const linkDiagnosesAction = authAdminAction.schema(linkDiagnoseSchema).action(async ({ parsedInput: linkDiagnoses }) => {
   try {
     const diagnoseIdObjs = linkDiagnoses.diagnoses.map((diagnose: DiagnoseRef) => ({ id: diagnose.id }))
     const diagnoseIds = linkDiagnoses.diagnoses.map((diagnose: DiagnoseRef) => diagnose.id)

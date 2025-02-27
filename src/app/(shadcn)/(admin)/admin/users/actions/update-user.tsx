@@ -5,7 +5,7 @@ import prisma from '@/db/db'
 import { authAdminAction } from '@/lib/safe-actions'
 import { revalidateTag } from 'next/cache'
 
-export const updateUser = authAdminAction(updateUserSchema, async (userData) => {
+export const updateUser = authAdminAction.schema(updateUserSchema).action(async ({ parsedInput: userData }) => {
   try {
     const user = await prisma.user.update({ where: { id: userData.id }, data: userData })
     revalidateTag('users')

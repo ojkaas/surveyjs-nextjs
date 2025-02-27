@@ -6,6 +6,7 @@ import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import type { Metadata } from 'next'
 import { Inter as FontSans } from 'next/font/google'
+import Script from 'next/script'
 import './globals.css'
 
 const fontSans = FontSans({
@@ -29,6 +30,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='en'>
+      {process.env.NODE_ENV === 'development' && <Script src='https://unpkg.com/react-scan/dist/auto.global.js' />}
       <Provider>
         <body className={cn('min-h-screen bg-background font-sans antialiased', fontSans.variable)}>
           <div className='h-screen'>{children}</div>

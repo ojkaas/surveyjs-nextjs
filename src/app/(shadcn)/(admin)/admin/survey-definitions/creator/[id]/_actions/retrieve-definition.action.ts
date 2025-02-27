@@ -4,7 +4,7 @@ import { retrieveSurveyDefinitionSchema } from '@/app/(shadcn)/(admin)/admin/sur
 import prisma from '@/db/db'
 import { authAdminAction } from '@/lib/safe-actions'
 
-export const retrieveSurveyDefinitionAction = authAdminAction(retrieveSurveyDefinitionSchema, async (data) => {
+export const retrieveSurveyDefinitionAction = authAdminAction.schema(retrieveSurveyDefinitionSchema).action(async ({ parsedInput: data }) => {
   try {
     return prisma.surveyDefinition.findUniqueOrThrow({
       where: { id: data.id },

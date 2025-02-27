@@ -10,7 +10,7 @@ import { getServerSession } from 'next-auth'
 import { revalidatePath, revalidateTag } from 'next/cache'
 
 //TODO: Clean this up as the create should never have any jsonData, only the update should have it.
-export const createSurveyDefinition = authAdminAction(createSurveyDefinitionActionSchema, async (surveyDefinitionData) => {
+export const createSurveyDefinition = authAdminAction.schema(createSurveyDefinitionActionSchema).action(async ({ parsedInput: surveyDefinitionData }) => {
   try {
     const session = await getServerSession(authOptions)
     const copyOf = surveyDefinitionData.copyOf

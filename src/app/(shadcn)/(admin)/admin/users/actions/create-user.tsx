@@ -7,7 +7,7 @@ import { RevalidationHelper } from '@/lib/cache/revalidation.helper'
 import { authAdminAction } from '@/lib/safe-actions'
 import { Prisma } from '@prisma/client'
 
-export const createUser = authAdminAction(createUserSchema, async (userData) => {
+export const createUser = authAdminAction.schema(createUserSchema).action(async ({ parsedInput: userData }) => {
   try {
     const user = await prisma.user.create({ data: userData })
     RevalidationHelper.revalidateUsers()

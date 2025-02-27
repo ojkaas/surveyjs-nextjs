@@ -23,7 +23,7 @@ export const UploadFileForm = (props: Props) => {
 
   const onSubmit = async (data: z.infer<typeof uploadFileForm>) => {
     const result = await requestPresignedUrl({ filename: data.image[0].name })
-    if (result.data) {
+    if (result?.data) {
       fetch(result.data, {
         method: 'PUT',
         body: data.image[0],

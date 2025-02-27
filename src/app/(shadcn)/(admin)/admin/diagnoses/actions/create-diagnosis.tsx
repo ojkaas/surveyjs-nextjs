@@ -7,7 +7,7 @@ import { RevalidationHelper } from '@/lib/cache/revalidation.helper'
 import { authAdminAction } from '@/lib/safe-actions'
 import { Prisma } from '@prisma/client'
 
-export const createDiagnosis = authAdminAction(createDiagnosisSchema, async (data) => {
+export const createDiagnosis = authAdminAction.schema(createDiagnosisSchema).action(async ({ parsedInput: data }) => {
   try {
     const user = await prisma.diagnoses.create({ data })
     RevalidationHelper.revalidateDiagnoses()

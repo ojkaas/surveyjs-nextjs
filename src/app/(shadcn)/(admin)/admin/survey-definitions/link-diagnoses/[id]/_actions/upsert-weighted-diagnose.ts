@@ -5,7 +5,7 @@ import prisma from '@/db/db'
 import { authAdminAction } from '@/lib/safe-actions'
 import { revalidateTag } from 'next/cache'
 
-export const upsertWeightedDiagnose = authAdminAction(weightedDiagnoseSchema, async (weightedDiagnose) => {
+export const upsertWeightedDiagnose = authAdminAction.schema(weightedDiagnoseSchema).action(async ({ parsedInput: weightedDiagnose }) => {
   try {
     const weightedDiagnoseResult = await prisma.weightedDiagnose.upsert({
       where: { unique_survey_answer_diagnose: { diagnoseId: weightedDiagnose.diagnose_id, surveyAnswerId: weightedDiagnose.answer_id } },

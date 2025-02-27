@@ -5,7 +5,7 @@ import { Cross2Icon, EnvelopeOpenIcon, PlusIcon } from '@radix-ui/react-icons'
 import { Button } from '@/components/ui/button'
 
 import { DataTableToolbarProps } from '@/components/data-table/data-table'
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { useState } from 'react'
 
 import { DirectSurveyForm } from '@/app/(shadcn)/(portal)/portal/vragenlijsten/_components/direct-survey-dialog'
@@ -14,6 +14,7 @@ import { availables, finisheds } from '@/app/(shadcn)/(portal)/portal/vragenlijs
 import { DataTableFacetedFilter } from '@/components/data-table/data-table-faceted-filter'
 import { DataTableViewOptions } from '@/components/data-table/data-table-view-options'
 import { Input } from '@/components/ui/input'
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 
 export function SurveyTableToolbar<TData>({ table }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
@@ -38,6 +39,9 @@ export function SurveyTableToolbar<TData>({ table }: DataTableToolbarProps<TData
             </Button>
           </DialogTrigger>
           <DialogContent className='sm:max-w-[425px]'>
+            <VisuallyHidden>
+              <DialogTitle>Uitnodiging versturen</DialogTitle>
+            </VisuallyHidden>
             <SurveyForm closeDialog={closeNewSurveyDialog} />
           </DialogContent>
         </Dialog>
@@ -48,6 +52,9 @@ export function SurveyTableToolbar<TData>({ table }: DataTableToolbarProps<TData
             </Button>
           </DialogTrigger>
           <DialogContent className='sm:max-w-[425px]'>
+            <VisuallyHidden>
+              <DialogTitle>Direct vragenlijst aanmaken</DialogTitle>
+            </VisuallyHidden>
             <DirectSurveyForm closeDialog={closeNewSurveyDirectDialog} />
           </DialogContent>
         </Dialog>

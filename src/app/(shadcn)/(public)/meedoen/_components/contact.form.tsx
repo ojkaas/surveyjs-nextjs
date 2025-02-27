@@ -41,7 +41,7 @@ const ContactForm = (props: Props) => {
 
     const result = await actionPromise
 
-    if (result.data) {
+    if (result?.data) {
       setFormSent(true)
       form.reset()
     }

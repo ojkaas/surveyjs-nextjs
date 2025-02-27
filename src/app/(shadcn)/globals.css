@@ -7,6 +7,11 @@
   margin-left: unset !important;
 }
 
+
+.sv-popup__container {
+  background-color: white !important;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

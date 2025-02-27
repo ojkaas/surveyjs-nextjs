@@ -84,12 +84,12 @@ export const SurveyDefinitionForm = ({ closeDialog, editMode = false, copyMode =
     toastifyActionResponse(actionPromise, { loadingMessage, successMessage: successMessageCallback })
 
     const result = await actionPromise
-    if (result.data) {
+    if (result?.data) {
       closeDialog()
       if (!editMode) {
         //wait a bit so user can see the success message
         await new Promise((resolve) => setTimeout(resolve, 300))
-        router.push('/admin/survey-definitions/creator/' + result.data.id)
+        router.push('/admin/survey-definitions/creator/' + result?.data.id)
       }
     }
   }

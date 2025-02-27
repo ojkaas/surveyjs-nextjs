@@ -10,7 +10,7 @@ import { nanoid } from 'nanoid'
 import { getServerSession } from 'next-auth'
 import { revalidateTag } from 'next/cache'
 
-export const createSurvey = authPortalAction(createSurveyActionSchema, async (surveyData) => {
+export const createSurvey = authPortalAction.schema(createSurveyActionSchema).action(async ({ parsedInput: surveyData }) => {
   try {
     const session = await getServerSession(authOptions)
     if (!session) {

@@ -21,7 +21,7 @@ const getSurveyDefintionWithAllDetails = unstable_cache(
   { tags: ['survey-definitions'] }
 )
 
-export const updateSurveyDefinition = authAdminAction(updateSurveyDefinitionSchema, async (data) => {
+export const updateSurveyDefinition = authAdminAction.schema(updateSurveyDefinitionSchema).action(async ({ parsedInput: data }) => {
   try {
     const surveyDefinition = await prisma.surveyDefinition.update({ where: { id: data.id }, data: data })
 
@@ -33,12 +33,12 @@ export const updateSurveyDefinition = authAdminAction(updateSurveyDefinitionSche
   }
 })
 
-export const validateCreateData = authAdminAction(addCreatorDataToSurveyDefinitionSchema, async (data) => {
+export const validateCreateData = authAdminAction.schema(addCreatorDataToSurveyDefinitionSchema).action(async ({ parsedInput: data }) => {
   const surveyWithDetails = await getSurveyDefintionWithAllDetails(data.id)
   return validateCreateDataStucture(surveyWithDetails, data.data as SurveyJson)
 })
 
-export const addCreatorDataToSurveyDefinition = authAdminAction(addCreatorDataToSurveyDefinitionSchema, async (data) => {
+export const addCreatorDataToSurveyDefinition = authAdminAction.schema(addCreatorDataToSurveyDefinitionSchema).action(async ({ parsedInput: data }) => {
   try {
     await prisma.surveyDefinitionData.update({ where: { surveyDefId: data.id }, data: { jsonData: (data.data as JsonObject) || undefined } })
     await createOrUpdateSurveyDefinitionDataStructure(data.id)
@@ -52,7 +52,7 @@ export const addCreatorDataToSurveyDefinition = authAdminAction(addCreatorDataTo
   }
 })
 
-export const activateSurveyDefinition = authAdminAction(activateSurveyDefinitionSchema, async (data) => {
+export const activateSurveyDefinition = authAdminAction.schema(activateSurveyDefinitionSchema).action(async ({ parsedInput: data }) => {
   try {
     const surveyDefinition = await prisma.$transaction(async (prisma) => {
       // Deactivate all survey definitions

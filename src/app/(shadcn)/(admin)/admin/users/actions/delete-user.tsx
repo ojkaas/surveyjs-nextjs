@@ -5,7 +5,7 @@ import prisma from '@/db/db'
 import { RevalidationHelper } from '@/lib/cache/revalidation.helper'
 import { authAdminAction } from '@/lib/safe-actions'
 
-export const deleteUserAction = authAdminAction(userIdSchema, async (userData) => {
+export const deleteUserAction = authAdminAction.schema(userIdSchema).action(async ({ parsedInput: userData }) => {
   try {
     const user = await prisma.user.delete({ where: { id: userData.id } })
     RevalidationHelper.revalidateUsers()

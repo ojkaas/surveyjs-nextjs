@@ -8,7 +8,7 @@ import { authAdminAction } from '@/lib/safe-actions'
 import { Prisma } from '@prisma/client'
 import { revalidateTag } from 'next/cache'
 
-export const deleteDiagnosisAction = authAdminAction(deleteDiagnosisSchema, async (diagnoseData) => {
+export const deleteDiagnosisAction = authAdminAction.schema(deleteDiagnosisSchema).action(async ({ parsedInput: diagnoseData }) => {
   try {
     const diagnose = await prisma.diagnoses.delete({ where: { id: diagnoseData.id } })
     revalidateTag('diagnoses')

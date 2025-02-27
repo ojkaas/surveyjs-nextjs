@@ -39,7 +39,7 @@ export function SurveyCreatorWidget(props: { json?: JsonValue; options?: ICreato
       const updateResult = addCreatorDataToSurveyDefinition({ id: props.id, data: newCreator.JSON, internalVersion: no.toString() })
       toastifyActionResponse(updateResult, {
         loadingMessage: 'Vragenlijst bijwerken...',
-        successMessage(data) {
+        successMessage: (data) => {
           return (
             <>
               <div>Vragenlijst {data.name} bijgewerkt!</div>
@@ -53,7 +53,7 @@ export function SurveyCreatorWidget(props: { json?: JsonValue; options?: ICreato
         },
       })
       const result = await updateResult
-      if (result.data) setShowModal(false)
+      if (result?.data) setShowModal(false)
       callback(no, status)
     }
 
@@ -68,13 +68,13 @@ export function SurveyCreatorWidget(props: { json?: JsonValue; options?: ICreato
 
       const validationResult = await validationPromise
 
-      if (validationResult.data && validationResult.data.status == 'ok') {
+      if (validationResult?.data && validationResult.data.status == 'ok') {
         executeSave(newCreator, no, callback)
       } else {
-        setValidationResult(validationResult.data)
+        setValidationResult(validationResult?.data)
         setExecuteAction(() => () => executeSave(newCreator, no, callback))
         setShowModal(true)
-        if (validationResult.data?.status == 'error') callback(no, false)
+        if (validationResult?.data?.status == 'error') callback(no, false)
       }
     }
     editorLocalization.currentLocale = 'nl'
@@ -93,7 +93,7 @@ export function SurveyCreatorWidget(props: { json?: JsonValue; options?: ICreato
     newCreator.onUploadFile.add((sender, options) => {
       options.files.forEach(async function (file) {
         const response = await requestPresignedUrl({ filename: file.name })
-        if (response.data) {
+        if (response?.data) {
           const result = await fetch(response.data, {
             method: 'PUT',
             body: file,

@@ -44,8 +44,8 @@ const CreatorWrapper = ({ surveyDefinitionData, id }: Props) => {
       toastifyActionResponse(actionPromise, { loadingMessage: 'Mogelijke diagnoses berekenen', successMessage: () => 'Diagnoses berekend' })
 
       const retrieveResult = await actionPromise
-      if (retrieveResult.serverError || retrieveResult.validationErrors) throw new Error('Error while retrieving survey definition')
-      const calculatedWeights = calculateWeight(questionsWithAnswers, retrieveResult.data!)
+      if (retrieveResult?.serverError || retrieveResult?.validationErrors) throw new Error('Error while retrieving survey definition')
+      const calculatedWeights = calculateWeight(questionsWithAnswers, retrieveResult?.data!)
 
       setResults(calculatedWeights)
       setOpen(true)

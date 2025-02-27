@@ -4,7 +4,7 @@ import { ServerActionError } from '@/lib/action-error'
 import { sendMail } from '@/lib/mailer/mail.transporter'
 import { publicAction } from '@/lib/safe-actions'
 
-export const sendContactFormAction = publicAction(contactFormSchema, async (contactForm) => {
+export const sendContactFormAction = publicAction.schema(contactFormSchema).action(async ({ parsedInput: contactForm }) => {
   const url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'
 
   const formData = new FormData()

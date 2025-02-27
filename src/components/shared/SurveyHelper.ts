@@ -17,7 +17,7 @@ export async function saveSurveyToDatabase(sender: SurveyModel, options: Complet
   toastifyActionResponse(resultPromise, { loadingMessage: 'Vragenlijst wordt opgeslagen', successMessage: (data) => 'Vragenlijst is opgeslagen' })
 
   const result = await resultPromise
-  if (result.data) {
+  if (result?.data) {
     window.localStorage.setItem(storageItemKey, '')
   }
 }

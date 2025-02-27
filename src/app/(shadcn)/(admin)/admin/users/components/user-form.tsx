@@ -68,7 +68,7 @@ export const UserForm = ({ closeDialog, editMode = false, user }: Props) => {
     toastifyActionResponse(actionPromise, { loadingMessage, successMessage: successMessageCallback })
 
     const result = await actionPromise
-    if (result.data) {
+    if (result?.data) {
       closeDialog()
     }
   }
