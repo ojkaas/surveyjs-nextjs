@@ -4,7 +4,7 @@ import { ColumnDefWithVisibility } from '@/components/data-table/data-table'
 import { Checkbox } from '@/components/ui/checkbox'
 
 import { DiagnosisTableRowActions } from '@/app/(shadcn)/(admin)/admin/diagnoses/components/diagnosis-table-row-actions'
-import { personsToContact } from '@/app/(shadcn)/(admin)/admin/diagnoses/data/data'
+import { personsToContact, personsToContactZiekenhuis } from '@/app/(shadcn)/(admin)/admin/diagnoses/data/data'
 import { Diagnosis } from '@/app/(shadcn)/(admin)/admin/diagnoses/data/schema'
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'
 
@@ -80,7 +80,7 @@ export const diagnosisColumns: ColumnDefWithVisibility<Diagnosis>[] = [
     accessorKey: 'personToContactZiekenhuis',
     header: ({ column }) => <DataTableColumnHeader column={column} title='Contactpersoon (Ziekenhuis)' />,
     cell: ({ row }) => {
-      const personToContact = personsToContact.find((personToContact) => personToContact.value === row.getValue('personToContactZiekenhuis'))
+      const personToContact = personsToContactZiekenhuis.find((personToContact) => personToContact.value === row.getValue('personToContactZiekenhuis'))
 
       if (!personToContact) {
         return null

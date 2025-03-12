@@ -80,22 +80,32 @@ const ResultPage = async (props: Props) => {
               </div>
             </div>
             <div>
-              <h3 className='text-lg font-bold mb-4'>Diagnose</h3>
-              <div className='flex md:flex-row flex-col justify-between md:space-x-4 mb-3 md:mb-0'>
-                <span className='font-semibold'>Waarschijnlijke diagnose:</span>
-                <span className='font-medium text-green-500'>{mostProbableDiagnose.diagnose.name}</span>
-              </div>
-              <div className='flex md:flex-row flex-col justify-between md:space-x-4 mb-3 md:mb-0'>
-                <span className='font-semibold'>Vertrouwensniveau:</span>
-                <span className='font-medium text-green-500'>{Math.floor((mostProbableDiagnose.weight / calculatedWeights.total) * 100)}%</span>
-              </div>
-              <div className='flex md:flex-row flex-col justify-between md:space-x-4 mb-3 md:mb-0'>
-                <span className='font-semibold'>Aanbevolen actie:</span>
-                <span className='font-medium'>Raadpleeg een {personToContact}</span>
-              </div>
-              <div className='flex md:flex-row flex-col justify-between md:space-x-4 mb-3 md:mb-0'>
-                <span className='font-semibold'>Omschrijving:</span>
-                <span className='font-medium'>{mostProbableDiagnose.diagnose.description}</span>
+              <div className='space-y-2 mt-10 lg:mt-0'>
+                <h3 className='text-lg font-bold mb-4'>Diagnose</h3>
+                <div className='flex md:flex-row flex-col justify-between md:space-x-4 mb-3 md:mb-0'>
+                  <span className='font-semibold'>Waarschijnlijke diagnose:</span>
+                  <span className='font-medium text-green-500'>{mostProbableDiagnose.diagnose.name}</span>
+                </div>
+                <div className='flex md:flex-row flex-col justify-between md:space-x-4 mb-3 md:mb-0'>
+                  <span className='font-semibold'>Vertrouwensniveau:</span>
+                  <span className='font-medium text-green-500'>{Math.floor((mostProbableDiagnose.weight / calculatedWeights.total) * 100)}%</span>
+                </div>
+                <div className='flex md:flex-row flex-col justify-between md:space-x-4 mb-3 md:mb-0'>
+                  <span className='font-semibold'>Toeganstijd:</span>
+                  <span>{mostProbableDiagnose.diagnose.accessTime}</span>
+                </div>
+                <div className='flex md:flex-row flex-col justify-between md:space-x-4 mb-3 md:mb-0'>
+                  <span className='font-semibold'>Aanbevolen actie:</span>
+                  <span>Raadpleeg een {personToContact}</span>
+                </div>
+                <div className='flex md:flex-row flex-col justify-between md:space-x-4 mb-3 md:mb-0'>
+                  <span className='font-semibold'>Omschrijving:</span>
+                  <span>{mostProbableDiagnose.diagnose.description}</span>
+                </div>
+                <div className='flex md:flex-row flex-col justify-between md:space-x-4 mb-3 md:mb-0'>
+                  <span className='font-semibold'>Behandeling:</span>
+                  <span>{mostProbableDiagnose.diagnose.treatment}</span>
+                </div>
               </div>
             </div>
           </div>

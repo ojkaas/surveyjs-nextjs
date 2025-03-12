@@ -1,6 +1,7 @@
-import BrainIcon from '@/components/icons/brain-icon'
 import OptometristIcon from '@/components/icons/optometrist-icon'
 import { EyeOpenIcon, HomeIcon } from '@radix-ui/react-icons'
+import { FaUserDoctor } from 'react-icons/fa6'
+import { LuBrain } from 'react-icons/lu'
 
 export const personsToContact = [
   {
@@ -31,6 +32,29 @@ export const personsToContact = [
   {
     value: 'NEUROLOOG',
     label: 'Neuroloog',
-    icon: BrainIcon,
+    icon: LuBrain,
+  },
+]
+
+export const personsToContactZiekenhuis = [
+  {
+    value: 'OOGARTS',
+    label: 'Oogarts',
+    icon: EyeOpenIcon,
+  },
+  {
+    value: 'OPTOMETRIST',
+    label: 'Optometrist',
+    icon: OptometristIcon,
+  },
+  {
+    value: 'ORTHOPTIST',
+    label: 'Orthoptist',
+    icon: OptometristIcon,
+  },
+  {
+    value: 'BASISARTS',
+    label: 'Basisarts',
+    icon: FaUserDoctor,
   },
 ]

@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/
 import { useState } from 'react'
 
 import { DiagnosisForm } from '@/app/(shadcn)/(admin)/admin/diagnoses/components/diagnosis-form'
-import { personsToContact } from '@/app/(shadcn)/(admin)/admin/diagnoses/data/data'
+import { personsToContact, personsToContactZiekenhuis } from '@/app/(shadcn)/(admin)/admin/diagnoses/data/data'
 import { DataTableFacetedFilter } from '@/components/data-table/data-table-faceted-filter'
 import { DataTableViewOptions } from '@/components/data-table/data-table-view-options'
 
@@ -44,7 +44,7 @@ export function DiagnosisTableToolbar<TData>({ table }: DataTableToolbarProps<TD
         />
         {table.getColumn('personToContact') && <DataTableFacetedFilter column={table.getColumn('personToContact')} title='Contactpersoon (Huisarts)' options={personsToContact} />}
         {table.getColumn('personToContactZiekenhuis') && (
-          <DataTableFacetedFilter column={table.getColumn('personToContactZiekenhuis')} title='Contactpersoon (Ziekenhuis)' options={personsToContact} />
+          <DataTableFacetedFilter column={table.getColumn('personToContactZiekenhuis')} title='Contactpersoon (Ziekenhuis)' options={personsToContactZiekenhuis} />
         )}
         {isFiltered && (
           <Button variant='ghost' onClick={() => table.resetColumnFilters()} className='h-8 px-2 lg:px-3'>

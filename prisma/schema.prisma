@@ -188,10 +188,8 @@ enum PersonToContact {
 enum PersonToContactZiekenhuis {
   OOGARTS
   OPTOMETRIST
-  OPTICIEN
   ORTHOPTIST
-  HUISARTS
-  NEUROLOOG
+  BASISARTS
 }
 
 enum UserType {

@@ -132,7 +132,7 @@ export const DiagnosisForm = ({ closeDialog, editMode = false, diagnosis }: Prop
               name='personToContact'
               render={({ field }) => (
                 <FormItem className='space-y-3'>
-                  <FormLabel>Contactpersoon (Ziekenhuis)</FormLabel>
+                  <FormLabel>Contactpersoon (Huisarts)</FormLabel>
                   <FormControl>
                     <RadioGroup onValueChange={field.onChange} value={field.value} className='flex flex-col space-y-1'>
                       <FormItem className='flex items-center space-x-3 space-y-0'>
@@ -182,7 +182,7 @@ export const DiagnosisForm = ({ closeDialog, editMode = false, diagnosis }: Prop
               name='personToContactZiekenhuis'
               render={({ field }) => (
                 <FormItem className='space-y-3'>
-                  <FormLabel>Contactpersoon (Huisarts)</FormLabel>
+                  <FormLabel>Contactpersoon (Ziekenhuis)</FormLabel>
                   <FormControl>
                     <RadioGroup onValueChange={field.onChange} value={field.value} className='flex flex-col space-y-1'>
                       <FormItem className='flex items-center space-x-3 space-y-0'>
@@ -199,27 +199,15 @@ export const DiagnosisForm = ({ closeDialog, editMode = false, diagnosis }: Prop
                       </FormItem>
                       <FormItem className='flex items-center space-x-3 space-y-0'>
                         <FormControl>
-                          <RadioGroupItem value='OPTICIEN' />
-                        </FormControl>
-                        <FormLabel className='font-normal'>Opticien</FormLabel>
-                      </FormItem>
-                      <FormItem className='flex items-center space-x-3 space-y-0'>
-                        <FormControl>
                           <RadioGroupItem value='ORTHOPTIST' />
                         </FormControl>
                         <FormLabel className='font-normal'>Orthoptist</FormLabel>
                       </FormItem>
                       <FormItem className='flex items-center space-x-3 space-y-0'>
                         <FormControl>
-                          <RadioGroupItem value='HUISARTS' />
+                          <RadioGroupItem value='BASISARTS' />
                         </FormControl>
-                        <FormLabel className='font-normal'>Huisarts</FormLabel>
-                      </FormItem>
-                      <FormItem className='flex items-center space-x-3 space-y-0'>
-                        <FormControl>
-                          <RadioGroupItem value='NEUROLOOG' />
-                        </FormControl>
-                        <FormLabel className='font-normal'>Neuroloog</FormLabel>
+                        <FormLabel className='font-normal'>Basisarts</FormLabel>
                       </FormItem>
                     </RadioGroup>
                   </FormControl>
