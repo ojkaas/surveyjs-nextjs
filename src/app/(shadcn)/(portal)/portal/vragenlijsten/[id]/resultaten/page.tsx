@@ -47,7 +47,7 @@ const ResultPage = async (props: Props) => {
   const calculatedWeights = calculateWeight(questionsWithAnswers, survey?.surveyDefinition)
   const mostProbableDiagnose = calculatedWeights.weights[0]
 
-  const type = session?.user?.role ? (Object.values(UserType).includes(session.user.role as UserType) ? (session.user.role as UserType) : UserType.HUISARTS) : UserType.HUISARTS
+  const type = session?.user?.type ? (Object.values(UserType).includes(session.user.type as UserType) ? (session.user.type as UserType) : UserType.HUISARTS) : UserType.HUISARTS
 
   const personToContact = type === UserType.HUISARTS ? mostProbableDiagnose.diagnose.personToContact : mostProbableDiagnose.diagnose.personToContactZiekenhuis
 

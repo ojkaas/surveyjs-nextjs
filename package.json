@@ -17,6 +17,7 @@
     "migrate": "dotenv -e .env.local npx prisma migrate dev",
     "migrate:create": "dotenv -e .env.local npx prisma migrate dev --create-only",
     "migrate:deploy": "dotenv -e .env.local npx prisma migrate deploy",
+    "migrate:deploy:prod": "dotenv -e .env.prod npx prisma migrate deploy",
     "prisma:reset": "cross-env NODE_ENV=test prisma migrate reset --force",
     "studio": "dotenv -e .env.local npx prisma studio",
     "db:dev:rm": "docker compose --env-file .env.local -p oogned rm db -s -f -v",
